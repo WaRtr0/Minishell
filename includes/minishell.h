@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wartro <wartro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/04 20:28:53 by wartro            #+#    #+#             */
-/*   Updated: 2024/04/04 20:53:12 by wartro           ###   ########.fr       */
+/*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
+/*   Updated: 2024/04/04 23:54:23 by wartro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MINISHELL_H
+#  define MINISHELL_H
 
-#include "prompt.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+// for malloc
+# include <sys/types.h>
+# include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-/**
- * @brief Un super main
- * 
- * @param ac Paramètre 1
- * @param av Paramètre 2
- * @param env 
- * @return int 
- */
-int	loop(int ac, char **av, char **env)
+typedef struct s_shell
 {
-	(void) ac;
-	(void) av;
-	(void) env;
-	char **s;
+    char	*truc;
+}	t_shell;
 
-	s = env;
-	while (*s != NULL)
-	{
-		printf("%s\n", *s);
-		s++;
-	}
-	return (0);
-}
+int main(int argc, char **argv, char **envp);
+
+#endif

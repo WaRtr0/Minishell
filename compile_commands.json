@@ -1,0 +1,7 @@
+[
+    {
+        "directory": "/home/wartro/Documents/Minishell/",
+        "command": "clang srcs/* srcs/*/* -Iincludes",
+        "file": "srcs/*.c"
+    }
+]

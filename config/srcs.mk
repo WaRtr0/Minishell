@@ -1,3 +1,3 @@
 
 SRCS += main.c \
-	loop.c \
+	prompt/ms_prompt.c

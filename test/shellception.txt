@@ -1,5 +1,0 @@
-bash
-	bash
-		exit 42
-	^d
-echo $? => 42
