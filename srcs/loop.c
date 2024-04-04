@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wartro <wartro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/04 20:50:09 by wartro           ###   ########.fr       */
+/*   Created: 2024/04/04 20:28:53 by wartro            #+#    #+#             */
+/*   Updated: 2024/04/04 20:53:12 by wartro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "prompt.h"
 
-int	main(int ac, char **av, char **env)
+/**
+ * @brief Un super main
+ * 
+ * @param ac Paramètre 1
+ * @param av Paramètre 2
+ * @param env 
+ * @return int 
+ */
+int	loop(int ac, char **av, char **env)
 {
 	(void) ac;
 	(void) av;

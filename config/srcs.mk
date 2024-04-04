@@ -1,2 +1,3 @@
 
-SRCS += main.c
+SRCS += main.c \
+	loop.c \
