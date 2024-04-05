@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wartro <wartro@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/05 00:10:41 by wartro            #+#    #+#             */
-/*   Updated: 2024/04/05 00:16:39 by wartro           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 /**
  * @file main.c
  * @brief Fichier principale du programme qui va initialiser la structure shell et lancer le prompt
