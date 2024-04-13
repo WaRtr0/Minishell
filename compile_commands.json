@@ -1,6 +1,6 @@
 [
     {
-        "directory": "/home/wartro/Documents/Minishell/",
+        "directory": "/home/wartro/Documents/workspace/Minishell/",
         "command": "clang srcs/* srcs/*/* -Iincludes -Ilibft-1.2/includes -Llibft-1.2 -lft",
         "file": "srcs/*.c libft-1.2/srcs/*.c libft-1.2/srcs/*/*.c"
     }

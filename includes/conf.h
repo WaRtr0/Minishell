@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 01:37:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/10 19:20:27 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/12 03:58:13 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,35 @@
 # define ERR_PIPE			MS_NAME"pipe failed\n"
 # define ERR_FD 			MS_NAME"Bad file descriptor\n"	
 
-
 // PARSER SETTINGS
 
 # define NO_WORD			"\'\"()\n|;&<> \t\\$*#"
 # define BLANK				" \t"
-
+# define PARENTHESIS		"()"
 
 # define S_SQUOTE				"\'"
 # define S_DQUOTE				"\""
 # define S_P_OPEN				"("
-# define S_P_CLOSE			")"
-# define S_NEWLINE			"\n"
-# define S_PIPE				"|"
+# define S_P_CLOSE				")"
+# define S_NEWLINE				"\n"
+# define S_PIPE					"|"
 # define S_SEMICOLON			";"
-# define S_AND				"&"
+# define S_AND					"&"
 # define S_OR					"||"
 # define S_AND_IF				"&&"
-# define S_REDIR_OUT	"<"
-# define S_REDIR_IN		">"
+# define S_REDIR_OUT			"<"
+# define S_REDIR_IN				">"
 # define S_APPEND				">>"
-# define S_HEREDOC			"<<"
+# define S_HEREDOC				"<<"
 # define S_HERESTRING			"<<<"
 # define S_REDIR_INT_OUT		"<>"
 # define S_SPACE				" "
-# define S_TAB				"\t"
+# define S_TAB					"\t"
 # define S_DOLLAR				"$"
 # define S_BACKSLASH			"\\"
-# define S_EOF				"\0"
-# define S_WILDCARD			"*"
-# define S_COMMENT			"#"
+# define S_EOF					"\0"
+# define S_WILDCARD				"*"
+# define S_COMMENT				"#"
 
 //COLORS
 
@@ -97,31 +96,35 @@ typedef enum e_error
 
 typedef enum e_type
 {
-	E_WORD,
-	E_NAME,
-	E_OPERATOR,
+	E_EOF = -1,
+	E_PARENTHESIS,
 	E_NEWLINE,
-	E_HEREDOC,
-	E_APPEND,
-	E_REDIR_OUT,
-	E_REDIR_IN,
 	E_DQUOTE,
 	E_SQUOTE,
-	E_EMPTY,
-	E_COMMENT,
+	E_METACHAR,
+	E_REDIR_OUT,
+	E_REDIR_IN,
 	E_WILDCARD,
-	E_EOF = -1
+	E_COMMENT,
+	E_HEREDOC,
+	E_APPEND,
+	E_OPERATOR,
+	E_WORD,
+	E_NAME,
+	E_EMPTY
 }	t_type;
+
+typedef enum e_metachar
+{
+	E_PIPE,
+	E_SEMICOLON,
+	E_AND
+}	t_metachar;
 
 typedef enum e_operator
 {
-	E_OR=21,
-	E_AND_IF=22,
-	E_AND=3,
-	E_PIPE=4,
-	E_SEMICOLON=5,
+	E_OR,
+	E_AND_IF
 }	t_operator;
-
-
 
 #endif
