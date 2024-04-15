@@ -54,6 +54,10 @@ re		::	fclean
 fclean	::	clean
 	@$(RMF) $(NAME)
 
+start :
+	@$(MAKE) -s re
+	@./$(NAME)
+
 force :
 
 norm:

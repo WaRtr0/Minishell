@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "arr.h"
 
 int main()
@@ -11,15 +10,15 @@ int main()
     i = 0;
     while (i < 10)
     {
-        ft_arr_append(array, (void *)i);
+        ft_arr_append(array, (void *)(intptr_t)i);
         i++;
     }
     i = 0;
     while (i < 10)
     {
-        printf("%d\n", (int)array->data[i]);
+        printf("%d\n", (int)(intptr_t)array->data[i]);
         i++;
     }
-    printf("Array SIZE: %d\n", array->size);
+    printf("Array SIZE: %d\n", (int)array->size);
     return (0);
 }

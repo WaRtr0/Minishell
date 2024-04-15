@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/04/10 05:18:54 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:15:14 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@
 
 typedef struct s_shell
 {
-    char	*truc;
     int     prompt_listen;
     int     line;
-    int     col;
     char    *prompt;
+    t_array    *commands;
     t_array     *heredoc_fd;
     int     heredoc_size;
     char    *limiter;
