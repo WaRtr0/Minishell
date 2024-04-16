@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/15 20:47:02 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/16 03:56:31 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			{
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
 			}
-        
             if (type == E_WORD || type == E_NAME)
             {
                 status->print = 1;
@@ -359,12 +358,14 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 						break ;
 					}
 					write(
-						(int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 2], 
+						(int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], 
 						newline, 
 						ft_strlen(newline));
+					write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\n", 1);
 					free(newline);
 				}
-				close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 2]);
+				write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\0", 1);
+				close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
 			}
 
             if (type >= E_PARENTHESIS && type <= E_OPERATOR)
@@ -510,10 +511,11 @@ int	ms_prompt(t_shell *shell)
 					i+=2;
 				}
 				// read FD heredoc
-				i = 1;
-				while (shell->heredoc_size > 0 && i <= shell->heredoc_size)
+				i = 0;
+				while (shell->heredoc_size > 0 && i < shell->heredoc_size)
 				{
-					char *buffer = malloc(sizeof(char) * 100);
+					char *buffer = ft_calloc(sizeof(char), 100);
+					ft_strcpy(buffer, "test");
 					read((int)(intptr_t)shell->heredoc_fd->data[i], buffer, 100);
 					printf(C_BLUE"%s\n"C_RESET, buffer);
 					free(buffer);
