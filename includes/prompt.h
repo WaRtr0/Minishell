@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/15 19:20:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:26:42 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,33 @@ typedef struct s_prompt_status {
     int     newline;
 }   t_prompt_status;
 
+typedef enum e_command_type {
+    CMD_PIPE,
+    CMD_REDIR_IN,
+    CMD_REDIR_OUT,
+    CMD_APPEND,
+    CMD_HEREDOC,
+    CMD_SEMICOLON,
+    CMD_AND_IF,
+    CMD_AND,
+    CMD_OR,
+    CMD_QUOTE,
+    CMD_PARENTHESIS,
+    CMD_EXPAND,
+    CMD_TEXT,
+    CMD_WILDCARD
+}  t_command_type;
+
+union Content{
+    char    *str;
+    t_array    *array;
+    int     fd;
+};
+typedef struct s_command {
+    t_command_type  type;
+    union Content   content;
+}  t_command;
+
+t_command   *ms_parse_command(char *line);
 int ms_prompt(t_shell *shell);
 #endif

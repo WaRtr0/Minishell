@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/16 03:56:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/18 14:59:11 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,13 +269,41 @@ char *ft_strjoin_seperator(char *s1, char *s2, char *sep)
     return (new);
 }
 
+t_command_type	get_CMD(int type, char *str)
+{
+	if (type == E_OPERATOR)
+	{
+		if (get_operator(str) == E_OR)
+			return (CMD_OR);
+		if (get_operator(str) == E_AND_IF)
+			return (CMD_AND_IF);
+	}
+	if (type == E_METACHAR)
+	{
+		if (get_metachar(str) == E_AND)
+			return (CMD_AND);
+		if (get_metachar(str) == E_PIPE)
+			return (CMD_PIPE);
+		if (get_metachar(str) == E_SEMICOLON)
+			return (CMD_SEMICOLON);
+	}
+	if (type == E_REDIR_IN)
+		return (CMD_REDIR_IN);
+	if (type == E_REDIR_OUT)
+		return (CMD_REDIR_OUT);
+	if (type == E_APPEND)
+		return (CMD_APPEND);
+	return (CMD_TEXT);
+}
+
 int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 {
-	size_t	i;
-	size_t	len;
-	size_t	verif;
-	t_type	type;
-    char    *newline;
+	size_t		i;
+	size_t		len;
+	size_t		verif;
+	t_type		type;
+	t_command	*append_command;
+    char    	*newline;
 
 	i = 0;   
 	verif = ft_strlen(line);
@@ -303,7 +331,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
         //Fonction utiliser en bonus
         free(newline);
     }
-    
     shell->prompt_listen = 1;
 	while (line[i])
 	{
@@ -312,7 +339,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			break ;
 		len = next_indent(type, &line[i]);
 
-        //error
+        //error-
         if (!status->quote && !status->squote && !status->dquote)
         {
             if (type >= E_METACHAR && type <= E_OPERATOR && !is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
@@ -403,6 +430,12 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                 if (ft_strncmp(&line[i], "(", 1) == 0)
                 {
 					status->parenthesis += 1;
+					append_command = malloc(sizeof(t_command));
+					append_command->type = CMD_PARENTHESIS;
+					append_command->content.array = ft_arr_new(10);
+					ft_arr_append(shell->cursor, append_command);
+					ft_arr_append(shell->cursor_array, shell->cursor);
+					shell->cursor = append_command->content.array;
 					status->last_parenthesis = status->parenthesis;
 				}
                 else
@@ -413,6 +446,9 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                     else
 					{
 						status->last_parenthesis = status->parenthesis;
+						// if (shell->cursor_array->size > 1 && ((t_command *)shell->cursor)->type != CMD_PARENTHESIS)
+						// 	ft_arr_pop(shell->cursor_array);
+						shell->cursor = ft_arr_pop(shell->cursor_array);
                         status->parenthesis -= 1;
 					}
                 
@@ -421,11 +457,11 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
         }
 
         if (type == E_QUOTE && !(status->dquote || status->squote))
-            status->quote = !status->quote;
+            status->quote++;
         if (type == E_SQUOTE  && !(status->dquote || status->quote))
-            status->squote = !status->squote;
+            status->squote++;
         if (type == E_DQUOTE  && !(status->quote || status->squote))
-            status->dquote = !status->dquote;
+            status->dquote++;
 
         
 
@@ -433,19 +469,99 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
         if (shell->prompt_listen == 0)
             break ;
 		if (DEBUG_MODE)
-        	printf(C_YELLOW"type: %d | is: %s | p: %d\n", type, select_str(&line[i], len),  status->parenthesis);
-		if (type != E_EMPTY)
+        	printf(C_YELLOW"%ld | type: %d | is: %s | p: %d\n", shell->cursor_array->size,  type, select_str(&line[i], len),  status->parenthesis);
+		
+		
+		if (status-> print && status->heredoc)
 		{
-			if (status-> print && status->heredoc)
-			{
-				ft_arr_append(shell->commands, ft_strjoin("<< ",ft_itoa((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1])));
-				status->heredoc = 0;
-			}
-			else if(!status->heredoc)
-				ft_arr_append(shell->commands, select_str(&line[i], len));
+			append_command = malloc(sizeof(t_command));
+			append_command->type = CMD_HEREDOC;
+			append_command->content.fd = (int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1];
+			ft_arr_append(shell->cursor, append_command);
+			// ft_arr_append(shell->commands, ft_strjoin("<< ",ft_itoa((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1])));
+			status->heredoc = 0;
 		}
+		else if (type == E_NAME)
+		{
+			if (shell->command != NULL)
+			{
+				append_command = malloc(sizeof(t_command));
+				append_command->type = CMD_TEXT;
+				append_command->content.str = ft_strdup(shell->command);
+				ft_arr_append(shell->cursor, append_command);
+				// ft_arr_append(shell->commands, shell->command);
+				shell->command = NULL;
+			}
+			append_command = malloc(sizeof(t_command));
+			append_command->type = CMD_EXPAND;
+			append_command->content.str = select_str(&line[i], len);
+			ft_arr_append(shell->cursor, append_command);
+			// ft_arr_append(shell->commands, select_str(&line[i], len));
+		}
+		else if (status->quote || status->squote || status->dquote)
+		{
+			if (status->quote + status->squote + status->dquote > 1)
+			{
+				status->quote = 0;
+				status->squote = 0;
+				status->dquote = 0;
+			}
+			if (shell->command == NULL)
+				shell->command = ft_strdup(select_str(&line[i], len));
+			else
+				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
+		}
+		else if (type == E_EMPTY) {
+			(void)"tkt frere";
+		}
+		else if(!status->heredoc && type != E_PARENTHESIS)
+		{
+			if (shell->command != NULL)
+			{
+				append_command = malloc(sizeof(t_command));
+				append_command->type = CMD_TEXT;
+				append_command->content.str = shell->command;
+				ft_arr_append(shell->cursor, append_command);
+				// ft_arr_append(shell->commands, shell->command);
+				shell->command = NULL;
+			}
+			append_command = malloc(sizeof(t_command));
+			append_command->type = get_CMD(type, &line[i]);
+			if (append_command->type == CMD_TEXT)
+			{
+				append_command->content.str = select_str(&line[i], len);
+				ft_arr_append(shell->cursor, append_command);
+			}
+			else
+			{
+				append_command->content.array = ft_arr_new(10);
+				if (shell->cursor_array->size > 0 && ((t_command *)shell->commands->data[shell->commands->size - 1])->type != CMD_PARENTHESIS)
+				{
+					printf("AAAA{%d}XXXX\n", ((t_command *)shell->commands->data[shell->commands->size - 1])->type);
+					printf("AAAA{%ld}XXXX\n", shell->cursor_array->size);
+					
+					shell->cursor = ft_arr_pop(shell->cursor_array);
+				}
+				ft_arr_append(shell->cursor_array, shell->cursor);
+				shell->cursor = append_command->content.array;
+				ft_arr_append(shell->cursor_array->data[shell->cursor_array->size - 1], append_command);
+			}
+			
+			
+			// ft_arr_append(shell->commands, select_str(&line[i], len));
+		}
+		
 		i += len;
         len = 0;
+	}
+	if (shell->command != NULL)
+	{
+		append_command = malloc(sizeof(t_command));
+		append_command->type = CMD_TEXT;
+		append_command->content.str = shell->command;
+		ft_arr_append(shell->cursor, append_command);
+		// ft_arr_append(shell->commands, shell->command);
+		shell->command = NULL;
 	}
     if (status->chevron)
         ms_syntax_error(E_SYNTAX_UPD_NLN, NULL, shell);
@@ -470,7 +586,73 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 }
 
 
+char *CMD_to_str(t_command_type type)
+{
+	if (type == CMD_TEXT)
+		return ("CMD_TEXT");
+	if (type == CMD_EXPAND)
+		return ("CMD_EXPAND");
+	if (type == CMD_HEREDOC)
+		return ("CMD_HEREDOC");
+	if (type == CMD_REDIR_IN)
+		return ("CMD_REDIR_IN");
+	if (type == CMD_REDIR_OUT)
+		return ("CMD_REDIR_OUT");
+	if (type == CMD_APPEND)
+		return ("CMD_APPEND");
+	if (type == CMD_PIPE)
+		return ("CMD_PIPE");
+	if (type == CMD_PARENTHESIS)
+		return ("CMD_PARENTHESIS");
+	if (type == CMD_AND)
+		return ("CMD_AND");
+	if (type == CMD_OR)
+		return ("CMD_OR");
+	if (type == CMD_AND_IF)
+		return ("CMD_AND_IF");
+	if (type == CMD_SEMICOLON)
+		return ("CMD_SEMICOLON");
+	return ("CMD_UNKNOWN");
+}
 
+void print_indent(int indent)
+{
+	int i = 0;
+	while (i < indent)
+	{
+		printf("\t");
+		i++;
+	}
+}
+void command_to_json(int indent, t_array *array)
+{
+	printf("[\n");
+	while (array->size > 0)
+	{
+		t_command *command = (t_command *)array->data[0];
+		print_indent(indent);
+		printf("\t{\n");
+		print_indent(indent);
+		printf("\t\ttype : `%d-%s`,\n", command->type, CMD_to_str(command->type));
+		print_indent(indent);
+		if (command->type == CMD_TEXT || command->type == CMD_EXPAND)
+			printf("\t\tcontent : `%s`\n", command->content.str);
+		else if (command->type == CMD_HEREDOC)
+		{
+			printf("\t\tcontent : %d\n", command->content.fd);
+		}
+		else if(command->content.array != NULL)
+		{
+			printf("\t\tcontent : ");
+			command_to_json(indent + 2, command->content.array);
+		}
+		print_indent(indent);
+		printf("\t},\n");
+		ft_arr_shift(array);
+	}
+	print_indent(indent);
+	printf("]\n");
+}
 /**
  * @brief Fonction qui va recupérer les commandes de l'utilisateur et les executer
  *
@@ -490,6 +672,8 @@ int	ms_prompt(t_shell *shell)
 		shell->heredoc_fd = ft_arr_new(10);
 		shell->heredoc_size = 0;
 		shell->commands = ft_arr_new(10);
+		shell->cursor = shell->commands;
+		shell->cursor_array = ft_arr_new(10);
 		if (!line)
 			break ;
 		if (line[0] != '\0')
@@ -522,12 +706,18 @@ int	ms_prompt(t_shell *shell)
 					i += 2;
 				}
 				printf("--------------------\n");
-				while (shell->commands->size > 0)
-				{
-					printf(C_YELLOW"%s\n"C_RESET, (char *)shell->commands->data[0]);
-					free(shell->commands->data[0]);
-					ft_arr_shift(shell->commands);
-				}
+				// while (shell->commands->size > 0)
+				// {
+				// 	t_command *command = (t_command *)shell->commands->data[0];
+				// 	if (command->type == CMD_TEXT)
+				// 		printf(C_YELLOW"\t{\n\t\ttype : %d,\n\t\tcontent : `%s`\n\t},\n"C_RESET,command->type, command->content.str);
+				// 	// else
+				// 	// 	printf(C_YELLOW"%i:\n{ type : %d\n}\n"C_RESET,(int)shell->commands->size, command->type);
+				// 	// free(shell->commands->data[0]);
+				// 	ft_arr_shift(shell->commands);
+				// }
+				command_to_json(0, shell->commands);
+				printf("\n--------------------\n");
 			}
 			
             shell->line++;
