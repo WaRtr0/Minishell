@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/18 12:26:42 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/24 14:09:50 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,18 @@ typedef enum e_command_type {
     CMD_PARENTHESIS,
     CMD_EXPAND,
     CMD_TEXT,
+    CMD_JOIN,
     CMD_WILDCARD
 }  t_command_type;
 
-union Content{
+union u_content{
     char    *str;
     t_array    *array;
     int     fd;
 };
 typedef struct s_command {
     t_command_type  type;
-    union Content   content;
+    union   u_content   content;
 }  t_command;
 
 t_command   *ms_parse_command(char *line);
