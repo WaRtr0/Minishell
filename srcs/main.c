@@ -20,13 +20,11 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
-	// a replace
-	(void) envp; // traiter par gcros
 	t_shell	*shell;
 	shell = malloc(sizeof(t_shell) * 1);
+	ms_env_gen(envp, &(shell->env));
 	if (!shell)
 		return (1);
-	// !a replace
 
 	ms_prompt(shell);
 

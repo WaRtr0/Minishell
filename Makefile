@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 RMF = rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 DFLAGS = -MP -MMD
 
 SDIR = srcs
@@ -27,13 +27,13 @@ OFILES = $(SRCS:%.c=$(BDIR)/%.o)
 LIB_FLAGS := -l readline
 
 all:
+	@echo "compiling $(NAME):"
 	@$(MAKE) -s $(NAME)
 
 include config/libft.mk
 include config/srcs.mk
 
 $(NAME) : $(OFILES) | $(LIB_PATH)
-	@echo "compiling $(NAME)";
 	$(CC) $(CFLAGS) -o $@ $(OFILES) $(LIB_FLAGS)
 	@echo "$(NAME) compilation done";
 
@@ -54,14 +54,18 @@ re		::	fclean
 fclean	::	clean
 	@$(RMF) $(NAME)
 
-start :
-	@$(MAKE) -s re
-	@./$(NAME)
-
 force :
+
+start:
+	@$(MAKE) -s all
+	./minishell
+	
+valgrind: all
+	@echo "__Vinishell__" 
+	@valgrind --leak-check=full ./minishell
 
 norm:
 	-@norminette libft-1.2/ srcs/ | grep Error
 	-@cat $(SFILES) | grep "//"
 
-.PHONY: clean re fclean force all norm
+.PHONY: clean re fclean force all norm start valgrind

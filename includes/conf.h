@@ -6,14 +6,14 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 01:37:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/15 19:18:22 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/26 18:22:55 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONF_H
 # define CONF_H
 
-# define MS_NAME	"mishell"
+# define MS_NAME	"Mishell"
 # define DEBUG_MODE 1
 // ------------------------------
 // MISHEL CONFIGURATION
@@ -36,10 +36,10 @@
 
 // PARSER SYMBOLS
 
-# define NO_WORD				"\'\"`()\n|;&<> \t\\$*#"
+# define NO_WORD				"\'\"()\n|;&<> \t\\$*"
 # define BLANK					" \t"
 # define PARENTHESIS			"()"
-# define S_QUOTE				"`"
+# define S_BQUOTE				"`"
 # define S_SQUOTE				"\'"
 # define S_DQUOTE				"\""
 # define S_P_OPEN				"("
@@ -49,8 +49,8 @@
 # define S_SEMICOLON			";"
 # define S_OR					"||"
 # define S_AND_IF				"&&"
-# define S_REDIR_OUT			"<"
-# define S_REDIR_IN				">"
+# define S_REDIR_OUT			">"
+# define S_REDIR_IN				"<"
 # define S_APPEND				">>"
 # define S_HEREDOC				"<<"
 # define S_SPACE				" "
@@ -193,7 +193,6 @@ typedef enum e_error
 typedef enum e_type
 {
 	E_EOF = -1,
-	E_QUOTE,
 	E_DQUOTE,
 	E_SQUOTE,
 	E_PARENTHESIS,
@@ -201,11 +200,11 @@ typedef enum e_type
 	E_METACHAR,
 	E_REDIR_OUT,
 	E_REDIR_IN,
-	E_WILDCARD,
 	E_COMMENT,
 	E_HEREDOC,
 	E_APPEND,
 	E_OPERATOR,
+	E_WILDCARD,
 	E_WORD,
 	E_NAME,
 	E_EMPTY

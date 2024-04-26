@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/24 14:09:50 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:50:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 typedef struct s_prompt_status {
     int     started;
-    int     quote;
     int     squote;
     int     dquote;
     int     print;
     int     chevron;
     int     heredoc;
+    int     no_empty;
     int     operator;
     int     parenthesis;
     int     c_parenthesis;
@@ -43,16 +43,13 @@ typedef enum e_command_type {
     CMD_QUOTE,
     CMD_PARENTHESIS,
     CMD_EXPAND,
+    CMD_EXPAND_QUOTE,
     CMD_TEXT,
     CMD_JOIN,
+    CMD_EMPTY,
     CMD_WILDCARD
 }  t_command_type;
 
-union u_content{
-    char    *str;
-    t_array    *array;
-    int     fd;
-};
 typedef struct s_command {
     t_command_type  type;
     union   u_content   content;

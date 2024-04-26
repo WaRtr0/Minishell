@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsjoin.c                                      :+:      :+:    :+:   */
+/*   ms_env_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 10:10:08 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/10 02:16:53 by gcros            ###   ########.fr       */
+/*   Created: 2024/03/28 02:34:21 by gcros             #+#    #+#             */
+/*   Updated: 2024/04/06 00:42:01 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "str.h"
+#include "env.h"
 
-char	*ft_strsjoin(char **strs)
+/**
+ * @brief init a t_env object
+ * 
+ * @param key string used as key 
+ * @param value string used as value
+ * @param *env the reference to t_env object
+ */
+void	ms_env_init(char *key, char *value, t_env *env)
 {
-	char	*str;
-	char	*p;
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (strs[i])
-		count += ft_strlen(strs[i++]);
-	str = malloc(count + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	p = str;
-	while (strs[i])
-	{
-		p = ft_stpcpy(p, strs[i++]);
-	}
-	*(p) = '\0';
-	return (str);
+	*env = (t_env){.key = key, .value = value, .left = NULL, .right = NULL};
 }

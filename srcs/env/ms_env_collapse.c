@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsjoin.c                                      :+:      :+:    :+:   */
+/*   ms_env_collapse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 10:10:08 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/10 02:16:53 by gcros            ###   ########.fr       */
+/*   Created: 2024/04/04 03:18:21 by gcros             #+#    #+#             */
+/*   Updated: 2024/04/10 05:31:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "str.h"
+#include "env.h"
+#include <stdlib.h>
 
-char	*ft_strsjoin(char **strs)
+/**
+ * @brief destroy the actual env tree and the leafs
+ * 
+ * @param head the top of the tree
+ */
+void	ms_env_collapse(t_env **head)
 {
-	char	*str;
-	char	*p;
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (strs[i])
-		count += ft_strlen(strs[i++]);
-	str = malloc(count + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	p = str;
-	while (strs[i])
-	{
-		p = ft_stpcpy(p, strs[i++]);
-	}
-	*(p) = '\0';
-	return (str);
+	if (*head == NULL)
+		return ;
+	free((*head)->key);
+	free((*head)->value);
+	ms_env_collapse(&(*head)->left);
+	ms_env_collapse(&(*head)->right);
+	free(*head);
+	*head = NULL;
 }

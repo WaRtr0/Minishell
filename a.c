@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_prompt.c                                        :+:      :+:    :+:   */
+/*   a.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/26 18:21:04 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/26 03:40:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 	return (0);
 }
 
-//// A RAJOUTER
-int	ft_include(char const *str, char c)
+int	ft_include(char *str, char c)
 {
 	int	i;
 
@@ -57,80 +56,6 @@ int	ft_include(char const *str, char c)
 	}
 	return (0);
 }
-
-static size_t	ft_countwords_char(char const *str, char *sep)
-{
-	size_t	count;
-
-	count = 0;
-	while (*str)
-	{
-		while (*str && ft_include(sep, *str))
-			str++;
-		if (*str && !ft_include(sep, *str))
-			count++;
-		while (*str && !ft_include(sep, *str))
-			str ++;
-	}
-	return (count);
-}
-
-static char	*ft_getnextword_char(char const *str, char *sep)
-{
-	char	*buf;
-	size_t	i;
-
-	while (*str && ft_include(sep, *str))
-		str++;
-	i = 0;
-	while (str[i] && !ft_include(sep, str[i]))
-		i++;
-	buf = (char *) malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (str[i] && !ft_include(sep, str[i]) && buf)
-	{
-		buf[i] = str[i];
-		i++;
-	}
-	if (buf)
-		buf[i] = '\0';
-	return (buf);
-}
-
-static void	ft_freebuf(char ***buf)
-{
-	ft_strsfree(buf[0]);
-	buf[0] = NULL;
-}
-
-char	**ft_split_char(char const *s, char *c)
-{
-	size_t		count;
-	char		**buf;
-	size_t		i;
-	char const	*str;
-
-	str = s;
-	count = ft_countwords_char(str, c);
-	buf = (char **) malloc((count + 1) * sizeof(char *));
-	i = 0;
-	while (i < count && buf)
-	{
-		buf[i] = ft_getnextword_char(str, c);
-		if (!buf[i])
-			ft_freebuf(&buf);
-		while (*str && ft_include(c,*str))
-			str++;
-		while (*str && !ft_include(c,*str))
-			str++;
-		i++;
-	}
-	if (buf)
-		buf[count] = NULL;
-	return (buf);
-}
-
-////end
 
 char	*select_str(char *str, size_t n)
 {
@@ -240,7 +165,7 @@ int	next_indent(t_type value, char *str)
 {
 	if (value >= E_HEREDOC && value <= E_OPERATOR)
 		return (2);
-	if ((value >= E_DQUOTE && value <= E_COMMENT) || value == E_WILDCARD)
+	if (value >= E_DQUOTE && value <= E_COMMENT)
 		return (1);
 	if (value == E_WORD)
 		return (pass_word(str));
@@ -250,7 +175,7 @@ int	next_indent(t_type value, char *str)
 		return (pass_blank(str));
 	return (-1);
 }
-	
+
 int is_chevron(t_type type)
 {
     if (type == E_REDIR_IN || type == E_REDIR_OUT || type == E_APPEND || type == E_HEREDOC)
@@ -483,10 +408,10 @@ void append_quote(t_shell *shell)
 
 int exit_quote(t_prompt_status *status)
 {
-	// printf("quote-A\n");
+	printf("quote-A\n");
 	if (status->squote + status->dquote > 1)
 	{
-		// printf("quote-B\n");
+		printf("quote-B\n");
 		status->squote = 0;
 		status->dquote = 0;
 		return (1);
@@ -508,13 +433,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 	if (verif <= 0)
 		return (0);
 
-	if (status->dquote || status->squote)
-	{
-		if (shell->command == NULL)
-			shell->command = ft_strdup("\n");
-		else
-			shell->command = ft_strjoin(shell->command, ft_strdup("\n"));
-	}
     if (shell->prompt_listen)
     {
         newline = shell->prompt;
@@ -545,28 +463,28 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		len = next_indent(type, &line[i]);
 		if (type == E_METACHAR && get_metachar(&line[i]) == E_AND)
 			type = E_WORD;
-		// printf("A | %d\n", status->dquote);
+		printf("A | %d\n", status->dquote);
         if (!status->squote && !status->dquote)
         {
-			// printf("B | %d\n", status->dquote);
+			printf("B | %d\n", status->dquote);
             if (type >= E_METACHAR && type <= E_OPERATOR && !is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
 			{
-				// printf("C\n");
+				printf("A-err\n");
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
 			}
             if (type >= E_PARENTHESIS && type <= E_OPERATOR && !is_chevron(type) && status->chevron == 1)
 			{
-				// printf("D\n");
+				printf("B-err\n");
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
 			}
             if (is_chevron(type) && status->chevron == 1)
 			{
-				// printf("E\n");
+				printf("C-err\n");
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
 			}
             if ((type == E_METACHAR || type == E_OPERATOR) && status->print == 0 && !status->c_parenthesis)
 			{
-				// printf("F | %d\n", status->print);
+				printf("D-err\n");
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
 			}
             if (type == E_WORD || type == E_NAME)
@@ -647,9 +565,15 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                 if (ft_strncmp(&line[i], "(", 1) == 0)
                 {
 					if (on_join(shell))
+					{
+						printf("E-err\n");
 						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+					}
 					if(actual_cursor(shell) != NULL && actual_cursor(shell)->type == CMD_PARENTHESIS)
+					{
+						printf("F-err\n");
 						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+					}
 					status->parenthesis += 1;
 					status->no_empty = 0;
 					append_command = malloc(sizeof(t_command));
@@ -664,8 +588,11 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                 {
 					status->c_parenthesis = 1;
                     if (status->parenthesis == 0 || status->operator || !status->no_empty)
-                        ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-                    else
+                    {
+						printf("G-err\n");
+						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+					}
+					else
 					{
 						exit_join(shell);
 						// status->no_empty = 0;
@@ -726,7 +653,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			add_join(shell);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_WILDCARD;
-			append_command->content.str = select_str(&line[i], len);
 			ft_arr_append(shell->cursor, append_command);
 		}
 		else if (type == E_NAME)
@@ -736,8 +662,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			append_quote(shell);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_EXPAND;
-			if (status->dquote)
-				append_command->type = CMD_EXPAND_QUOTE;
+			printf("test-Y\n");
 			if (status->squote)
 			{
 				append_command->type = CMD_TEXT;
@@ -745,39 +670,45 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			}
 			else
 				append_command->content.str = select_str(&line[i+1], len-1);
+			printf("test-Z\n");
 			ft_arr_append(shell->cursor, append_command);
+			printf("test-A\n");
 		}
 		else if (status->squote || status->dquote)
 		{
+			printf("test-X\n");
 			add_join(shell);
-			if (type == E_SQUOTE || type == E_DQUOTE)
-			{
-				if (exit_quote(status))
-					append_quote(shell);
-			}
-			else if (exit_quote(status))
+			printf("test-B\n");
+			if (exit_quote(status))
 			{
 				if (shell->command == NULL)
 					shell->command = ft_strdup(select_str(&line[i], len));
 				else
 					shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
 				append_quote(shell);
+				printf("test-C\n");
 			}
 			else if (shell->command == NULL)
 			{
+				printf("test-H\n");
 				shell->command = ft_strdup(select_str(&line[i], len));
+				printf("test-D\n");
 			}
 			else
 			{
+				printf("test-I\n");
 				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
+				printf("test-E\n");
 			}
+			printf("test-F\n");
 		}
 		else if (type == E_EMPTY) {
 			//a voir
 			if (on_join(shell))
 			{
 				append_command = malloc(sizeof(t_command));
-				append_command->type = CMD_EMPTY;
+				append_command->type = CMD_TEXT;
+				append_command->content.str = select_str(&line[i], len);
 				ft_arr_append(shell->cursor, append_command);
 			}
 			(void)"tkt frere";
@@ -829,18 +760,20 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
         len = 0;
 	}
 	
-	
-	// if(exit_quote(status))
-	// 	shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
-	// append_quote(shell);
+	if(exit_quote(status))
+		shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
+	append_quote(shell);
 	
     if (status->chevron)
+	{
+		printf("H-err\n");
         ms_syntax_error(E_SYNTAX_UPD_NLN, NULL, shell);
+	}
     
     if (shell->prompt_listen == 0)
 		return (0);
 	
-	// printf(" %d | %d | %d | %d | %d\n", status->heredoc, status->squote, status->dquote, status->parenthesis, status->newline);
+	printf(" %d | %d | %d | %d | %d\n", status->heredoc, status->squote, status->dquote, status->parenthesis, status->newline);
     while (status->heredoc || status->squote || status->dquote || status->parenthesis || status->newline)
     {
 
@@ -878,16 +811,12 @@ char *CMD_to_str(t_command_type type)
 		return ("CMD_PARENTHESIS");
 	if (type == CMD_WILDCARD)
 		return ("CMD_WILDCARD");
-	if (type == CMD_EMPTY)
-		return ("CMD_EMPTY");
 	if (type == CMD_JOIN)
 		return ("CMD_JOIN");
 	if (type == CMD_AND)
 		return ("CMD_AND");
 	if (type == CMD_OR)
 		return ("CMD_OR");
-	if (type == CMD_EXPAND_QUOTE)
-		return ("CMD_EXPAND_QUOTE");
 	if (type == CMD_AND_IF)
 		return ("CMD_AND_IF");
 	if (type == CMD_SEMICOLON)
@@ -914,12 +843,11 @@ void command_to_json(int indent, t_array *array)
 		printf("\t{\n");
 		print_indent(indent);
 		printf("\t\ttype : `%d-%s`,\n", command->type, CMD_to_str(command->type));
-		if (!(command->type == CMD_WILDCARD || command->type == CMD_EMPTY))
 		print_indent(indent);
-		if (command->type == CMD_TEXT || command->type == CMD_EXPAND || command->type == CMD_EXPAND_QUOTE)
+		if (command->type == CMD_TEXT || command->type == CMD_EXPAND)
 			printf("\t\tcontent : `%s`\n", command->content.str);
-		else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
-			(void)"tkt frere";
+		else if (command->type == CMD_WILDCARD)
+			printf("\t\tcontent : `*`\n");
 		else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN || command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
 			printf("\t\tcontent : %d\n", command->content.fd);
 		else if(command->content.array != NULL)
@@ -927,45 +855,13 @@ void command_to_json(int indent, t_array *array)
 			printf("\t\tcontent : ");
 			command_to_json(indent + 2, command->content.array);
 		}
-
 		print_indent(indent);
 		printf("\t},\n");
-
-		// ft_arr_free((void *)command->content.array, 0);
 		ft_arr_shift(array);
 	}
 	print_indent(indent);
 	printf("]\n");
 }
-
-void command_map(t_array *array, void *(*f)(void *))
-{
-	ft_arr_map(array, (void *)f, 0);
-}
-
-void *print_json(t_command *command)
-{
-
-	printf("{");
-	printf("type:`%d-%s`,", command->type, CMD_to_str(command->type));
-	if (command->type == CMD_TEXT || command->type == CMD_EXPAND || command->type == CMD_EXPAND_QUOTE)
-		printf("content:`%s`", command->content.str);
-	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
-		(void)"tkt frere";
-	else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN || command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
-		printf("content:%d", command->content.fd);
-	else if(command->content.array != NULL)
-	{
-		printf("content:[");
-		command_map(command->content.array, (void *)print_json);
-		printf("],");
-	}
-
-	printf("},");
-	return (command);
-}
-
-
 /**
  * @brief Fonction qui va recupérer les commandes de l'utilisateur et les executer
  *
@@ -974,213 +870,12 @@ void *print_json(t_command *command)
  */
 
 //production
-/**/
-
-//fd[0] = read/input
-//fd[1] = write/output
-//todo ms_handle_join
-//expand
-//fd
-//join
-int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
-{
-	t_exec	    *exec_cmd;
-	t_command	*command;
-	char		*word;
-	size_t	i;
-	if (!shell->prompt_listen)
-		return (0);
-
-	exec_cmd = malloc(sizeof(t_exec));
-	exec_cmd->content = ft_arr_new(20);
-	exec_cmd->fd[0] = -1;
-	exec_cmd->fd[1] = -1;
-
-	word = NULL;
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-		if (command->type == CMD_TEXT)
-		{
-			if (!word)
-				word = ft_strdup("");
-			word = ft_strjoin(word, command->content.str);
-		}
-		else if (command->type == CMD_EXPAND || command->type == CMD_EXPAND_QUOTE)
-		{
-			if (word == NULL)
-				word = ft_strdup("");
-
-			//special
-			if (!ft_strlen(command->content.str))
-				word = ft_strjoin(word, "$");
-			else
-			{
-				shell->command =  ms_env_get(shell->env,command->content.str);
-				if (command->type != CMD_EXPAND_QUOTE)
-				{
-					if (shell->command != NULL && shell->command[0])
-					{
-						char	**temp_char;
-						int		temp;
-						
-						temp = ft_include(" \t", shell->command[0]);
-						
-						temp_char = ft_split_char(shell->command, " \t");
-						if (*temp_char != NULL && !temp)
-						{
-							word = ft_strjoin(word, temp_char[0]);
-							ft_arr_append(exec_cmd->content, word);
-							word = NULL;
-							temp_char++;
-						}
-						while (*temp_char != NULL)
-						{
-							if ((*(temp_char + 1)) != NULL)
-								ft_arr_append(exec_cmd->content, temp_char);
-							else
-								word = *temp_char;
-							temp_char++;
-						}
-					}
-				}
-				else if (shell->command != NULL)
-					word = ft_strjoin(word, ft_strdup(shell->command));	
-				shell->command = NULL;
-			}
-			
-		}
-		else if (command->type == CMD_EMPTY)
-		{
-			if (word != NULL)
-				ft_arr_append(exec_cmd->content, word);
-			word = NULL;
-		}
-		else if (command->type == CMD_HEREDOC)
-		{
-			if (exec_cmd->fd[0] != -1)
-				close(exec_cmd->fd[0]);
-			exec_cmd->fd[0] = command->content.fd;
-		}
-		else if (command->type == CMD_REDIR_IN)
-		{
-			if (exec_cmd->fd[0] != -1)
-				close(exec_cmd->fd[0]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[0] = open(command->content.str, O_RDONLY);
-		}
-		else if (command->type == CMD_REDIR_OUT)
-		{
-			if (exec_cmd->fd[1] != -1)
-				close(exec_cmd->fd[1]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[0] = open(command->content.str, O_CREAT | O_WRONLY);
-		}
-		else if (command->type == CMD_APPEND)
-		{
-			if (exec_cmd->fd[1] != -1)
-				close(exec_cmd->fd[1]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[0] = open(command->content.str, O_CREAT | O_APPEND);
-		}
-		i++;
-	}
-
-	if (exec_cmd->fd[0] == -1)
-		exec_cmd->fd[0] = fd[0];
-	if (exec_cmd->fd[1] == -1)
-		exec_cmd->fd[1] = fd[1];
-		
-	if (word != NULL)
-		ft_arr_append(exec_cmd->content, word);
-		
-	if (DEBUG_MODE)
-	{
-		printf(C_YELLOW"FD: %d | %d\n"C_RESET, exec_cmd->fd[0], exec_cmd->fd[1]);
-		while (exec_cmd->content->size > 0)
-		{
-			word = exec_cmd->content->data[0];
-			printf("\n%s", word);
-			ft_arr_shift(exec_cmd->content);
-		}
-	}
-	
-	
-
-	if (DEBUG_MODE && exec_cmd->fd[0] != 0)
-	{
-		char *buffer = ft_calloc(sizeof(char), 10000);;
-		read(exec_cmd->fd[0], buffer, 10000);
-		printf(C_BLUE"%s\n"C_RESET, buffer);
-		free(buffer);
-	}
-	printf("\n");
-	return (1);
-}
-
-int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
-{
-	(void)array;
-	(void)fd;
-	if (!shell->prompt_listen)
-		return (0);
-	printf("PIPE...\n");
-	return (1);
-}
-
-int ms_handle(t_array *array, t_shell *shell, int fd[2])
-{
-	printf("EXEC...\n");
-	if (!shell->prompt_listen)
-		return (0);
-	size_t i;
-	t_command *command;
-	
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-		if (command->type == CMD_JOIN)
-			ms_handle_join(command->content.array, shell, fd);
-		else if (command->type == CMD_AND_IF && !shell->status)
-			ms_handle(command->content.array, shell, fd);
-		else if (command->type == CMD_OR && shell->status)
-			ms_handle(command->content.array, shell, fd);
-		else if (command->type == CMD_SEMICOLON)
-			ms_handle(command->content.array, shell, fd);
-		else if (command->type == CMD_PIPE)
-			ms_handle_pipe(command->content.array, shell, fd);
-		else if (command->type == CMD_PARENTHESIS)
-			ms_handle(command->content.array, shell, fd);
-		i++;
-	}
-	
-	return (1);
-}
-
 int	ms_prompt(t_shell *shell)
 {
 	char			*line;
 	t_prompt_status	status;
 
 	shell->line = 0;
-	shell->status = 0;
 	while (1)
 	{
         status = (t_prompt_status){0};
@@ -1199,15 +894,29 @@ int	ms_prompt(t_shell *shell)
 			status = (t_prompt_status){0};
             shell->prompt = ft_strdup(line);
 			ms_parser(line, &status, shell);
-			if (shell->prompt_listen)
-				ms_handle(shell->commands, shell, (int [2]){0, 1});
 			if (DEBUG_MODE)
 			{
             	printf(C_RED"%s\n"C_RESET, shell->prompt);
 				printf(C_GREEN"FD: %d\n"C_RESET, shell->heredoc_size/2);
-				printf("--------------------\n"C_GREEN"[");
-				command_map(shell->commands, (void *)print_json);
-				printf("]"C_RESET"\n--------------------\n");
+				// print list heredoc
+				int i = 0;
+				while (shell->heredoc_size > 0 && i <= shell->heredoc_size/2)
+				{
+					printf(C_BLUE"- FD: %d | %d\n"C_RESET, (int)(intptr_t)shell->heredoc_fd->data[i], (int)(intptr_t)shell->heredoc_fd->data[i+1]);
+					i+=2;
+				}
+				// read FD heredoc
+				i = 0;
+				while (shell->heredoc_size > 0 && i < shell->heredoc_size)
+				{
+					char *buffer = ft_calloc(sizeof(char), 100);
+					ft_strcpy(buffer, "test");
+					read((int)(intptr_t)shell->heredoc_fd->data[i], buffer, 100);
+					printf(C_BLUE"%s\n"C_RESET, buffer);
+					free(buffer);
+					i += 2;
+				}
+				printf("--------------------\n");
 				command_to_json(0, shell->commands);
 				printf("\n--------------------\n");
 			}
@@ -1218,7 +927,6 @@ int	ms_prompt(t_shell *shell)
 	}
 	return (0);
 }
-/**/
 
 //dev tester
 /*

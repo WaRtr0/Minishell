@@ -1,0 +1,24 @@
+patch Semicolon : OK
+patch parenthesis : OK
+Patch different comportement des guillemets : OK
+
+"" -> expand DETECT
+'' -> expand NO DETECT
+`` => disable
+A faire "Errdoc doit prendre les strings" : __
+--------------------
+faire :
+    2 : open fd
+    3 : expand
+    4 : join
+    5 : exec
+--------------------
+get_command -> {
+     command : char *,
+     in : int,
+     out : out,ewwde
+     shell : shell
+}
+( ?{command, in, out} , t_shell * shell)
+--------------------
+A FAIRE NORMER ET REFAIRE
