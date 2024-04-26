@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/26 18:21:04 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/04/27 00:16:02 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	ft_freebuf(char ***buf)
 	buf[0] = NULL;
 }
 
-char	**ft_split_char(char const *s, char *c)
+char	**ft_split_chars(char const *s, char *c)
 {
 	size_t		count;
 	char		**buf;
@@ -713,22 +713,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			// ft_arr_append(shell->commands, ft_strjoin("<< ",ft_itoa((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1])));
 			status->heredoc = 0;
 		}
-		else if (type == E_REDIR_IN || type == E_REDIR_OUT || type == E_APPEND)
-		{
-			add_join(shell);
-			append_command = malloc(sizeof(t_command));
-			append_command->type = get_CMD(type, &line[i]);
-			append_command->content.fd = 0;
-			ft_arr_append(shell->cursor, append_command);
-		}
-		else if (type == E_WILDCARD)
-		{
-			add_join(shell);
-			append_command = malloc(sizeof(t_command));
-			append_command->type = CMD_WILDCARD;
-			append_command->content.str = select_str(&line[i], len);
-			ft_arr_append(shell->cursor, append_command);
-		}
 		else if (type == E_NAME)
 		{
 			// printf("TEST : %dcommandsn", shell->cursor-);
@@ -771,6 +755,22 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			{
 				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
 			}
+		}
+		else if (type == E_REDIR_IN || type == E_REDIR_OUT || type == E_APPEND)
+		{
+			add_join(shell);
+			append_command = malloc(sizeof(t_command));
+			append_command->type = get_CMD(type, &line[i]);
+			append_command->content.fd = 0;
+			ft_arr_append(shell->cursor, append_command);
+		}
+		else if (type == E_WILDCARD)
+		{
+			add_join(shell);
+			append_command = malloc(sizeof(t_command));
+			append_command->type = CMD_WILDCARD;
+			append_command->content.str = select_str(&line[i], len);
+			ft_arr_append(shell->cursor, append_command);
 		}
 		else if (type == E_EMPTY) {
 			//a voir
@@ -1027,7 +1027,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 						
 						temp = ft_include(" \t", shell->command[0]);
 						
-						temp_char = ft_split_char(shell->command, " \t");
+						temp_char = ft_split_chars(shell->command, " \t");
 						if (*temp_char != NULL && !temp)
 						{
 							word = ft_strjoin(word, temp_char[0]);
@@ -1170,7 +1170,6 @@ int ms_handle(t_array *array, t_shell *shell, int fd[2])
 			ms_handle(command->content.array, shell, fd);
 		i++;
 	}
-	
 	return (1);
 }
 

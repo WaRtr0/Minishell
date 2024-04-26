@@ -8,17 +8,17 @@ Patch different comportement des guillemets : OK
 A faire "Errdoc doit prendre les strings" : __
 --------------------
 faire :
-    2 : open fd
-    3 : expand
-    4 : join
-    5 : exec
+    2 : open fd ok
+    3 : expand ok
+    4 : join ok
+    5 : exec ok
+| faire pipe
+  dup2
+  pipe
+  close...
 --------------------
-get_command -> {
-     command : char *,
-     in : int,
-     out : out,ewwde
-     shell : shell
-}
-( ?{command, in, out} , t_shell * shell)
+Fix expand
+>$  $PWD$
+>>>  "home/androlink$"
 --------------------
 A FAIRE NORMER ET REFAIRE
