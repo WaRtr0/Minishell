@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/27 00:16:02 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/01 03:01:24 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1031,8 +1031,11 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 						if (*temp_char != NULL && !temp)
 						{
 							word = ft_strjoin(word, temp_char[0]);
-							ft_arr_append(exec_cmd->content, word);
-							word = NULL;
+							if ((*(temp_char + 1)) != NULL)
+							{
+								ft_arr_append(exec_cmd->content, word);
+								word = NULL;
+							}
 							temp_char++;
 						}
 						while (*temp_char != NULL)
@@ -1141,6 +1144,7 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 	if (!shell->prompt_listen)
 		return (0);
 	printf("PIPE...\n");
+	//wait => attente que tout les programmes ce termine
 	return (1);
 }
 

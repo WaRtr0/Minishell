@@ -17,7 +17,7 @@ faire :
   pipe
   close...
 --------------------
-Fix expand
+Fix expand [OK]
 >$  $PWD$
 >>>  "home/androlink$"
 --------------------
