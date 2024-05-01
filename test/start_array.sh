@@ -1,1 +1,0 @@
-gcc -Wall -Wextra -Werror array.c -o array -L ../libft-1.2/ -l ft -I ../libft-1.2/includes && ./array
