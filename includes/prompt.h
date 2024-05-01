@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/26 16:50:21 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/01 05:00:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_prompt_status {
     int     started;
     int     squote;
     int     dquote;
+    int     no_print;
     int     print;
     int     chevron;
     int     heredoc;

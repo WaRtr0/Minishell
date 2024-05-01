@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 01:37:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/04/26 23:49:54 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/01 05:00:10 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ typedef enum e_type
 	E_METACHAR,
 	E_REDIR_OUT,
 	E_REDIR_IN,
-	E_COMMENT,
 	E_HEREDOC,
 	E_APPEND,
 	E_OPERATOR,

@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/01 03:01:24 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/01 06:15:12 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int	next_indent(t_type value, char *str)
 {
 	if (value >= E_HEREDOC && value <= E_OPERATOR)
 		return (2);
-	if ((value >= E_DQUOTE && value <= E_COMMENT) || value == E_WILDCARD)
+	if ((value >= E_DQUOTE && value <= E_REDIR_IN) || value == E_WILDCARD)
 		return (1);
 	if (value == E_WORD)
 		return (pass_word(str));
@@ -537,6 +537,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
         free(newline);
     }
     shell->prompt_listen = 1;
+	status->no_print = 0;
 	while (line[i])
 	{
 		type = get_type(&line[i]);
@@ -545,10 +546,16 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		len = next_indent(type, &line[i]);
 		if (type == E_METACHAR && get_metachar(&line[i]) == E_AND)
 			type = E_WORD;
+		if ((type == E_SQUOTE && status->dquote) || (type == E_DQUOTE && status->squote))
+			type = E_WORD;
 		// printf("A | %d\n", status->dquote);
         if (!status->squote && !status->dquote)
         {
 			// printf("B | %d\n", status->dquote);
+			if (status->no_print && (type == E_WORD || type == E_SQUOTE || type == E_DQUOTE) && !status->chevron)
+			{
+				ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+			}
             if (type >= E_METACHAR && type <= E_OPERATOR && !is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
 			{
 				// printf("C\n");
@@ -626,6 +633,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 					else if (type == E_METACHAR && ft_strncmp(&line[i], "|", 1) == 0)
 						status->newline = 1;
                     status->operator = 1;
+					status->no_print = 0;
 				}
             }
 
@@ -637,12 +645,10 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			// 	status->c_parenthesis = 0;
             // }
 
-            if (type == E_COMMENT)
-                break ;
-
             if (type == E_PARENTHESIS)
             {
 				status->newline = 0;
+				status->no_print = 0;
 				status->c_parenthesis = 0;
                 if (ft_strncmp(&line[i], "(", 1) == 0)
                 {
@@ -677,6 +683,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                         }
 						shell->cursor = ft_arr_pop(shell->cursor_array);
                         status->parenthesis -= 1;
+						status->no_print = 1;
 					}
                 
                 }
@@ -692,6 +699,8 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		{
 			status->print = 1;
 			status->operator = 0;
+			//check
+			status->chevron = 0;
 			status->no_empty = 1;
 			status->newline = 0;
 		}
