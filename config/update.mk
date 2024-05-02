@@ -1,4 +1,4 @@
-U_DIR := env
+U_DIR := env builtin prompt parser
 OUT = ./out.mk
 
 $(touch $(OUT))
