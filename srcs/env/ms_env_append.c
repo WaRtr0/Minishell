@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_env_exist.c                                     :+:      :+:    :+:   */
+/*   ms_env_append.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 19:17:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/03 00:03:18 by gcros            ###   ########.fr       */
+/*   Created: 2024/04/23 22:21:14 by gcros             #+#    #+#             */
+/*   Updated: 2024/04/23 22:30:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "str.h"
+#include <unistd.h>
 
-/**
- * @brief check if a value exist
- * 
- * @param env the env tree
- * @param key the key to search
- * @return 1 if the key is found, 0 else
- */
-int	ms_env_exist(t_env *env, char *key)
+int	ms_env_append(t_env **env, char *key, char *value)
 {
-	int	cmp;
+	char	*dup_key;
+	char	*dup_value;
+	t_env	*node;
 
-	if (env == NULL)
-		return (0);
-	cmp = ft_strncmp(env->key, key, ft_strlen(key) + 1);
-	if (cmp == 0)
+	dup_key = ft_strdup(key);
+	dup_value = NULL;
+	if (value != NULL)
+		dup_value = ft_strdup(value);
+	node = NULL;
+	if (dup_key != NULL && (value == NULL || dup_value != NULL))
+		node = ms_env_new(dup_key, dup_value);
+	if (node == NULL)
+	{
+		free(dup_key);
+		free(dup_value);
 		return (1);
-	else if (cmp < 0)
-		return (ms_env_exist(env->right, key));
-	else
-		return (ms_env_exist(env->left, key));
+	}
+	ms_env_add(env, node);
 	return (0);
 }

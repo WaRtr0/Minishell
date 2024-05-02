@@ -7,12 +7,23 @@ SRCS += env/ms_env_new.c
 SRCS += env/ms_env_exist.c
 SRCS += env/ms_env_to_strs.c
 SRCS += env/ms_env_get.c
+SRCS += env/ms_env_append.c
 SRCS += env/ms_env_print.c
 SRCS += env/ms_env_complete.c
 SRCS += env/ms_env_init.c
 SRCS += env/ms_env_remove.c
 SRCS += env/ms_env_add.c
-#---exec---
-SRCS += exec/ms_exec_acces.c
-SRCS += exec/ms_exec_cmd_path.c
-SRCS += exec/ms_exec_name.c
+#---builtin---
+SRCS += builtin/pwd.c
+SRCS += builtin/cd.c
+SRCS += builtin/export.c
+SRCS += builtin/echo.c
+SRCS += builtin/env.c
+SRCS += builtin/unset.c
+#---prompt---
+SRCS += prompt/ms_prompt.c
+SRCS += prompt/heredoc/ms_heredoc.c
+#---parser---
+SRCS += parser/handle/ms_handle.c
+SRCS += parser/handle/ms_handle_join.c
+SRCS += parser/handle/ms_handle_pipe.c

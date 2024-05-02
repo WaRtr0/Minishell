@@ -1,6 +1,7 @@
-U_DIR := env \
-			exec
+U_DIR := env builtin prompt parser exec
 OUT = ./out.mk
+
+$(touch $(OUT))
 
 list_files = $($(cat) $(dir))
 
@@ -11,3 +12,5 @@ update:
 		echo "#---$$dir---" >> $(OUT); \
 		((cd srcs/$$dir && find -name "*.c") | sed 's/^\./SRCS += '"$$dir"'/g' >> $(OUT)); \
 	done
+
+.PHONY: update

@@ -6,15 +6,15 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 00:15:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/10 19:32:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/01 04:11:39 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "str.h"
 
-static int	get_key(char *str, char **out);
 static int	get_value(char *str, char **out);
+static int	is_valid(char *var);
 
 /**
  * @brief generate env tree from a char** NULL terminated type
@@ -31,9 +31,10 @@ int	ms_env_gen(char **strs, t_env **env)
 	p = strs;
 	while (*p != NULL)
 	{
-		if (ms_parse_env_node(*p, &tmp) == 1)
-			break ;
-		ms_env_add(env, tmp);
+		tmp = NULL;
+		if (ms_parse_env_node(*p, &tmp) == 0
+			&& !(tmp->value == NULL && ms_env_exist(*env, tmp->key)))
+			ms_env_add(env, tmp);
 		p++;
 	}
 	if (*p == NULL)
@@ -57,11 +58,13 @@ int	ms_parse_env_node(char *str, t_env **out)
 
 	s1 = NULL;
 	s2 = NULL;
-	if (*str == '=' || get_key(str, &s1) == 1 || get_value(str, &s2) == 1)
+	*out = NULL;
+	if (*str == '=' || get_key(str, &s1) == 1 || !is_valid(s1)
+		|| get_value(str, &s2) == 1)
 	{
 		free(s1);
 		free(s2);
-		return ((*out = NULL) || 1);
+		return (1);
 	}
 	e = ms_env_new(s1, s2);
 	*out = e;
@@ -80,7 +83,7 @@ int	ms_parse_env_node(char *str, t_env **out)
  * @param out the out string
  * @return int the error output (0: ok, 1: error)
  */
-static int	get_key(char *str, char **out)
+int	get_key(char *str, char **out)
 {
 	char	*tmp;
 	size_t	i;
@@ -97,7 +100,7 @@ static int	get_key(char *str, char **out)
 }
 
 /**
- * @brief parse the value form a string
+ * @brief parse the value form a string_env_node
  * 
  * @param str the source string
  * @param out the out string
@@ -105,9 +108,27 @@ static int	get_key(char *str, char **out)
  */
 static int	get_value(char *str, char **out)
 {
+	*out = NULL;
 	str = ft_strchr(str, '=');
 	if (str == NULL)
-		return ((*out = NULL) && 0);
+		return (0);
 	str += *str == '=';
-	return ((*out = ft_strdup(str)) == NULL);
+	*out = ft_strdup(str);
+	return (*out == NULL);
+}
+
+static int	is_valid(char *var)
+{
+	char	*c;
+
+	if (var[0] <= '9' && var[0] >= '0')
+		return (0);
+	c = var;
+	while (*c)
+	{
+		if (!(ft_isalnum(*c) || *c == '_'))
+			return (0);
+		c++;
+	}
+	return (1);
 }

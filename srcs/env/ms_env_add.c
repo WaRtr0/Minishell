@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 03:16:23 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/16 04:49:05 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/03 00:46:57 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,10 @@ int	ms_env_add(t_env **head, t_env *e)
 	cmp = ft_strncmp((*head)->key, e->key, ft_strlen(e->key) + 1);
 	if (cmp == 0)
 	{
-		if (e->value != NULL)
-		{
-			free((*head)->value);
-			(*head)->value = e->value;
-			free(e->key);
-			free(e);
-		}
-		else
-			ms_env_collapse(&e);
+		free((*head)->value);
+		(*head)->value = e->value;
+		free(e->key);
+		free(e);
 		return (0);
 	}
 	else if (cmp < 0)

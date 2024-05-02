@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_destroy.c                                   :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 16:55:27 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/19 20:47:24 by gcros            ###   ########.fr       */
+/*   Created: 2024/04/23 20:53:13 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/01 02:36:29 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
-#include <stdlib.h>
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-void	ft_vec_destroy(t_vector *vector)
-{
-	free(vector->data);
-	vector->data = NULL;
-}
+#include "env.h"
 
-void	ft_vec_free(t_vector **vector)
-{
-	ft_vec_destroy(*vector);
-	free(*vector);
-	*vector = NULL;
-}
+int	cd(int ac, char **args, t_env **env);
+int	echo(char **args);
+int	pwd(int ac, char **av);
+int	env(int ac, char **av, t_env *env);
+int	unset(int ac, char **av, t_env **env);
+int	export(char **av, t_env **envp);
+
+#endif
