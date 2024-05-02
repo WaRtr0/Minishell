@@ -1,48 +1,32 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/10 21:31:26 by gcros            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/**
+ * @file main.c
+ * @brief Fichier principale du programme qui va initialiser la structure shell et lancer le prompt
+ * 
+ */
+ 
+#include "minishell.h"
+#include "prompt.h"
 
-#include "env.h"
-#include "str.h"
-#include "ft_printf.h"
-//#include <readline/readline.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-int	main(int ac, char **av, char **env)
+/**
+ * @brief Fonction principale du programme qui va initialiser la structure shell et lancer le prompt
+ * 
+ * @param argc **Non Utilisé** (Argument Count) Contient le nombre d'arguments passés au programme
+ * @param argv **Non Utilisé** (Argument Vector) Contient les arguments passés au programme
+ * @param envp Variable d'**environnement** qui seront **dupliqué** et **stocké** dans la **structure shell**
+ * @return int **0** si tout c'est bien passé sinon **1**
+ */
+int	main(int argc, char **argv, char **envp)
 {
-	(void) ac;
-	(void) av;
-	(void) env;
+	(void) argc;
+	(void) argv;
 
-	t_env	*e;
-	char	**strs;
-	char	**ptr;
-
-	e = NULL;
-	ft_printf("%d\n", ms_env_gen(env, &e));
-	ft_printf("%d\n", ms_env_complete(&e, av[0]));
-	if (ms_env_to_strs(e, &strs) == 1)
-	{
-		write(2, "lol\n", 4);
+	t_shell	*shell;
+	shell = malloc(sizeof(t_shell) * 1);
+	ms_env_gen(envp, &(shell->env));
+	if (!shell)
 		return (1);
-	}
-	ms_env_collapse(&e);
-	ptr = strs;
-	while (*ptr)
-	{
-		ft_printf("%s\n", *ptr);
-		ptr++;
-	}
-	ft_strsfree(strs);
+
+	ms_prompt(shell);
+
 	return (0);
 }
