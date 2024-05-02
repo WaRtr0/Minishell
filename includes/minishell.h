@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/01 03:39:16 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:17:16 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <sys/wait.h>
+
 
 // libft
 # include "char.h"
@@ -35,6 +37,7 @@ typedef struct s_shell
     int     prompt_listen;
     int     line;
     int     status;
+    int     in_pipe;
     char    *prompt;
     t_array *commands;
     t_array *cursor_array;

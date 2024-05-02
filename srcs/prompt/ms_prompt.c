@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/01 06:15:12 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:18:08 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -548,34 +548,20 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			type = E_WORD;
 		if ((type == E_SQUOTE && status->dquote) || (type == E_DQUOTE && status->squote))
 			type = E_WORD;
-		// printf("A | %d\n", status->dquote);
+
         if (!status->squote && !status->dquote)
         {
-			// printf("B | %d\n", status->dquote);
 			if (status->no_print && (type == E_WORD || type == E_SQUOTE || type == E_DQUOTE) && !status->chevron)
-			{
 				ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-			}
             if (type >= E_METACHAR && type <= E_OPERATOR && !is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
-			{
-				// printf("C\n");
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-			}
             if (type >= E_PARENTHESIS && type <= E_OPERATOR && !is_chevron(type) && status->chevron == 1)
-			{
-				// printf("D\n");
-                ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-			}
+				ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
             if (is_chevron(type) && status->chevron == 1)
-			{
-				// printf("E\n");
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-			}
             if ((type == E_METACHAR || type == E_OPERATOR) && status->print == 0 && !status->c_parenthesis)
-			{
-				// printf("F | %d\n", status->print);
                 ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-			}
+
             if (type == E_WORD || type == E_NAME)
             {
                 status->print = 1;
@@ -1121,10 +1107,14 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		
 	if (word != NULL)
 		ft_arr_append(exec_cmd->content, word);
-		
+	
+	// GCROS
+	// int ms_exec(exec_cmd, shell);
+	// END-GCROS
 	if (DEBUG_MODE)
 	{
-		printf(C_YELLOW"FD: %d | %d\n"C_RESET, exec_cmd->fd[0], exec_cmd->fd[1]);
+		printf("JOIN... [%d]\n", shell->in_pipe);
+		printf(C_YELLOW"FD: %d | %d"C_RESET, exec_cmd->fd[0], exec_cmd->fd[1]);
 		while (exec_cmd->content->size > 0)
 		{
 			word = exec_cmd->content->data[0];
@@ -1133,33 +1123,122 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		}
 	}
 	
-	
-
 	if (DEBUG_MODE && exec_cmd->fd[0] != 0)
 	{
-		char *buffer = ft_calloc(sizeof(char), 10000);;
-		read(exec_cmd->fd[0], buffer, 10000);
+		printf(C_BLUE"\nOUTPUT [%d | %d]:\n"C_RESET, exec_cmd->fd[0], exec_cmd->fd[1]);
+		char *buffer = ft_calloc(sizeof(char), 100);;
+		ft_strcpy(buffer, "empty");
+		read((int)exec_cmd->fd[0], buffer, 100);
 		printf(C_BLUE"%s\n"C_RESET, buffer);
 		free(buffer);
 	}
 	printf("\n");
 	return (1);
 }
+int ms_handle(t_array *array, t_shell *shell, int fd[2]);
+
+// int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
+// {
+// 	size_t i;
+// 	t_command *command;
+// 	int pipe_fd[2];
+// 	pid_t pid;
+
+// 	shell->in_pipe++;
+// 	if (!shell->prompt_listen)
+// 		return (0);
+// 	printf("PIPE... [%d]\n", shell->in_pipe);
+
+// 	i = 0;
+// 	while (i < array->size)
+// 	{
+// 		command = (t_command *)array->data[i];
+// 		if (command->type == CMD_JOIN)
+// 			ms_handle_join(command->content.array, shell, fd);
+// 		else if (command->type == CMD_PARENTHESIS)
+// 			ms_handle(command->content.array, shell, fd);
+// 		i++;
+// 	}
+// 	//wait => attente que tout les programmes ce termine
+// 	shell->in_pipe--;
+// 	return (1);
+// }
 
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
-	(void)array;
-	(void)fd;
+	size_t i;
+	t_command *command;
+	int pipe_fd[2];
+	pid_t pid;
+	int	fd_in;
+	fd_in = fd[0];
+	shell->in_pipe++;
 	if (!shell->prompt_listen)
 		return (0);
-	printf("PIPE...\n");
+	printf("PIPE... [%d]\n", shell->in_pipe);
+
+	i = 0;
+	while (i < array->size)
+	{
+		command = (t_command *)array->data[i];
+
+		 if (i < array->size - 1)
+		 {
+            if (pipe(pipe_fd) == -1)
+			{
+                perror("pipe");
+                return (1);
+            }
+        }
+
+		pid = fork();
+        if (pid == -1)
+		{
+            perror("fork");
+            return (1);
+        }
+
+		if (pid == 0)
+		{
+			if (fd_in != 0)
+			{
+                dup2(fd_in, 0);
+                close(fd_in);
+            }
+
+			if (i < array->size - 1)
+			{
+				close(pipe_fd[0]);
+				dup2(pipe_fd[1], 1);
+				close(pipe_fd[1]);
+			}
+
+			if (command->type == CMD_JOIN)
+				ms_handle_join(command->content.array, shell, fd);
+			else if (command->type == CMD_PARENTHESIS)
+				ms_handle(command->content.array, shell, fd);
+
+			exit(0);
+		}
+		else
+		{
+			wait(NULL);
+			if (i < array->size - 1)
+			{
+				close(pipe_fd[1]);
+				fd_in = pipe_fd[0];
+			}
+		}
+		i++;
+	}
 	//wait => attente que tout les programmes ce termine
+	shell->in_pipe--;
 	return (1);
 }
 
 int ms_handle(t_array *array, t_shell *shell, int fd[2])
 {
-	printf("EXEC...\n");
+	printf("EXEC... [%d]\n", shell->in_pipe);
 	if (!shell->prompt_listen)
 		return (0);
 	size_t i;
@@ -1193,6 +1272,7 @@ int	ms_prompt(t_shell *shell)
 
 	shell->line = 0;
 	shell->status = 0;
+    shell->in_pipe = 0;
 	while (1)
 	{
         status = (t_prompt_status){0};
@@ -1221,6 +1301,23 @@ int	ms_prompt(t_shell *shell)
 				command_map(shell->commands, (void *)print_json);
 				printf("]"C_RESET"\n--------------------\n");
 				command_to_json(0, shell->commands);
+				// print list heredoc
+				int i = 0;
+				while (shell->heredoc_size > 0 && i <= shell->heredoc_size/2)
+				{
+					printf(C_BLUE"- FD: %d | %d\n"C_RESET, (int)(intptr_t)shell->heredoc_fd->data[i], (int)(intptr_t)shell->heredoc_fd->data[i+1]);
+					i+=2;
+				}
+				i = 0;
+				while (shell->heredoc_size > 0 && i < shell->heredoc_size)
+				{
+					char *buffer = ft_calloc(sizeof(char), 100);
+					ft_strcpy(buffer, "test");
+					read((int)(intptr_t)shell->heredoc_fd->data[i], buffer, 100);
+					printf(C_BLUE"%s\n"C_RESET, buffer);
+					free(buffer);
+					i += 2;
+				}
 				printf("\n--------------------\n");
 			}
 			

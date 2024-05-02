@@ -1,3 +1,6 @@
+
+
+=======================================================================================
 [Maxence]
 patch Semicolon : OK
 patch parenthesis : OK
@@ -8,7 +11,7 @@ OK
 '' -> expand NO DETECT
 `` => disable
 --------------------
-A faire "Errdoc doit prendre les strings" : OK
+A faire "Errdoc doit prendre les strings" : __
 --------------------
 faire :
     2 : open fd ok
@@ -24,9 +27,14 @@ Fix expand [OK]
 >$  $PWD$
 >>>  "home/androlink$"
 --------------------
+gestion des redirection avec les parenthese : __
+--------------------
 MERGE Derniere Version ENV : __
 A FAIRE NORMER ET REFAIRE : __
+=======================================================================================
 
+
+=======================================================================================
 [guilhem]
 execve : __
 - path : OK
@@ -49,3 +57,4 @@ builtin : __
 [BONUS]
 ====================
 - Wildcard : __
+=======================================================================================
