@@ -2,6 +2,8 @@
 
 =======================================================================================
 [Maxence]
+patch guillement,>> "" => arg vide : __
+--------------------
 patch Semicolon : OK
 patch parenthesis : OK
 Patch different comportement des guillemets : OK

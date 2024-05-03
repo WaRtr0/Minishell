@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/02 19:18:08 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/03 06:19:11 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,38 +201,42 @@ int	pass_name(const char *str)
 	return (i);
 }
 
-
-
 t_type	get_type(char *str)
 {
-	if (!ft_include(NO_WORD, str[0]))
-		return (E_WORD);
-	if (ft_include(BLANK, str[0]))
-		return (E_EMPTY);
-	if (ft_include(PARENTHESIS, str[0]))
-		return (E_PARENTHESIS);
-	if (get_operator(str) != -1)
-		return (E_OPERATOR);
-	if (get_metachar(str) != -1)
-		return (E_METACHAR);
-	if (!ft_strncmp(str, S_DQUOTE, ft_strlen(S_DQUOTE)))
-		return (E_DQUOTE);
-	if (!ft_strncmp(str, S_SQUOTE, ft_strlen(S_SQUOTE)))
-		return (E_SQUOTE);
-	if (!ft_strncmp(str, S_HEREDOC, ft_strlen(S_HEREDOC)))
-		return (E_HEREDOC);
-	if (!ft_strncmp(str, S_APPEND, ft_strlen(S_APPEND)))
-		return (E_APPEND);
-	if (!ft_strncmp(str, S_REDIR_OUT, ft_strlen(S_REDIR_OUT)))
-		return (E_REDIR_OUT);
-	if (!ft_strncmp(str, S_REDIR_IN, ft_strlen(S_REDIR_IN)))
-		return (E_REDIR_IN);
-	if (!ft_strncmp(str, S_WILDCARD, ft_strlen(S_WILDCARD)))
-		return (E_WILDCARD);
-	if (!ft_strncmp(str, S_NEWLINE, ft_strlen(S_NEWLINE)))
-		return (E_NEWLINE);
-	if (!ft_strncmp(str, S_DOLLAR, ft_strlen(S_DOLLAR)))
-		return (E_NAME);
+	const t_rule rule[] = {
+		{R_NOT_INC, NO_WORD, E_WORD},
+		{R_INC, BLANK, E_EMPTY},
+		{R_INC, PARENTHESIS, E_PARENTHESIS},
+		{R_OPER, NULL, E_OPERATOR},
+		{R_META, NULL, E_METACHAR},
+		{R_CMP, S_DQUOTE, E_DQUOTE},
+		{R_CMP, S_SQUOTE, E_SQUOTE},
+		{R_CMP, S_HEREDOC, E_HEREDOC},
+		{R_CMP, S_APPEND, E_APPEND},
+		{R_CMP, S_REDIR_OUT, E_REDIR_OUT},
+		{R_CMP, S_REDIR_IN, E_REDIR_IN},
+		{R_CMP, S_WILDCARD, E_WILDCARD},
+		{R_CMP, S_NEWLINE, E_NEWLINE},
+		{R_CMP, S_DOLLAR, E_NAME},
+		{R_STOP, NULL, E_EOF}
+	};
+
+	size_t i = 0;
+	while (rule[i].type != R_STOP)
+	{
+		printf("B\n");
+		if (rule[i].type == R_NOT_INC && !ft_include(rule[i].str, str[0]))
+			return (rule[i].value);
+		if (rule[i].type == R_INC && ft_include(rule[i].str, str[0]))
+			return (rule[i].value);
+		if (rule[i].type == R_OPER && get_operator(str) != -1)
+			return (rule[i].value);
+		if (rule[i].type == R_META && get_metachar(str) != -1)
+			return (rule[i].value);
+		if (rule[i].type == R_CMP && !ft_strncmp(str, rule[i].str, ft_strlen(rule[i].str)))
+			return (rule[i].value);
+		i++;
+	}
 	return (E_EOF);
 }
 
@@ -309,35 +313,17 @@ int is_semicolon(t_type type, char *line)
 
 char *ft_strjoin_seperator(char *s1, char *s2, char *sep)
 {
-    char *new;
-    size_t i;
-    size_t j;
+    size_t	l;
+	char	*ptr;
 
-    i = 0;
-    j = 0;
-    new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(sep) + 1));
-    if (!new)
-        return (NULL);
-    while (s1[i])
-    {
-        new[i] = s1[i];
-        i++;
-    }
-    while (sep[j])
-    {
-        new[i] = sep[j];
-        i++;
-        j++;
-    }
-    j = 0;
-    while (s2[j])
-    {
-        new[i] = s2[j];
-        i++;
-        j++;
-    }
-    new[i] = '\0';
-    return (new);
+	l = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(sep) + 1;
+	ptr = malloc(l);
+	if (!ptr)
+		return (ptr);
+	ft_strlcpy(ptr, s1, l);
+	ft_strlcat(ptr, sep, l);
+	ft_strlcat(ptr, s2, l);
+	return (ptr);
 }
 
 t_command_type	get_CMD(int type, char *str)
@@ -855,39 +841,12 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 
 char *CMD_to_str(t_command_type type)
 {
-	if (type == CMD_TEXT)
-		return ("CMD_TEXT");
-	if (type == CMD_EXPAND)
-		return ("CMD_EXPAND");
-	if (type == CMD_HEREDOC)
-		return ("CMD_HEREDOC");
-	if (type == CMD_REDIR_IN)
-		return ("CMD_REDIR_IN");
-	if (type == CMD_REDIR_OUT)
-		return ("CMD_REDIR_OUT");
-	if (type == CMD_APPEND)
-		return ("CMD_APPEND");
-	if (type == CMD_PIPE)
-		return ("CMD_PIPE");
-	if (type == CMD_PARENTHESIS)
-		return ("CMD_PARENTHESIS");
-	if (type == CMD_WILDCARD)
-		return ("CMD_WILDCARD");
-	if (type == CMD_EMPTY)
-		return ("CMD_EMPTY");
-	if (type == CMD_JOIN)
-		return ("CMD_JOIN");
-	if (type == CMD_AND)
-		return ("CMD_AND");
-	if (type == CMD_OR)
-		return ("CMD_OR");
-	if (type == CMD_EXPAND_QUOTE)
-		return ("CMD_EXPAND_QUOTE");
-	if (type == CMD_AND_IF)
-		return ("CMD_AND_IF");
-	if (type == CMD_SEMICOLON)
-		return ("CMD_SEMICOLON");
-	return ("CMD_UNKNOWN");
+	static char *cmd[] = {"CMD_PIPE", "CMD_REDIR_IN", "CMD_REDIR_OUT", "CMD_APPEND",
+	"CMD_HEREDOC", "CMD_SEMICOLON", "CMD_AND_IF", "CMD_AND",
+	"CMD_OR", "CMD_QUOTE", "CMD_PARENTHESIS", "CMD_EXPAND",
+	"CMD_EXPAND_QUOTE", "CMD_TEXT", "CMD_JOIN", "CMD_EMPTY",
+	"CMD_WILDCARD"};
+	return (cmd[type]);
 }
 
 void print_indent(int indent)
@@ -1137,42 +1096,15 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 }
 int ms_handle(t_array *array, t_shell *shell, int fd[2]);
 
-// int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
-// {
-// 	size_t i;
-// 	t_command *command;
-// 	int pipe_fd[2];
-// 	pid_t pid;
-
-// 	shell->in_pipe++;
-// 	if (!shell->prompt_listen)
-// 		return (0);
-// 	printf("PIPE... [%d]\n", shell->in_pipe);
-
-// 	i = 0;
-// 	while (i < array->size)
-// 	{
-// 		command = (t_command *)array->data[i];
-// 		if (command->type == CMD_JOIN)
-// 			ms_handle_join(command->content.array, shell, fd);
-// 		else if (command->type == CMD_PARENTHESIS)
-// 			ms_handle(command->content.array, shell, fd);
-// 		i++;
-// 	}
-// 	//wait => attente que tout les programmes ce termine
-// 	shell->in_pipe--;
-// 	return (1);
-// }
-
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
 	size_t i;
 	t_command *command;
 	int pipe_fd[2];
+	int	temp_fd[2];
 	pid_t pid;
-	int	fd_in;
-	fd_in = fd[0];
-	shell->in_pipe++;
+	temp_fd[0] = fd[0];
+	shell->arb_pipe++;
 	if (!shell->prompt_listen)
 		return (0);
 	printf("PIPE... [%d]\n", shell->in_pipe);
@@ -1189,51 +1121,43 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
                 perror("pipe");
                 return (1);
             }
+			temp_fd[1] = pipe_fd[1];
         }
-
-		pid = fork();
-        if (pid == -1)
-		{
-            perror("fork");
-            return (1);
-        }
-
-		if (pid == 0)
-		{
-			if (fd_in != 0)
-			{
-                dup2(fd_in, 0);
-                close(fd_in);
-            }
-
-			if (i < array->size - 1)
-			{
-				close(pipe_fd[0]);
-				dup2(pipe_fd[1], 1);
-				close(pipe_fd[1]);
-			}
-
-			if (command->type == CMD_JOIN)
-				ms_handle_join(command->content.array, shell, fd);
-			else if (command->type == CMD_PARENTHESIS)
-				ms_handle(command->content.array, shell, fd);
-
-			exit(0);
-		}
 		else
+			temp_fd[1] = fd[1];
+
+		if (command->type == CMD_JOIN)
 		{
-			wait(NULL);
-			if (i < array->size - 1)
+			shell->in_pipe = 1;
+			ms_handle_join(command->content.array, shell, (int [2]){temp_fd[0], temp_fd[1]});
+		}
+		else if (command->type == CMD_PARENTHESIS)
+		{
+			pid = fork();
+			if (pid == 0)
 			{
-				close(pipe_fd[1]);
-				fd_in = pipe_fd[0];
+				ms_handle(command->content.array, shell, (int [2]){temp_fd[0], temp_fd[1]});
+				exit(0);
 			}
+			else if (pid < 0)
+			{
+				perror("fork");
+				return (1);
+			}
+			else
+				waitpid(pid, NULL, 0);
+		}
+
+		if (i < array->size - 1)
+		{
+			close(pipe_fd[1]);
+			temp_fd[0] = pipe_fd[0];
 		}
 		i++;
 	}
 	//wait => attente que tout les programmes ce termine
 	shell->in_pipe--;
-	return (1);
+	return (0);
 }
 
 int ms_handle(t_array *array, t_shell *shell, int fd[2])
@@ -1244,6 +1168,7 @@ int ms_handle(t_array *array, t_shell *shell, int fd[2])
 	size_t i;
 	t_command *command;
 	
+	shell->in_pipe = 0;
 	i = 0;
 	while (i < array->size)
 	{
@@ -1272,6 +1197,7 @@ int	ms_prompt(t_shell *shell)
 
 	shell->line = 0;
 	shell->status = 0;
+	shell->arb_pipe = 0;
     shell->in_pipe = 0;
 	while (1)
 	{

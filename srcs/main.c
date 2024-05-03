@@ -20,13 +20,10 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
-	t_shell	*shell;
-	shell = malloc(sizeof(t_shell) * 1);
-	ms_env_gen(envp, &(shell->env));
-	if (!shell)
-		return (1);
-
-	ms_prompt(shell);
+	t_shell	shell;
+	ft_bzero(&shell, sizeof(t_shell));
+	ms_env_gen(envp, &(shell.env));
+	ms_prompt(&shell);
 
 	return (0);
 }

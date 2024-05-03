@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 01:37:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/01 05:00:10 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/03 05:27:24 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,21 @@ typedef enum e_metachar
 	E_SEMICOLON,
 	E_AND
 }	t_metachar;
+
+enum e_rule {
+	R_STOP = 0,
+	R_NOT_INC = 1,
+	R_INC = 2,
+	R_OPER = 3,
+	R_META = 4,
+	R_CMP = 5
+};
+
+typedef struct {
+	enum e_rule type;
+	void *str;
+	t_type value;
+} t_rule;
 
 typedef enum e_operator
 {
