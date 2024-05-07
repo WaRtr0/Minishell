@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 04:53:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/24 05:09:25 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/06 23:23:33 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,43 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "put.h"
 
 int	pwd_error(int err, char *op);
 
-int	pwd(int ac, char **av)
+int	pwd(char **av)
 {
 	char	*pwd;
 
-	if (ac != 1 && av[1][0] == '-' && av[1][1] != '\0')
+	if (av[0] && av[1] && av[1][0] == '-' && av[1][1] != '\0')
 		return (pwd_error(EINVAL, av[1]));
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 		return (pwd_error(errno, NULL));
-	printf("%s\n", pwd);
+	ft_putendl_fd(pwd, 1);
 	free(pwd);
 	return (0);
 }
 
 int	pwd_error(int err, char *op)
 {
+	char	*err_msg;
+
 	if (err == EACCES)
-		printf("mishell: pwd: Permission denied\n");
+		ft_putendl_fd("mishell: pwd: Permission denied", 2);
 	else if (err == ENAMETOOLONG)
-		printf("mishell: pwd: Path too long\n");
+		ft_putendl_fd("mishell: pwd: Path too long", 2);
 	else if (err == ENOENT || err == ENOTDIR)
-		printf("mishell: pwd: No such file or directory\n");
+		ft_putendl_fd("mishell: pwd: No such file or directory", 2);
 	else if (err == EINVAL)
-		printf("mishell: pwd: %s: invalid option\n", op);
+	{
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: pwd: ", op, ": invalid option", NULL});
+		if (err_msg)
+			ft_putendl_fd(err_msg, 2);
+		free(err_msg);
+	}
 	else
-		printf("mishell: pwd: good luck\n");
+		ft_putendl_fd("mishell: pwd: good luck\n", 2);
 	return (1);
 }

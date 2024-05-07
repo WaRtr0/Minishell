@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec_name.c                                     :+:      :+:    :+:   */
+/*   ms_get_exec_name.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 17:46:11 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/18 16:30:15 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/03 19:55:32 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/03 19:56:01 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 
 int	error_handler(int err, int *out_error);
 
-char	*ms_exec_name(char *name, char *path)
+char	*ms_get_exec_name(char *name, char *path)
 {
 	char	*full_name;
 	int		ret;
 
-	ret = 0;
+	ret = 0;  
 	if (ft_strchr(name, '/') == NULL)
 	{
-		if (error_handler(ms_exec_cmd_path(name, path, &full_name), &ret) != 0
+		if (error_handler(ms_find_exec(name, path, &full_name), &ret) != 0
 			&& full_name == NULL)
 			return (NULL);
 	}
@@ -38,7 +38,7 @@ char	*ms_exec_name(char *name, char *path)
 			if (error_handler(-1, &ret))
 				return (NULL);
 	}
-	return (NULL);
+	return (full_name);
 }
 
 int	error_handler(int err, int *out_error)

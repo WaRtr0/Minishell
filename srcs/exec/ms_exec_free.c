@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   ms_exec_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 20:53:13 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/03 04:40:33 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/07 01:29:39 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/07 01:31:27 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "minishell.h"
+#include "arr.h"
 
-# include "env.h"
+void    free_shell(t_shell *shell)
+{
+	(void) shell;
+	
+}
 
-int	cd(char **args, t_env **env);
-int	echo(char **args);
-int	pwd(char **av);
-int	env(char **av, t_env *env);
-int	unset(char **av, t_env **env);
-int	export(char **av, t_env **envp);
-
-#endif
+void    free_exec(t_exec    *exec)
+{
+	ft_arr_free(&exec->content, free);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/02 19:17:16 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/07 01:05:18 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ typedef struct s_shell
     t_array *heredoc_fd;
     int     heredoc_size;
     char    *limiter;
-    t_env *env;
+    t_env   *env;
 }	t_shell;
 
-union u_content{
-    char    *str;
+union u_content
+{
+    char        *str;
     t_array    *array;
-    int     fd;
+    int         fd;
 };
 typedef struct exec
 {
@@ -61,7 +62,8 @@ typedef struct exec
 }   t_exec;
 
 
-int main(int argc, char **argv, char **envp);
-int ms_exec(t_exec command, t_shell *shell);
+int     main(int argc, char **argv, char **envp);
+void    free_shell(t_shell *shell);
 
+void    free_exec(t_exec    *exec);
 #endif

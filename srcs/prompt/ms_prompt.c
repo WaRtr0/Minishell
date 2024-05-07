@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_prompt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/02 19:18:08 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/06 22:19:51 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 #include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "exec.h"
+#include <stdint.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 {
@@ -1083,7 +1087,8 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 				i++;
 			command = (t_command *)array->data[i];
 			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[0] = open(command->content.str, O_CREAT | O_WRONLY);
+			exec_cmd->fd[1] = open(command->content.str, O_CREAT | O_WRONLY | O_TRUNC,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		}
 		else if (command->type == CMD_APPEND)
 		{
@@ -1095,7 +1100,8 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 				i++;
 			command = (t_command *)array->data[i];
 			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[0] = open(command->content.str, O_CREAT | O_APPEND);
+			exec_cmd->fd[1] = open(command->content.str, O_CREAT | O_APPEND | O_WRONLY,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		}
 		i++;
 	}
@@ -1109,7 +1115,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		ft_arr_append(exec_cmd->content, word);
 	
 	// GCROS
-	// int ms_exec(exec_cmd, shell);
+	ms_exec(exec_cmd, shell);
 	// END-GCROS
 	if (DEBUG_MODE)
 	{

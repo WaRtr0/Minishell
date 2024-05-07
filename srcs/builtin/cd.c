@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:03:53 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/23 23:50:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/06 22:57:50 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@
 #include <errno.h>
 #include <stdio.h>
 #include "str.h"
+#include "put.h"
 
 static int	cd_getop(char *path, t_env *env, char **op);
 static int	cd_error(int err, char *path);
 static int	cd_update_env(t_env	**env);
 
-int	cd(int ac, char **args, t_env **env)
+int	cd(char **args, t_env **env)
 {
 	char	*op;
 	int		err;
 
-	if (ac > 2)
+	if (args[0] && args[1] && args[2])
 		return (cd_error(E2BIG, NULL));
 	if (cd_getop(args[1], *env, &op) == 1)
 		return (1);
@@ -68,8 +69,7 @@ static int	cd_getop(char *path, t_env *env, char **op)
 		*op = ms_env_get(env, "HOME");
 		if (*op == NULL)
 		{
-			write(2, "mishell: cd: HOME not set\n",
-				sizeof("mishell: cd: HOME not set\n"));
+			ft_putstr_fd("mishell: cd: HOME not set\n", 2);
 			return (1);
 		}
 	}
@@ -82,15 +82,25 @@ static int	cd_getop(char *path, t_env *env, char **op)
 
 static int	cd_error(int err, char *path)
 {
+	char	*err_msg;
+
 	if (err == EACCES)
-		printf("mishell: cd: %s: Permission denied\n", path);
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: cd: ", path, ": Permission denied", NULL});
 	else if (err == ENAMETOOLONG)
-		printf("mishell: cd: %s: Path too long\n", path);
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: cd: ", path, ": Path too long", NULL});
 	else if (err == ENOENT || err == ENOTDIR)
-		printf("mishell: cd: %s: No such file or directory\n", path);
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: cd: ", path, ": No such file or directory", NULL});
 	else if (err == E2BIG)
-		printf("mishell: cd: too many arguments\n");
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: cd: too many arguments", NULL});
 	else
-		printf("mishell: cd: %s: good luck\n", path);
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: cd: ", path, ": good luck", NULL});
+	if (err_msg)
+		ft_putendl_fd(err_msg, 2);
+	free(err_msg);
 	return (1);
 }

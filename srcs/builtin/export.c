@@ -6,13 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 23:19:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/01 04:08:16 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/06 23:17:00 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "str.h"
 #include "stdio.h"
+#include "put.h"
 
 int	append_to_env(char *var, t_env **envp);
 int	print_export(t_env *envp);
@@ -23,7 +24,7 @@ int	export(char **av, t_env **envp)
 	int		ret;
 
 	ret = 0;
-	if (*av == NULL)
+	if (*(av + 1) == NULL)
 		return (print_export(*envp));
 	arg_p = av;
 	while (*++arg_p)
@@ -35,11 +36,16 @@ int	append_to_env(char *var, t_env **envp)
 {
 	t_env	*e;
 	char	*s;
+	char	*err_msg;
 
 	if (ms_parse_env_node(var, &e) == 1)
 	{
 		get_key(var, &s);
-		printf("bash: export: `%s`: not a valid identifier\n", s);
+		err_msg = ft_strsjoin((char *[])
+			{"mishell: export: `", s, "`: not a valid identifier", NULL});
+		if (err_msg)
+			ft_putendl_fd(err_msg, 2);
+		free(err_msg);
 		return (1);
 	}
 	if (!(e->value == NULL && ms_env_exist(*envp, e->key)))
@@ -51,13 +57,19 @@ int	append_to_env(char *var, t_env **envp)
 
 int	print_export(t_env *envp)
 {
+	char	*prt_val;
+
 	if (envp == NULL)
 		return (1);
 	print_export(envp->left);
 	if (envp->value == NULL)
-		printf("export %s\n", envp->key);
+		prt_val = ft_strsjoin((char *[]){"export ", envp->key, NULL});
 	else
-		printf("export %s=\"%s\"\n", envp->key, envp->value);
+		prt_val = ft_strsjoin((char *[])
+			{"export ", envp->key, "=\"", envp->value, "\"", NULL});
+	if (prt_val)
+		ft_putendl_fd(prt_val, 1);
+	free(prt_val);
 	print_export(envp->right);
 	return (0);
 }

@@ -6,31 +6,34 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:33:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/24 01:51:40 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/06 21:40:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "str.h"
+#include "put.h"
 #include <stdio.h>
 
 int	jump_nflags(char **args, int *njumps);
+int is_nflags(char *str);
 
 int	echo(char **args)
 {
-	int		offset;
-	char	eol;
+	int	offset;
+	int	eol;
 
-	offset = 0;
-	eol = '\n';
+	offset = 1;
+	eol = 1;
 	if (jump_nflags(args, &offset))
-		eol = '\0';
+		eol = 0;
 	while (args[offset] != NULL)
 	{
-		printf("%s", (args[offset]));
+		ft_putstr_fd(args[offset], 1);
 		if (args[++offset] != NULL)
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 	}
-	printf("%c", eol);
+	if (eol)
+		write (1, "\n", 1);
 	return (0);
 }
 
@@ -38,9 +41,25 @@ int	jump_nflags(char **args, int *njumps)
 {
 	int	j;
 
-	j = 0;
-	while (args[j] && ft_strncmp(args[j], "-n", 3) == 0)
+	j = 1;
+	while (args[j] && is_nflags(args[j]))
+	{
+		printf("===echo %d\n", j);
 		j++;
+	}
 	*njumps = j;
-	return (j != 0);
+	return (j > 1);
+}
+
+int is_nflags(char *str)
+{
+	int	i;
+
+	if (str[0] != '-')
+		return (0);
+	i = 0;
+	while (str[++i])
+		if (str[i] != 'n')
+			return (0);
+	return (1);
 }

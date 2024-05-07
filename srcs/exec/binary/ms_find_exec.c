@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec_cmd_path.c                                 :+:      :+:    :+:   */
+/*   ms_find_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 01:48:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/17 19:58:42 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/03 02:10:46 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/03 02:27:44 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_file(char *path, char *name, char **out);
  * @param out the full path of the command
  * @return int the error (0: found, 1: not found, -1: error)
  */
-int	ms_exec_cmd_path(char *cmd, char *env_path, char **out)
+int	ms_find_exec(char *cmd, char *env_path, char **out)
 {
 	char	**paths;
 	char	**ptr;
@@ -34,10 +34,10 @@ int	ms_exec_cmd_path(char *cmd, char *env_path, char **out)
 	*out = NULL;
 	ret = 0;
 	if (env_path == NULL || cmd == NULL || *cmd == '\0')
-		return (0);
+		return (1);
 	paths = ft_split(env_path, ':');
 	if (paths == NULL)
-		return (0);
+		return (-1);
 	ptr = paths - 1;
 	while (*++ptr != NULL)
 	{
@@ -52,7 +52,7 @@ int	ms_exec_cmd_path(char *cmd, char *env_path, char **out)
 }
 
 /**
- * @brief check the command accessibility(exist and is exec)
+ * @brief check the command accessibility (exist and is exec)
  * 
  * @param path path
  * @param name command name

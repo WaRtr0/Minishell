@@ -27,3 +27,9 @@ SRCS += prompt/heredoc/ms_heredoc.c
 SRCS += parser/handle/ms_handle.c
 SRCS += parser/handle/ms_handle_join.c
 SRCS += parser/handle/ms_handle_pipe.c
+#---exec---
+SRCS += exec/builtin/ms_run_builtin.c
+SRCS += exec/builtin/ms_exec_builtin.c
+SRCS += exec/ms_exec.c
+SRCS += exec/ms_exec_io_utils.c
+SRCS += exec/ms_exec_free.c
