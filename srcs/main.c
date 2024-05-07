@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/06 20:18:32 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/08 00:14:08 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,11 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
-	t_shell	*shell;
-	shell = ft_calloc(sizeof(t_shell), 1);
-	ms_env_gen(envp, &(shell->env));
-	ms_env_complete(&shell->env, argv[0]);
-	if (!shell)
-		return (1);
-
-	ms_prompt(shell);
+	t_shell	shell;
+	ft_bzero(&shell, sizeof(t_shell));
+	ms_env_gen(envp, &(shell.env));
+	ms_env_complete(&shell.env, argv[0]);
+	ms_prompt(&shell);
 
 	return (0);
 }

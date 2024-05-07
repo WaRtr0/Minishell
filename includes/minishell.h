@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/07 01:05:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/08 00:14:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_shell
     int     prompt_listen;
     int     line;
     int     status;
+    int     arb_pipe;
     int     in_pipe;
     char    *prompt;
     t_array *commands;
