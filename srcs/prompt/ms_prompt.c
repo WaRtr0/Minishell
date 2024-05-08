@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/08 00:13:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/08 05:47:45 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ t_type	get_type(char *str)
 	size_t i = 0;
 	while (rule[i].type != R_STOP)
 	{
-		printf("B\n");
+		//printf("B\n");
 		if (rule[i].type == R_NOT_INC && !ft_include(rule[i].str, str[0]))
 			return (rule[i].value);
 		if (rule[i].type == R_INC && ft_include(rule[i].str, str[0]))
@@ -625,13 +625,18 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
             {
 				status->newline = 0;
 				status->no_print = 0;
-				status->c_parenthesis = 0;
                 if (ft_strncmp(&line[i], "(", 1) == 0)
                 {
+					if ((get_parent(shell, 1) != NULL && get_parent(shell, 1)->type == CMD_PIPE) && status->c_parenthesis && (actual_cursor(shell) != NULL && actual_cursor(shell)->type == CMD_PARENTHESIS))
+						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
 					if (on_join(shell))
 						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-					if(actual_cursor(shell) != NULL && actual_cursor(shell)->type == CMD_PARENTHESIS)
+					if(actual_cursor(shell) != NULL && actual_cursor(shell)->type == CMD_PARENTHESIS && !(get_parent(shell, 1) != NULL && get_parent(shell, 1)->type == CMD_PIPE))
+					{
+						printf("Y");
 						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+					}
+					status->c_parenthesis = 0;
 					status->parenthesis += 1;
 					status->no_empty = 0;
 					append_command = malloc(sizeof(t_command));
@@ -1150,8 +1155,6 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 				perror("fork");
 				return (1);
 			}
-			else
-				waitpid(pid, NULL, 0);
 		}
 
 		if (i < array->size - 1)
@@ -1161,6 +1164,8 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 		}
 		i++;
 	}
+	while (wait(NULL) != -1)
+		(void) "todo";
 	//wait => attente que tout les programmes ce termine
 	shell->in_pipe--;
 	return (0);
