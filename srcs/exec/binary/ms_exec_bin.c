@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_destroy.c                                   :+:      :+:    :+:   */
+/*   ms_exec_bin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 16:55:27 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/19 20:47:24 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/03 03:57:03 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/03 19:59:12 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
-#include <stdlib.h>
+#include "exec.h"
 
-void	ft_vec_destroy(t_vector *vector)
+int	file_not_found(char *file);
+
+int	exec_bin(t_exec *exec, t_shell *shell)
 {
-	free(vector->data);
-	vector->data = NULL;
+	char	*cmd;
+
+	cmd = ms_get_exec_name(exec->content->data[0],
+			ms_env_get(shell->env, "PATH"));
+	if (cmd == NULL)
+		return (file_not_found(exec->content->data[0]));
+	return (0);
 }
 
-void	ft_vec_free(t_vector **vector)
+int	file_not_found(char *file)
 {
-	ft_vec_destroy(*vector);
-	free(*vector);
-	*vector = NULL;
+	return (1);
 }

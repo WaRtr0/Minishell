@@ -6,13 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 03:00:26 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/10 19:57:24 by gcros            ###   ########.fr       */
+/*   Updated: 2024/04/16 04:53:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <unistd.h>
 #include "str.h"
+#include "ft_printf.h"
 
 static int	set_pwd(t_env **env);
 static int	set_exec(t_env **env, char *exec_cmd);
@@ -34,8 +35,9 @@ int	ms_env_complete(t_env **env, char *exec_cmd)
 		return (1);
 	if (set_exec(env, exec_cmd) == 1)
 		return (1);
-	if (ms_parse_env_node("OLDPWD", &tmp) == 1 || ms_env_add(env, tmp) == 1)
-		return (1);
+	if (ms_parse_env_node("OLDPWD", &tmp) == 1
+		|| ms_env_add(env, tmp) == 1)
+		return (ms_env_collapse(&tmp), 1);
 	return (0);
 }
 

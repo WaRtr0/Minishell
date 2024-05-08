@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_destroy.c                                   :+:      :+:    :+:   */
+/*   ms_exec_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 16:55:27 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/19 20:47:24 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/07 01:29:39 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/07 01:31:27 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
-#include <stdlib.h>
+#include "minishell.h"
+#include "arr.h"
 
-void	ft_vec_destroy(t_vector *vector)
+void    free_shell(t_shell *shell)
 {
-	free(vector->data);
-	vector->data = NULL;
+	(void) shell;
+	
 }
 
-void	ft_vec_free(t_vector **vector)
+void    free_exec(t_exec    *exec)
 {
-	ft_vec_destroy(*vector);
-	free(*vector);
-	*vector = NULL;
+	ft_arr_free(&exec->content, free);
 }

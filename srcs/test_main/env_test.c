@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_destroy.c                                   :+:      :+:    :+:   */
+/*   env_test.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 16:55:27 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/19 20:47:24 by gcros            ###   ########.fr       */
+/*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
+/*   Updated: 2024/04/26 04:06:32 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#include "env.h"
+#include "str.h"
+#include "ft_printf.h"
+//#include <readline/readline.h>
+#include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include "builtin.h"
 
-void	ft_vec_destroy(t_vector *vector)
+int	main(int ac, char **av, char **envs)
 {
-	free(vector->data);
-	vector->data = NULL;
-}
+	t_env	*envp;
 
-void	ft_vec_free(t_vector **vector)
-{
-	ft_vec_destroy(*vector);
-	free(*vector);
-	*vector = NULL;
+	(void) ac;
+	(void) av;
+	(void) envs;
+	envp = NULL;
+	ms_env_gen(envs, &envp);
+	env(ac, av, envp);
+	ms_env_collapse(&envp);
+	return (0);
 }

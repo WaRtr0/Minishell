@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 01:29:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/26 08:23:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/03 00:10:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 void	ft_strncpy(char *dest, const char *src, size_t n);
 char	*ft_stpcpy(char *dest, const char *src);
+char	*ft_strcpy(char *dest, const char *src);
 int		ft_strisnumber(const char *s);
 void	ft_strsfree(char **str);
 char	*ft_strsjoin(char **strs);

@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 RMF = rm -f
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g -Wall -Wextra -Werror
 DFLAGS = -MP -MMD
 
 SDIR = srcs
@@ -31,7 +31,8 @@ all:
 	@$(MAKE) -s $(NAME)
 
 include config/libft.mk
-include config/srcs.mk
+#include config/srcs.mk
+include out.mk
 
 $(NAME) : $(OFILES) | $(LIB_PATH)
 	$(CC) $(CFLAGS) -o $@ $(OFILES) $(LIB_FLAGS)
@@ -56,16 +57,18 @@ fclean	::	clean
 
 force :
 
-start:
-	@$(MAKE) -s all
-	./minishell
-	
+start: all
+	@echo "__Minishell__"
+	@./minishell
+
 valgrind: all
 	@echo "__Vinishell__" 
-	@valgrind --leak-check=full ./minishell
+	@valgrind --leak-check=full -s ./minishell
 
 norm:
 	-@norminette libft-1.2/ srcs/ | grep Error
 	-@cat $(SFILES) | grep "//"
 
-.PHONY: clean re fclean force all norm start valgrind
+-include config/update.mk
+
+.PHONY: clean re fclean force all norm run valgrind
