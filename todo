@@ -2,7 +2,7 @@
 
 =======================================================================================
 [Maxence]
-patch guillement,>> "" => arg vide : __
+patch guillement,>> "" => arg vide : OK
 --------------------
 patch Semicolon : OK
 patch parenthesis : OK
@@ -14,6 +14,8 @@ OK
 `` => disable
 --------------------
 A faire "Errdoc doit prendre les strings" : __
+--------------------
+Parenthse bug cote a cote : OK
 --------------------
 faire :
     2 : open fd ok

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_prompt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/08 05:47:45 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/10 00:10:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -727,14 +727,17 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			if (type == E_SQUOTE || type == E_DQUOTE)
 			{
 				if (exit_quote(status))
+				{
+					if (shell->command == NULL)
+						shell->command = ft_strdup("");
 					append_quote(shell);
+				}
 			}
 			else if (exit_quote(status))
 			{
 				if (shell->command == NULL)
-					shell->command = ft_strdup(select_str(&line[i], len));
-				else
-					shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
+					shell->command = ft_strdup("");
+				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
 				append_quote(shell);
 			}
 			else if (shell->command == NULL)
