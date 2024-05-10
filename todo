@@ -4,6 +4,8 @@
 [Maxence]
 patch guillement,>> "" => arg vide : OK
 --------------------
+Join word/guillemet => redir_name : __
+--------------------
 patch Semicolon : OK
 patch parenthesis : OK
 Patch different comportement des guillemets : OK
@@ -31,7 +33,7 @@ Fix expand [OK]
 >$  $PWD$
 >>>  "home/androlink$"
 --------------------
-gestion des redirection avec les parenthese : __
+gestion des redirection avec les parenthese : OK
 --------------------
 MERGE Derniere Version ENV : __
 A FAIRE NORMER ET REFAIRE : __
