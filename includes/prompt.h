@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/01 05:00:15 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/10 04:22:31 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef enum e_command_type {
     CMD_EXPAND_QUOTE,
     CMD_TEXT,
     CMD_JOIN,
+    CMD_JOIN_NO_PRINT,
     CMD_EMPTY,
     CMD_WILDCARD
 }  t_command_type;

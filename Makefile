@@ -57,6 +57,10 @@ fclean	::	clean
 
 force :
 
+start: all
+	@echo "__Minishell__"
+	@./minishell
+
 run: all
 	@echo "__Minishell__"
 	@./minishell
