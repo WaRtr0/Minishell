@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/10 05:27:57 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/10 08:06:33 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -653,8 +653,10 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                 else
                 {
 					status->c_parenthesis = 1;
-                    if (status->parenthesis == 0 || status->operator || !status->no_empty)
-                        ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+                    if ((status->parenthesis == 0 || status->operator || !status->no_empty) && (actual_cursor(shell) != NULL && actual_cursor(shell)->type != CMD_SEMICOLON))
+					{
+						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+					}
                     else
 					{
 						exit_join(shell);

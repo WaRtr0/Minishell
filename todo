@@ -2,9 +2,11 @@
 
 =======================================================================================
 [Maxence]
-patch guillement,>> "" => arg vide : OK
---------------------
 Join word/guillemet => redir_name : __
+--------------------
+A faire "Errdoc doit prendre les strings" : __
+--------------------
+patch guillement,>> "" => arg vide : OK
 --------------------
 patch Semicolon : OK
 patch parenthesis : OK
@@ -14,8 +16,6 @@ OK
 "" -> expand DETECT
 '' -> expand NO DETECT
 `` => disable
---------------------
-A faire "Errdoc doit prendre les strings" : __
 --------------------
 Parenthse bug cote a cote : OK
 --------------------
@@ -35,7 +35,7 @@ Fix expand [OK]
 --------------------
 gestion des redirection avec les parenthese : OK
 --------------------
-MERGE Derniere Version ENV : __
+MERGE Derniere Version ENV : OK
 A FAIRE NORMER ET REFAIRE : __
 =======================================================================================
 
