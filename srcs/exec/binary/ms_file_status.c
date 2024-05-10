@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_test.c                                       :+:      :+:    :+:   */
+/*   ms_file_status.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 23:19:40 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/10 04:23:19 by gcros             #+#    #+#             */
+/*   Updated: 2024/05/10 23:02:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "str.h"
-#include "ft_printf.h"
-//#include <readline/readline.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "builtin.h"
+#include "exec.h"
+#include <sys/stat.h>
+#include <fcntl.h>
 
-int	main(int ac, char **av, char **envs)
+enum e_file_status	get_status(char *file)
 {
-	t_env	*envp;
+	struct stat			st;
+	enum e_file_status	r;
 
-	(void) ac;
-	(void) av;
-	(void) envs;
-	envp = NULL;
-	ms_env_gen(envs, &envp);
-	unset(av, &envp);
-	env((char *[]){"env", NULL}, envp);
-	ms_env_collapse(&envp);
-	return (0);
+	if (stat(file, &st) < 0)
+		return (fs_default);
+	r = fs_exist;
+	if (S_ISDIR(st.st_mode))
+		return (r | fs_is_dir);
+	if (access(file, X_OK) == 0)
+		r |= fs_exec;
+	if (access(file, R_OK) == 0)
+		r |= fs_read;
+	if (access(file, W_OK) == 0)
+		r |= fs_write;
+	return (r);
 }

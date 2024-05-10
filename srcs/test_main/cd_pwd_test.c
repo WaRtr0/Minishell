@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cd_pwd_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/24 18:20:49 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/10 23:19:03 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	main(int ac, char **av, char **env)
 	(void) env;
 	envp = NULL;
 	ms_env_gen(env, &envp);
-	cd(ac, av, &envp);
-	pwd(ac, av);
+	cd(av, &envp);
+	pwd(av);
 	printf("PWD: %s\n", ms_env_get(envp, "PWD"));
 	printf("OLDPWD: %s\n", ms_env_get(envp, "OLDPWD"));
 	ms_env_collapse(&envp);

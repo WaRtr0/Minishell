@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/26 04:06:32 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/10 23:19:25 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **envs)
 	(void) envs;
 	envp = NULL;
 	ms_env_gen(envs, &envp);
-	env(ac, av, envp);
+	env(av, envp);
 	ms_env_collapse(&envp);
 	return (0);
 }

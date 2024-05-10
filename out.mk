@@ -33,3 +33,7 @@ SRCS += exec/builtin/ms_exec_builtin.c
 SRCS += exec/ms_exec.c
 SRCS += exec/ms_exec_io_utils.c
 SRCS += exec/ms_exec_free.c
+SRCS += exec/binary/ms_exec_get_path.c
+SRCS += exec/binary/ms_exec_bin.c
+SRCS += exec/binary/ms_file_status.c
+SRCS += exec/binary/ms_execbin.c

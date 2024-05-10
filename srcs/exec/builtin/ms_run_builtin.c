@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_run_bti.c                                       :+:      :+:    :+:   */
+/*   ms_run_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:40:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/07 00:34:45 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/08 04:26:13 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "builtin.h"
 #include "exec.h"
+#include "put.h"
 
 int	run_bti(t_exec *exec, t_shell *shell);
 
@@ -43,6 +44,8 @@ int	run_bti(t_exec *exec, t_shell *shell)
 		return (unset((char **)exec->content->data, &shell->env));
 	if (ft_strncmp(exec->content->data[0], "pwd", 4) == 0)
 		return (pwd((char **)exec->content->data));
+	if (ft_strncmp(exec->content->data[0], "sleep", 6) == 0)
+		return (sleep(5), ft_putendl_fd("sleep done", 1), 0);
 	printf("==not found==\n");
 	return (1);
 }

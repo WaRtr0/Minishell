@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 01:37:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/08 04:48:55 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/10 23:20:25 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,11 +225,12 @@ enum e_rule {
 	R_CMP = 5
 };
 
-typedef struct {
-	enum e_rule type;
-	void *str;
-	t_type value;
-} t_rule;
+typedef struct s_rule
+{
+	enum e_rule	type;
+	void		*str;
+	t_type		value;
+}	t_rule;
 
 typedef enum e_operator
 {

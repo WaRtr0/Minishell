@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/07 01:28:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/09 21:47:34 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ms_exec_builtin(t_exec *exec, t_shell *shell)
 
 	pid = fork();
 	if (pid == -1)
-		return (1);
+		return (-1);
 	else if (pid == 0)
 		exit(child(exec, shell));
 	else
@@ -49,5 +49,5 @@ int	child(t_exec *exec, t_shell *shell)
 	ret = ms_run_builtin(exec, shell);
 	free_shell(shell);
 	free_exec(exec);
-	exit(ret);
+	return(ret);
 }
