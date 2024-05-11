@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 23:45:58 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/11 04:43:57 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ms_exec_builtin(t_exec *exec, t_shell *shell)
 		exit(child(exec, shell));
 	else
 		return (parent(shell, pid));
-	return (0);
+	return (EXIT_FAILURE);
 }
 
 int	parent(t_shell *shell, int pid)

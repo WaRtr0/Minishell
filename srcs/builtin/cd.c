@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:03:53 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/06 22:57:50 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/11 04:44:20 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ static int	cd_error(int err, char *path)
 	if (err_msg)
 		ft_putendl_fd(err_msg, 2);
 	free(err_msg);
-	return (1);
+	return (EXIT_FAILURE);
 }

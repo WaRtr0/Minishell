@@ -17,6 +17,7 @@ SRCS += env/ms_env_add.c
 SRCS += builtin/pwd.c
 SRCS += builtin/cd.c
 SRCS += builtin/export.c
+SRCS += builtin/exit.c
 SRCS += builtin/echo.c
 SRCS += builtin/env.c
 SRCS += builtin/unset.c

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 23:13:50 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/11 00:24:50 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ char	*get_bin(char *cmd, t_env *env)
 		ms_find_cmd(cmd, ms_env_get(env, "PATH"), &bin);
 	else
 		bin = ft_strdup(cmd);
-	if (!bin)
-		return (NULL);
 	if (check_bin(bin, cmd) == 0)
 		ft_nfree((void **)&bin);
 	return (bin);
@@ -40,7 +38,9 @@ int	check_bin(char *bin, char *cmd)
 	char		*err_msg;
 
 	err_msg = NULL;
-	st = get_status(bin);
+	st = fs_default;
+	if (bin)
+		st = get_status(bin);
 	if (!(st & fs_exist) && is_cmd)
 		err_msg = ft_strsjoin((char *[]){cmd, ": command not found", NULL});
 	else if (!(st & fs_exist) && !is_cmd)
@@ -49,7 +49,7 @@ int	check_bin(char *bin, char *cmd)
 	else if (st & fs_is_dir)
 		err_msg = ft_strsjoin((char *[])
 			{MS_NAME": ", bin, ": Is a directory", NULL});
-	else if (!(st & (fs_exec | fs_read)))
+	else if (!((st & (fs_exec | fs_read)) == (fs_exec | fs_read)))
 		err_msg = ft_strsjoin((char *[])
 			{MS_NAME": ", bin, ": Permission denied", NULL});
 	if (err_msg)

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 23:19:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/06 23:17:00 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/11 04:45:09 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	append_to_env(char *var, t_env **envp)
 		if (err_msg)
 			ft_putendl_fd(err_msg, 2);
 		free(err_msg);
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	if (!(e->value == NULL && ms_env_exist(*envp, e->key)))
 		ms_env_add(envp, e);
@@ -60,7 +60,7 @@ int	print_export(t_env *envp)
 	char	*prt_val;
 
 	if (envp == NULL)
-		return (1);
+		return (EXIT_FAILURE);
 	print_export(envp->left);
 	if (envp->value == NULL)
 		prt_val = ft_strsjoin((char *[]){"export ", envp->key, NULL});

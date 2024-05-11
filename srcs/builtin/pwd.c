@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 04:53:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/06 23:23:33 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/11 04:45:16 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ int	pwd_error(int err, char *op)
 	}
 	else
 		ft_putendl_fd("mishell: pwd: good luck\n", 2);
-	return (1);
+	return (EXIT_FAILURE);
 }

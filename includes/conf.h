@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/10 23:43:11 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/11 00:05:38 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define CONF_H
 
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 // ------------------------------
 // MISHEL CONFIGURATION
 
