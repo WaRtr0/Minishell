@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/16 17:44:15 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/16 20:51:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "conf.h"
 #include "minishell.h"
 #include "prompt.h"
+#include "lexer.h"
 #include "str.h"
 // #include "num.h"
 #include <readline/history.h>
@@ -30,95 +31,8 @@
 #include <stdint.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-
-//// A RAJOUTER
-int	ft_include(char const *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static size_t	ft_countwords_char(char const *str, char *sep)
-{
-	size_t	count;
-
-	count = 0;
-	while (*str)
-	{
-		while (*str && ft_include(sep, *str))
-			str++;
-		if (*str && !ft_include(sep, *str))
-			count++;
-		while (*str && !ft_include(sep, *str))
-			str ++;
-	}
-	return (count);
-}
-
-static char	*ft_getnextword_char(char const *str, char *sep)
-{
-	char	*buf;
-	size_t	i;
-
-	while (*str && ft_include(sep, *str))
-		str++;
-	i = 0;
-	while (str[i] && !ft_include(sep, str[i]))
-		i++;
-	buf = (char *) malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (str[i] && !ft_include(sep, str[i]) && buf)
-	{
-		buf[i] = str[i];
-		i++;
-	}
-	if (buf)
-		buf[i] = '\0';
-	return (buf);
-}
-
-static void	ft_freebuf(char ***buf)
-{
-	ft_strsfree(buf[0]);
-	buf[0] = NULL;
-}
-
-char	**ft_split_chars(char const *s, char *c)
-{
-	size_t		count;
-	char		**buf;
-	size_t		i;
-	char const	*str;
-
-	str = s;
-	count = ft_countwords_char(str, c);
-	buf = (char **) malloc((count + 1) * sizeof(char *));
-	i = 0;
-	while (i < count && buf)
-	{
-		buf[i] = ft_getnextword_char(str, c);
-		if (!buf[i])
-			ft_freebuf(&buf);
-		while (*str && ft_include(c,*str))
-			str++;
-		while (*str && !ft_include(c,*str))
-			str++;
-		i++;
-	}
-	if (buf)
-		buf[count] = NULL;
-	return (buf);
-}
-
-////end
+#include "utils.h"
+#include "debug.h"
 
 char	*select_str(char *str, size_t n)
 {
@@ -493,6 +407,8 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 	status->no_print = 0;
 	while (line[i])
 	{
+
+		// parsing
 		type = get_type(&line[i]);
 		if (type == E_EOF)
 			break ;
@@ -554,6 +470,8 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 
             if (type == E_PARENTHESIS)
             {
+
+				//semi parsing et lexing
 				status->newline = 0;
 				status->no_print = 0;
                 if (ft_strncmp(&line[i], "(", 1) == 0)
@@ -620,6 +538,8 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		}
 
         //end error
+
+		//lexing 
         if (shell->prompt_listen == 0)
             break ;
 		if (DEBUG_MODE)
@@ -789,95 +709,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 	return (1);
 }
 
-
-char *CMD_to_str(t_command_type type)
-{
-	static char *cmd[] = {"CMD_PIPE", "CMD_REDIR_IN", "CMD_REDIR_OUT", "CMD_APPEND",
-	"CMD_HEREDOC", "CMD_SEMICOLON", "CMD_AND_IF", "CMD_AND",
-	"CMD_OR", "CMD_QUOTE", "CMD_PARENTHESIS", "CMD_EXPAND",
-	"CMD_EXPAND_QUOTE", "CMD_TEXT", "CMD_JOIN", "CMD_JOIN_NO_PRINT", "CMD_EMPTY",
-	"CMD_WILDCARD"};
-	return (cmd[type]);
-}
-
-void print_indent(int indent)
-{
-	int i = 0;
-	while (i < indent)
-	{
-		printf("\t");
-		i++;
-	}
-}
-void command_to_json(int indent, t_array *array)
-{
-	printf("[\n");
-	while (array->size > 0)
-	{
-		t_command *command = (t_command *)array->data[0];
-		print_indent(indent);
-		printf("\t{\n");
-		print_indent(indent);
-		printf("\t\ttype : `%d-%s`,\n", command->type, CMD_to_str(command->type));
-		if (!(command->type == CMD_WILDCARD || command->type == CMD_EMPTY))
-		print_indent(indent);
-		if (command->type == CMD_TEXT || command->type == CMD_EXPAND || command->type == CMD_EXPAND_QUOTE)
-			printf("\t\tcontent : `%s`\n", command->content.str);
-		else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
-			(void)"tkt frere";
-		else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN || command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
-			printf("\t\tcontent : %d\n", command->content.fd);
-		else if(command->content.array != NULL)
-		{
-			printf("\t\tcontent : ");
-			command_to_json(indent + 2, command->content.array);
-		}
-
-		print_indent(indent);
-		printf("\t},\n");
-
-		// ft_arr_free((void *)command->content.array, 0);
-		ft_arr_shift(array);
-	}
-	print_indent(indent);
-	printf("]\n");
-}
-
-void command_map(t_array *array, void *(*f)(void *))
-{
-	ft_arr_map(array, (void *)f, 0);
-}
-
-void *print_json(t_command *command)
-{
-
-	printf("{");
-	printf("type:`%d-%s`,", command->type, CMD_to_str(command->type));
-	if (command->type == CMD_TEXT || command->type == CMD_EXPAND || command->type == CMD_EXPAND_QUOTE)
-		printf("content:`%s`", command->content.str);
-	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
-		(void)"tkt frere";
-	else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN || command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
-		printf("content:%d", command->content.fd);
-	else if(command->content.array != NULL)
-	{
-		printf("content:[");
-		command_map(command->content.array, (void *)print_json);
-		printf("],");
-	}
-
-	printf("},");
-	return (command);
-}
-
-
-/**
- * @brief Fonction qui va recupérer les commandes de l'utilisateur et les executer
- *
- * @param shell Structure principal du programme
- * @return int **0** si tout c'est bien passé sinon **1**
- */
-
 //production
 /**/
 
@@ -887,167 +718,7 @@ void *print_json(t_command *command)
 //expand
 //fd
 //join
-int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
-{
-	t_exec	    *exec_cmd;
-	t_command	*command;
-	char		*word;
-	size_t	i;
-	if (!shell->prompt_listen)
-		return (0);
 
-	exec_cmd = malloc(sizeof(t_exec));
-	exec_cmd->content = ft_arr_new(20);
-	exec_cmd->fd[0] = -1;
-	exec_cmd->fd[1] = -1;
-
-	word = NULL;
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-		if (command->type == CMD_TEXT)
-		{
-			if (!word)
-				word = ft_strdup("");
-			word = ft_strjoin(word, command->content.str);
-		}
-		else if (command->type == CMD_EXPAND || command->type == CMD_EXPAND_QUOTE)
-		{
-			if (word == NULL)
-				word = ft_strdup("");
-
-			//special
-			if (!ft_strlen(command->content.str))
-				word = ft_strjoin(word, "$");
-			else
-			{
-				shell->command =  ms_env_get(shell->env,command->content.str);
-				if (command->type != CMD_EXPAND_QUOTE)
-				{
-					if (shell->command != NULL && shell->command[0])
-					{
-						char	**temp_char;
-						int		temp;
-						
-						temp = ft_include(" \t", shell->command[0]);
-						
-						temp_char = ft_split_chars(shell->command, " \t");
-						if (*temp_char != NULL && !temp)
-						{
-							word = ft_strjoin(word, temp_char[0]);
-							if ((*(temp_char + 1)) != NULL)
-							{
-								ft_arr_append(exec_cmd->content, word);
-								word = NULL;
-							}
-							temp_char++;
-						}
-						while (*temp_char != NULL)
-						{
-							if ((*(temp_char + 1)) != NULL)
-								ft_arr_append(exec_cmd->content, temp_char);
-							else
-								word = *temp_char;
-							temp_char++;
-						}
-					}
-				}
-				else if (shell->command != NULL)
-					word = ft_strjoin(word, ft_strdup(shell->command));	
-				shell->command = NULL;
-			}
-			
-		}
-		else if (command->type == CMD_EMPTY)
-		{
-			if (word != NULL)
-				ft_arr_append(exec_cmd->content, word);
-			word = NULL;
-		}
-		else if (command->type == CMD_HEREDOC)
-		{
-			if (exec_cmd->fd[0] != -1)
-				close(exec_cmd->fd[0]);
-			exec_cmd->fd[0] = command->content.fd;
-		}
-		else if (command->type == CMD_REDIR_IN)
-		{
-			if (exec_cmd->fd[0] != -1)
-				close(exec_cmd->fd[0]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[0] = open(command->content.str, O_RDONLY);
-		}
-		else if (command->type == CMD_REDIR_OUT)
-		{
-			if (exec_cmd->fd[1] != -1)
-				close(exec_cmd->fd[1]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[1] = open(command->content.str, O_CREAT | O_WRONLY | O_TRUNC,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-		}
-		else if (command->type == CMD_APPEND)
-		{
-			if (exec_cmd->fd[1] != -1)
-				close(exec_cmd->fd[1]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			exec_cmd->fd[1] = open(command->content.str, O_CREAT | O_APPEND | O_WRONLY,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-		}
-		i++;
-	}
-
-	if (exec_cmd->fd[0] == -1)
-		exec_cmd->fd[0] = fd[0];
-	if (exec_cmd->fd[1] == -1)
-		exec_cmd->fd[1] = fd[1];
-		
-	if (word != NULL)
-		ft_arr_append(exec_cmd->content, word);
-	
-	// GCROS
-	if (exec_cmd->content->size > 0)
-		ms_exec(exec_cmd, shell);
-	// END-GCROS
-	if (DEBUG_MODE)
-	{
-		printf("JOIN... [%d]\n", shell->in_pipe);
-		printf(C_YELLOW"FD: %d | %d"C_RESET, exec_cmd->fd[0], exec_cmd->fd[1]);
-		while (exec_cmd->content->size > 0)
-		{
-			word = exec_cmd->content->data[0];
-			printf("\n%s", word);
-			ft_arr_shift(exec_cmd->content);
-		}
-	}
-	
-	if (DEBUG_MODE && exec_cmd->fd[0] != 0)
-	{
-		printf(C_BLUE"\nOUTPUT [%d | %d]:\n"C_RESET, exec_cmd->fd[0], exec_cmd->fd[1]);
-		char *buffer = ft_calloc(sizeof(char), 100);;
-		ft_strcpy(buffer, "empty");
-		read((int)exec_cmd->fd[0], buffer, 100);
-		printf(C_BLUE"%s\n"C_RESET, buffer);
-		free(buffer);
-	}
-	printf("\n");
-	return (1);
-}
 
 
 void	ms_get_fd(t_array *array, t_shell *shell,int *fd)
@@ -1120,128 +791,6 @@ void	ms_get_fd(t_array *array, t_shell *shell,int *fd)
 		fd[1] = t_fd[1];
 }
 
-int ms_handle(t_array *array, t_shell *shell, int fd[2]);
-
-int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
-{
-	size_t i;
-	t_command *command;
-	int pipe_fd[2];
-	int	temp_fd[2];
-	int t_fd[2];
-	
-	pid_t pid;
-	temp_fd[0] = fd[0];
-	shell->arb_pipe++;
-	if (!shell->prompt_listen)
-		return (0);
-	printf("PIPE... [%d]\n", shell->in_pipe);
-
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-
-		 if (i < array->size - 1)
-		 {
-            if (pipe(pipe_fd) == -1)
-			{
-                perror("pipe");
-                return (1);
-            }
-			temp_fd[1] = pipe_fd[1];
-        }
-		else
-			temp_fd[1] = fd[1];
-
-		if (command->type == CMD_JOIN)
-		{
-			shell->in_pipe = 1;
-			ms_handle_join(command->content.array, shell, (int [2]){temp_fd[0], temp_fd[1]});
-		}
-		else if (command->type == CMD_PARENTHESIS)
-		{
-			t_fd[0] = temp_fd[0];
-			t_fd[1] = temp_fd[1];
-			if (i + 1 < array->size)
-			{
-				command = (t_command *)array->data[i + 1];
-				if (command->type == CMD_JOIN_NO_PRINT)
-					ms_get_fd(command->content.array, shell, t_fd);
-				command = (t_command *)array->data[i];
-			}
-			ms_handle(command->content.array, shell, t_fd);
-
-			pid = fork();
-			if (pid == 0)
-			{
-				ms_handle(command->content.array, shell, (int [2]){t_fd[0], t_fd[1]});
-				exit(0);
-			}
-			else if (pid < 0)
-			{
-				perror("fork");
-				return (1);
-			}
-		}
-
-		if (i < array->size - 1)
-		{
-			close(pipe_fd[1]);
-			temp_fd[0] = pipe_fd[0];
-		}
-		i++;
-	}
-	while (wait(NULL) != -1)
-		(void) "todo";
-	//wait => attente que tout les programmes ce termine
-	shell->in_pipe--;
-	return (0);
-}
-
-
-int ms_handle(t_array *array, t_shell *shell, int fd[2])
-{
-	printf("EXEC... [%d]\n", shell->in_pipe);
-	int	t_fd[2];
-	if (!shell->prompt_listen)
-		return (0);
-	size_t i;
-	t_command *command;
-	
-	shell->in_pipe = 0;
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-		if (command->type == CMD_JOIN)
-			ms_handle_join(command->content.array, shell, fd);
-		else if (command->type == CMD_AND_IF && !shell->status)
-			ms_handle(command->content.array, shell, fd);
-		else if (command->type == CMD_OR && shell->status)
-			ms_handle(command->content.array, shell, fd);
-		else if (command->type == CMD_SEMICOLON)
-			ms_handle(command->content.array, shell, fd);
-		else if (command->type == CMD_PIPE)
-			ms_handle_pipe(command->content.array, shell, fd);
-		else if (command->type == CMD_PARENTHESIS)
-		{
-			t_fd[0] = fd[0];
-			t_fd[1] = fd[1];
-			if (i + 1 < array->size)
-			{
-				command = (t_command *)array->data[i + 1];
-				if (command->type == CMD_JOIN_NO_PRINT)
-					ms_get_fd(command->content.array, shell, t_fd);
-				command = (t_command *)array->data[i];
-			}
-			ms_handle(command->content.array, shell, t_fd);
-		}
-		i++;
-	}
-	return (1);
-}
-
 int	ms_prompt(t_shell *shell)
 {
 	char			*line;
@@ -1272,32 +821,7 @@ int	ms_prompt(t_shell *shell)
 			if (shell->prompt_listen)
 				ms_handle(shell->commands, shell, (int [2]){0, 1});
 			if (DEBUG_MODE)
-			{
-            	printf(C_RED"%s\n"C_RESET, shell->prompt);
-				printf(C_GREEN"FD: %d\n"C_RESET, shell->heredoc_size/2);
-				printf("--------------------\n"C_GREEN"[");
-				command_map(shell->commands, (void *)print_json);
-				printf("]"C_RESET"\n--------------------\n");
-				command_to_json(0, shell->commands);
-				// print list heredoc
-				int i = 0;
-				while (shell->heredoc_size > 0 && i <= shell->heredoc_size/2)
-				{
-					printf(C_BLUE"- FD: %d | %d\n"C_RESET, (int)(intptr_t)shell->heredoc_fd->data[i], (int)(intptr_t)shell->heredoc_fd->data[i+1]);
-					i+=2;
-				}
-				i = 0;
-				while (shell->heredoc_size > 0 && i < shell->heredoc_size)
-				{
-					char *buffer = ft_calloc(sizeof(char), 100);
-					ft_strcpy(buffer, "test");
-					read((int)(intptr_t)shell->heredoc_fd->data[i], buffer, 100);
-					printf(C_BLUE"%s\n"C_RESET, buffer);
-					free(buffer);
-					i += 2;
-				}
-				printf("\n--------------------\n");
-			}
+            	ms_debug(shell);
 			
             shell->line++;
 		}

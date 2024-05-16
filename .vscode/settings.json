@@ -5,6 +5,7 @@
         "minishell.h": "c",
         "prompt.h": "c",
         "str.h": "c",
-        "conf.h": "c"
+        "conf.h": "c",
+        "arr.h": "c"
     }
 }

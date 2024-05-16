@@ -27,6 +27,10 @@ SRCS += prompt/ms_prompt.c
 SRCS += parser/heredoc/ms_heredoc.c
 SRCS += parser/syntax/ms_syntax_rule.c
 SRCS += parser/syntax/ms_syntax_error.c
+#---lexer---
+SRCS += lexer/handle/ms_handle_join.c
+SRCS += lexer/handle/ms_handle_pipe.c
+SRCS += lexer/handle/ms_handle.c
 #---exec---
 SRCS += exec/builtin/ms_run_builtin.c
 SRCS += exec/builtin/ms_exec_builtin.c
@@ -37,3 +41,8 @@ SRCS += exec/binary/ms_execbin.c
 SRCS += exec/ms_exec.c
 SRCS += exec/ms_exec_io_utils.c
 SRCS += exec/ms_exec_free.c
+#---debug
+SRCS += debug/ms_debug.c
+#---utils
+SRCS += utils/ft_include.c
+SRCS += utils/ft_splitstr.c
