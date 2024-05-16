@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 04:22:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/15 04:40:26 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,6 @@
 # define PROMPT_H
 
 # include "minishell.h"
-
-typedef struct s_prompt_status {
-    int     started;
-    int     squote;
-    int     dquote;
-    int     no_print;
-    int     print;
-    int     chevron;
-    int     heredoc;
-    int     no_empty;
-    int     operator;
-    int     parenthesis;
-    int     c_parenthesis;
-    int     last_parenthesis;
-    int     newline;
-}   t_prompt_status;
 
 typedef enum e_command_type {
     CMD_PIPE,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/08 00:14:21 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/15 04:59:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,11 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
-
 // libft
 # include "char.h"
 # include "str.h"
 # include "arr.h"
 # include "env.h"
-# include "conf.h"
-
 
 typedef struct s_shell
 {
@@ -62,9 +59,9 @@ typedef struct exec
     int     fd[2];
 }   t_exec;
 
-
 int     main(int argc, char **argv, char **envp);
 void    free_shell(t_shell *shell);
 
 void    free_exec(t_exec    *exec);
+
 #endif

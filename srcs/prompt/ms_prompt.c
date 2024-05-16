@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/10 08:06:33 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:44:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
  */
 #include "arr.h"
 #include "char.h"
+#include "parser.h"
 #include "conf.h"
 #include "minishell.h"
 #include "prompt.h"
@@ -29,23 +30,6 @@
 #include <stdint.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-
-int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
-{
-	if (!shell->prompt_listen)
-		return (0);
-	if (error == E_SYNTAX_UPD_TOK)
-	{
-		printf(ERR_SYNTAX_UPD_TOK, msg);
-		free(msg);
-	}
-	else if (error == E_SYNTAX_UPD_EOF)
-		printf(ERR_SYNTAX_UPD_EOF);
-	else if (error == E_SYNTAX_UPD_NLN)
-		printf(ERR_SYNTAX_UPD_NLN);
-	shell->prompt_listen = 0;
-	return (0);
-}
 
 //// A RAJOUTER
 int	ft_include(char const *str, char c)
@@ -200,6 +184,8 @@ int	pass_name(const char *str)
 	size_t	i;
 
 	i = 1;
+	if (str[i] && str[i] == '?')
+		return (2);
 	while (str[i] && (ft_isdigit(str[i]) || ft_isalpha(str[i]) || ft_include("_", str[i])))
 		i++;
 	return (i);
@@ -280,32 +266,6 @@ int	get_line(char *str)
 		i++;
 	}
 	return (j);
-}
-
-int	add_fd(t_shell *shell)
-{
-	(void)shell;
-	int		fd[2];
-	// 0 = read
-	// 1 = write
-
-	if (pipe(fd) == -1)
-	{
-		perror(ERR_PIPE);
-		return (1);
-	}
-	if (!ft_arr_append(shell->heredoc_fd, (void *)(intptr_t)fd[0]))
-	{
-		perror(ERR_MALLOC);
-		return (1);
-	}
-	if (!ft_arr_append(shell->heredoc_fd, (void *)(intptr_t)fd[1]))
-	{
-		perror(ERR_MALLOC);
-		return (1);
-	}
-	shell->heredoc_size += 2;
-	return (0);
 }
 
 int is_semicolon(t_type type, char *line)
@@ -544,16 +504,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 
         if (!status->squote && !status->dquote)
         {
-			if (status->no_print && (type == E_WORD || type == E_NAME || type == E_SQUOTE || type == E_DQUOTE) && !status->chevron)
-				ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-            if (type >= E_METACHAR && type <= E_OPERATOR && !is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
-                ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-            if (type >= E_PARENTHESIS && type <= E_OPERATOR && !is_chevron(type) && status->chevron == 1)
-				ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-            if (is_chevron(type) && status->chevron == 1)
-                ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-            if ((type == E_METACHAR || type == E_OPERATOR) && status->print == 0 && !status->c_parenthesis)
-                ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+			ms_syntax_rule(type, select_str(&line[i], len), shell, status);
 
             if (type == E_WORD || type == E_NAME)
             {
@@ -573,30 +524,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			}
 
 			if (status->heredoc && status->print)
-			{
-				shell->limiter = select_str(&line[i], len);
-				if (add_fd(shell))
-					return (0);
-				while (1)
-				{
-					newline = readline("heredoc> ");
-					if (!newline)
-						break ;
-					if (ft_strlen(shell->limiter) == ft_strlen(newline) && ft_strncmp(newline, shell->limiter, ft_strlen(shell->limiter)) == 0)
-					{
-						free(newline);
-						break ;
-					}
-					write(
-						((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]), 
-						newline, 
-						ft_strlen(newline));
-					write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\n", 1);
-					free(newline);
-				}
-				write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\0", 1);
-				close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
-			}
+				ms_heredoc(shell, select_str(&line[i], len));
 
             if (type > E_PARENTHESIS && type <= E_OPERATOR)
             {
@@ -1093,7 +1021,8 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		ft_arr_append(exec_cmd->content, word);
 	
 	// GCROS
-	ms_exec(exec_cmd, shell);
+	if (exec_cmd->content->size > 0)
+		ms_exec(exec_cmd, shell);
 	// END-GCROS
 	if (DEBUG_MODE)
 	{
@@ -1126,6 +1055,7 @@ void	ms_get_fd(t_array *array, t_shell *shell,int *fd)
 	t_command	*command;
 	char		*word;
 	(void)shell;
+	(void)word;
 	int			t_fd[2];
 	size_t	i;
 

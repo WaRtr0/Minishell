@@ -2,9 +2,15 @@
 
 =======================================================================================
 [Maxence]
+Probleme FD du heredoc avec Cat... : __
+--------------------
 Join word/guillemet => redir_name : __
 --------------------
 A faire "Errdoc doit prendre les strings" : __
+--------------------
+add detection "?" sur les expands : OK
+--------------------
+Fix segfault FD ouvert mais command null : OK
 --------------------
 patch guillement,>> "" => arg vide : OK
 --------------------

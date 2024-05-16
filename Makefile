@@ -61,6 +61,10 @@ start: all
 	@echo "__Minishell__"
 	@./minishell
 
+run: all
+	@echo "__Minishell__"
+	@./minishell
+
 valgrind: all
 	@echo "__Vinishell__" 
 	@valgrind --leak-check=full -s ./minishell

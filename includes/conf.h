@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   conf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/05 01:37:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/08 04:48:55 by gcros            ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/05/16 17:39:48 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef CONF_H
 # define CONF_H
 
+# include "minishell.h"
+# include "parser.h"
 # define MS_NAME	"Mishell"
 # define DEBUG_MODE 1
 // ------------------------------
@@ -174,40 +177,6 @@
 # define C_BOLD				"\033[1m"
 
 // ------------------------------
-typedef enum e_error
-{
-	E_NOT_FOUND,
-	E_PERM_DENIED,
-	E_SYNTAX_UPD_TOK,
-	E_SYNTAX_UPD_EOF,
-	E_SYNTAX_UPD_NLN,
-	E_NOT_SUCH,
-	E_IS_DIR,
-	E_NO_FILE,
-	E_TOO_MANY_ARGS,
-	E_EXECVE,
-	E_MALLOC,
-	E_EXEC
-}	t_error;
-
-typedef enum e_type
-{
-	E_EOF = -1,
-	E_DQUOTE,
-	E_SQUOTE,
-	E_PARENTHESIS,
-	E_NEWLINE,
-	E_METACHAR,
-	E_REDIR_OUT,
-	E_REDIR_IN,
-	E_HEREDOC,
-	E_APPEND,
-	E_OPERATOR,
-	E_WILDCARD,
-	E_WORD,
-	E_NAME,
-	E_EMPTY
-}	t_type;
 
 typedef enum e_metachar
 {
@@ -225,11 +194,12 @@ enum e_rule {
 	R_CMP = 5
 };
 
-typedef struct {
-	enum e_rule type;
-	void *str;
-	t_type value;
-} t_rule;
+typedef struct s_rule
+{
+	enum e_rule	type;
+	void		*str;
+	t_type		value;
+}	t_rule;
 
 typedef enum e_operator
 {
