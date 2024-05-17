@@ -16,11 +16,11 @@ int ms_syntax_rule(int type, char *str,t_shell *shell, t_prompt_status *status)
 {
     if (status->no_print && (type == E_WORD || type == E_NAME || type == E_SQUOTE || type == E_DQUOTE) && !status->chevron)
         ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);
-    if (type >= E_METACHAR && type <= E_OPERATOR && !is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
+    if (type >= E_METACHAR && type <= E_OPERATOR && !ms_is_chevron(type) && status->operator == 1 && !status->c_parenthesis)
         ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);
-    if (type >= E_PARENTHESIS && type <= E_OPERATOR && !is_chevron(type) && status->chevron == 1)
+    if (type >= E_PARENTHESIS && type <= E_OPERATOR && !ms_is_chevron(type) && status->chevron == 1)
         ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);
-    if (is_chevron(type) && status->chevron == 1)
+    if (ms_is_chevron(type) && status->chevron == 1)
         ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);
     if ((type == E_METACHAR || type == E_OPERATOR) && status->print == 0 && !status->c_parenthesis)
         ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);

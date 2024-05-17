@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/15 04:58:23 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/17 07:18:34 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,13 @@ typedef struct s_prompt_status {
 
 // temp
 
-int     is_chevron(t_type type);
+int     ms_is_chevron(t_type type);
 
 // parser - heredoc
 int     ms_heredoc(t_shell *shell, char *limiter);
+
+
+int ms_reset_quote(t_prompt_status *status);
 
 // parser - syntax
 int     ms_syntax_error(t_error error, char *msg, t_shell *shell);

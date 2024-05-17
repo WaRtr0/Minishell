@@ -1,4 +1,4 @@
-U_DIR := env builtin prompt parser exec
+U_DIR := env builtin prompt parser exec debug utils lexer handle
 OUT = ./out.mk
 
 $(touch $(OUT))

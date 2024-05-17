@@ -6,6 +6,14 @@
         "prompt.h": "c",
         "str.h": "c",
         "conf.h": "c",
-        "arr.h": "c"
+        "arr.h": "c",
+        "unistd.h": "c",
+        "stdlib.h": "c",
+        "array": "cpp",
+        "string_view": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "span": "c",
+        "utility": "c"
     }
 }

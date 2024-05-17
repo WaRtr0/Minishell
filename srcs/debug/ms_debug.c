@@ -1,5 +1,5 @@
 #include "minishell.h"
-#include "prompt.h"
+#include "lexer.h"
 #include "conf.h"
 #include <stdint.h>
 

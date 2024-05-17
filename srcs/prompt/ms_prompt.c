@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/17 04:14:20 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/17 08:10:06 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "conf.h"
 #include "minishell.h"
 #include "prompt.h"
+#include "handle.h"
 #include "lexer.h"
 #include "str.h"
 // #include "num.h"
@@ -33,24 +34,6 @@
 #include <sys/stat.h>
 #include "utils.h"
 #include "debug.h"
-
-char	*select_str(char *str, size_t n)
-{
-	char	*new;
-	size_t	i;
-
-	i = 0;
-	new = malloc(sizeof(char) * (n + 1));
-	if (!new)
-		return (NULL);
-	while (i < n)
-	{
-		new[i] = str[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
 
 int	get_operator(char *str)
 {
@@ -105,43 +88,32 @@ int	pass_name(const char *str)
 	return (i);
 }
 
+
 t_type	get_type(char *str)
 {
-	const t_rule rule[] = {
-		{R_NOT_INC, NO_WORD, E_WORD},
-		{R_INC, BLANK, E_EMPTY},
-		{R_INC, PARENTHESIS, E_PARENTHESIS},
-		{R_OPER, NULL, E_OPERATOR},
-		{R_META, NULL, E_METACHAR},
-		{R_CMP, S_DQUOTE, E_DQUOTE},
-		{R_CMP, S_SQUOTE, E_SQUOTE},
-		{R_CMP, S_HEREDOC, E_HEREDOC},
-		{R_CMP, S_APPEND, E_APPEND},
-		{R_CMP, S_REDIR_OUT, E_REDIR_OUT},
-		{R_CMP, S_REDIR_IN, E_REDIR_IN},
-		{R_CMP, S_WILDCARD, E_WILDCARD},
-		{R_CMP, S_NEWLINE, E_NEWLINE},
-		{R_CMP, S_DOLLAR, E_NAME},
-		{R_STOP, NULL, E_EOF}
-	};
+	const t_rule	rule[] = {{R_NOT_INC, NO_WORD, E_WORD},
+	{R_INC, BLANK, E_EMPTY}, {R_INC, PARENTHESIS, E_PARENTHESIS},
+	{R_OPER, NULL, E_OPERATOR}, {R_META, NULL, E_METACHAR},
+	{R_CMP, S_DQUOTE, E_DQUOTE}, {R_CMP, S_SQUOTE, E_SQUOTE},
+	{R_CMP, S_HEREDOC, E_HEREDOC}, {R_CMP, S_APPEND, E_APPEND},
+	{R_CMP, S_REDIR_OUT, E_REDIR_OUT}, {R_CMP, S_REDIR_IN, E_REDIR_IN},
+	{R_CMP, S_WILDCARD, E_WILDCARD}, {R_CMP, S_NEWLINE, E_NEWLINE},
+	{R_CMP, S_DOLLAR, E_NAME}, {R_STOP, NULL, E_EOF}};
+	size_t			i;
 
-	size_t i = 0;
-	while (rule[i].type != R_STOP)
-	{
-		//printf("B\n");
-		if (rule[i].type == R_NOT_INC && !ft_include(rule[i].str, str[0]))
-			return (rule[i].value);
-		if (rule[i].type == R_INC && ft_include(rule[i].str, str[0]))
-			return (rule[i].value);
-		if (rule[i].type == R_OPER && get_operator(str) != -1)
-			return (rule[i].value);
-		if (rule[i].type == R_META && get_metachar(str) != -1)
-			return (rule[i].value);
-		if (rule[i].type == R_CMP && !ft_strncmp(str, rule[i].str, ft_strlen(rule[i].str)))
-			return (rule[i].value);
-		i++;
-	}
-	return (E_EOF);
+	i = 0;
+	while (!(rule[i].type == R_STOP
+		|| (rule[i].type == R_NOT_INC && !ft_include(rule[i].str, str[0]))
+		|| (rule[i].type == R_INC && ft_include(rule[i].str, str[0]))
+		|| (rule[i].type == R_OPER && get_operator(str) != -1)
+		|| (rule[i].type == R_META && get_metachar(str) != -1)
+		|| (rule[i].type == R_CMP && !ft_strncmp(str, rule[i].str,
+				strlen(rule[i].str)))))
+		{
+			printf("%ld\n", i);
+			i++;
+		}
+	return (rule[i].value);
 }
 
 int	next_indent(t_type value, char *str)
@@ -159,49 +131,18 @@ int	next_indent(t_type value, char *str)
 	return (-1);
 }
 	
-int is_chevron(t_type type)
+int ms_is_chevron(t_type type)
 {
     if (type == E_REDIR_IN || type == E_REDIR_OUT || type == E_APPEND || type == E_HEREDOC)
         return (1);
     return (0);
 }
 
-int	get_line(char *str)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			j++;
-		i++;
-	}
-	return (j);
-}
-
-int is_semicolon(t_type type, char *line)
+int ms_is_semicolon(t_type type, char *line)
 {
 	if (type == E_METACHAR && ft_strncmp(line, ";", 1) == 0)
 		return (1);
 	return (0);
-}
-
-char *ft_strjoin_seperator(char *s1, char *s2, char *sep)
-{
-    size_t	l;
-	char	*ptr;
-
-	l = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(sep) + 1;
-	ptr = malloc(l);
-	if (!ptr)
-		return (ptr);
-	ft_strlcpy(ptr, s1, l);
-	ft_strlcat(ptr, sep, l);
-	ft_strlcat(ptr, s2, l);
-	return (ptr);
 }
 
 t_command_type	get_CMD(int type, char *str)
@@ -229,135 +170,6 @@ t_command_type	get_CMD(int type, char *str)
 	if (type == E_APPEND)
 		return (CMD_APPEND);
 	return (CMD_TEXT);
-}
-
-t_command   *get_children(t_shell *shell, size_t children)
-{
-    size_t size_array;
-    size_t size_cursor;
-
-    size_array = shell->cursor_array->size;
-    if (size_array == 0 ||  1 > size_array)
-        return (NULL);
-    size_cursor = ((t_array *)shell->cursor_array->data[size_array - 1])->size;
-    if (size_cursor == 0 || children <= 0 || children > size_cursor)
-        return (NULL);
-    return ((t_command *)(((t_array *)shell->cursor_array->data[size_array - 1])->data[size_cursor - children]));
-}
-
-t_command   *get_parent(t_shell *shell, size_t parent)
-{
-    size_t size_array;
-    size_t size_cursor;
-
-    size_array = shell->cursor_array->size;
-    if (size_array == 0 || parent == 0 || parent > size_array)
-        return (NULL);
-    size_cursor = ((t_array *)shell->cursor_array->data[size_array - parent])->size;
-    if (size_cursor == 0)
-        return (NULL);
-    return ((t_command *)(((t_array *)shell->cursor_array->data[size_array - parent])->data[size_cursor - 1]));
-}
-
-t_command	*actual_cursor(t_shell *shell)
-{
-	if (((t_array *)shell->cursor)->size > 0)
-	{
-		return (
-			(t_command *)(
-				(t_array *)shell->cursor
-				)->data[
-					(
-						(t_array *)shell->cursor
-					)->size - 1
-				]
-		);
-	}
-	return (NULL);
-}
-
-int	on_pipe(t_shell *shell)
-{
-	if (shell->cursor_array->size > 0 && get_parent(shell, 1) != NULL && get_parent(shell, 1)->type == CMD_PIPE)
-		return (1);
-	return (0);
-}
-
-void add_pipe(t_shell *shell)
-{
-	t_command *append_command;
-
-	if (!on_pipe(shell))
-	{
-		append_command = malloc(sizeof(t_command));
-		append_command->type = CMD_PIPE;
-		append_command->content.array = ft_arr_new(10);
-		ft_arr_append(shell->cursor, append_command);
-		ft_arr_append(shell->cursor_array, shell->cursor);
-		shell->cursor = append_command->content.array;
-	}
-}
-
-void exit_pipe(t_shell *shell)
-{
-	if (on_pipe(shell))
-		shell->cursor = ft_arr_pop(shell->cursor_array);
-}
-int	on_join(t_shell *shell)
-{
-	if (shell->cursor_array->size > 0 && get_parent(shell, 1) != NULL && (get_parent(shell, 1)->type == CMD_JOIN || get_parent(shell, 1)->type == CMD_JOIN_NO_PRINT))
-		return (1);
-	return (0);
-}
-
-void add_join(t_shell *shell, int type )
-{
-	t_command *append_command;
-
-	if (!on_join(shell))
-	{
-		append_command = malloc(sizeof(t_command));
-		append_command->type = CMD_JOIN;
-		if (type >= 0)
-			append_command->type = type;
-		append_command->content.array = ft_arr_new(10);
-		ft_arr_append(shell->cursor, append_command);
-		ft_arr_append(shell->cursor_array, shell->cursor);
-		shell->cursor = append_command->content.array;
-	}
-}
-
-void exit_join(t_shell *shell)
-{
-	if (on_join(shell))
-		shell->cursor = ft_arr_pop(shell->cursor_array);
-}
-
-void append_quote(t_shell *shell)
-{
-	t_command *append_command;
-
-	if (shell->command != NULL)
-	{
-		append_command = malloc(sizeof(t_command));
-		append_command->type = CMD_TEXT;
-		append_command->content.str = shell->command;
-		ft_arr_append(shell->cursor, append_command);
-		shell->command = NULL;
-	}
-}
-
-int exit_quote(t_prompt_status *status)
-{
-	// printf("quote-A\n");
-	if (status->squote + status->dquote > 1)
-	{
-		// printf("quote-B\n");
-		status->squote = 0;
-		status->dquote = 0;
-		return (1);
-	}
-	return (0);
 }
 
 int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
@@ -420,7 +232,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 
         if (!status->squote && !status->dquote)
         {
-			ms_syntax_rule(type, select_str(&line[i], len), shell, status);
+			ms_syntax_rule(type, ft_select_str(&line[i], len), shell, status);
 
             if (type == E_WORD || type == E_NAME)
             {
@@ -440,14 +252,14 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			}
 
 			if (status->heredoc && status->print)
-				ms_heredoc(shell, select_str(&line[i], len));
+				ms_heredoc(shell, ft_select_str(&line[i], len));
 
             if (type > E_PARENTHESIS && type <= E_OPERATOR)
             {
 				status->newline = 0;
                 status->c_parenthesis = 0;
 				status->print = 0;
-                if (is_chevron(type))
+                if (ms_is_chevron(type))
                     status->chevron = 1;
                 else
 				{
@@ -476,14 +288,14 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 				status->no_print = 0;
                 if (ft_strncmp(&line[i], "(", 1) == 0)
                 {
-					if ((get_parent(shell, 1) != NULL && get_parent(shell, 1)->type == CMD_PIPE) && status->c_parenthesis && (actual_cursor(shell) != NULL && actual_cursor(shell)->type == CMD_PARENTHESIS))
-						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-					if (on_join(shell))
-						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
-					if(actual_cursor(shell) != NULL && actual_cursor(shell)->type == CMD_PARENTHESIS && !(get_parent(shell, 1) != NULL && get_parent(shell, 1)->type == CMD_PIPE))
+					if ((ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type == CMD_PIPE) && status->c_parenthesis && (ms_get_cursor(shell) != NULL && ms_get_cursor(shell)->type == CMD_PARENTHESIS))
+						ms_syntax_error(E_SYNTAX_UPD_TOK, ft_select_str(&line[i],len), shell);
+					if (ms_is_join(shell))
+						ms_syntax_error(E_SYNTAX_UPD_TOK, ft_select_str(&line[i],len), shell);
+					if(ms_get_cursor(shell) != NULL && ms_get_cursor(shell)->type == CMD_PARENTHESIS && !(ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type == CMD_PIPE))
 					{
 						printf("Y");
-						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+						ms_syntax_error(E_SYNTAX_UPD_TOK, ft_select_str(&line[i],len), shell);
 					}
 					status->c_parenthesis = 0;
 					status->parenthesis += 1;
@@ -499,16 +311,16 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
                 else
                 {
 					status->c_parenthesis = 1;
-                    if ((status->parenthesis == 0 || status->operator || !status->no_empty) && (actual_cursor(shell) != NULL && actual_cursor(shell)->type != CMD_SEMICOLON))
+                    if ((status->parenthesis == 0 || status->operator || !status->no_empty) && (ms_get_cursor(shell) != NULL && ms_get_cursor(shell)->type != CMD_SEMICOLON))
 					{
-						ms_syntax_error(E_SYNTAX_UPD_TOK, select_str(&line[i],len), shell);
+						ms_syntax_error(E_SYNTAX_UPD_TOK, ft_select_str(&line[i],len), shell);
 					}
                     else
 					{
-						exit_join(shell);
+						ms_exit_join(shell);
 						// status->no_empty = 0;
 						status->last_parenthesis = status->parenthesis;
-						if (shell->cursor_array->size > 0 && get_parent(shell, 1) != NULL && get_parent(shell, 1)->type != CMD_PARENTHESIS)
+						if (shell->cursor_array->size > 0 && ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type != CMD_PARENTHESIS)
                         {
 							shell->cursor = ft_arr_pop(shell->cursor_array);
 							// ft_arr_pop(shell->cursor_array);
@@ -543,15 +355,15 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
         if (shell->prompt_listen == 0)
             break ;
 		if (DEBUG_MODE)
-        	printf(C_YELLOW"%ld | type: %d | is: %s | p: %d\n", shell->cursor_array->size,  type, select_str(&line[i], len),  status->parenthesis);
+        	printf(C_YELLOW"%ld | type: %d | is: %s | p: %d\n", shell->cursor_array->size,  type, ft_select_str(&line[i], len),  status->parenthesis);
 		
 		
 		if (status-> print && status->heredoc)
 		{
 			if (status->no_print)
-				add_join(shell, CMD_JOIN_NO_PRINT);
+				ms_add_join(shell, CMD_JOIN_NO_PRINT);
 			else
-				add_join(shell, -1);
+				ms_add_join(shell, -1);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_HEREDOC;
 			append_command->content.fd = (int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 2];
@@ -562,8 +374,8 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		else if (type == E_NAME)
 		{
 			// printf("TEST : %dcommandsn", shell->cursor-);
-			add_join(shell, -1);
-			append_quote(shell);
+			ms_add_join(shell, -1);
+			ms_append_quote(shell);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_EXPAND;
 			if (status->dquote)
@@ -571,46 +383,46 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 			if (status->squote)
 			{
 				append_command->type = CMD_TEXT;
-				append_command->content.str = select_str(&line[i], len);
+				append_command->content.str = ft_select_str(&line[i], len);
 			}
 			else
-				append_command->content.str = select_str(&line[i+1], len-1);
+				append_command->content.str = ft_select_str(&line[i+1], len-1);
 			ft_arr_append(shell->cursor, append_command);
 		}
 		else if (status->squote || status->dquote)
 		{
-			add_join(shell, -1);
+			ms_add_join(shell, -1);
 			if (type == E_SQUOTE || type == E_DQUOTE)
 			{
-				if (exit_quote(status))
+				if (ms_reset_quote(status))
 				{
 					if (shell->command == NULL)
 						shell->command = ft_strdup("");
-					append_quote(shell);
+					ms_append_quote(shell);
 				}
 			}
-			else if (exit_quote(status))
+			else if (ms_reset_quote(status))
 			{
 				if (shell->command == NULL)
 					shell->command = ft_strdup("");
-				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
-				append_quote(shell);
+				shell->command = ft_strjoin(shell->command, ft_select_str(&line[i], len));
+				ms_append_quote(shell);
 			}
 			else if (shell->command == NULL)
 			{
-				shell->command = ft_strdup(select_str(&line[i], len));
+				shell->command = ft_strdup(ft_select_str(&line[i], len));
 			}
 			else
 			{
-				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
+				shell->command = ft_strjoin(shell->command, ft_select_str(&line[i], len));
 			}
 		}
 		else if (type == E_REDIR_IN || type == E_REDIR_OUT || type == E_APPEND)
 		{
 			if (status->no_print)
-				add_join(shell, CMD_JOIN_NO_PRINT);
+				ms_add_join(shell, CMD_JOIN_NO_PRINT);
 			else
-				add_join(shell, -1);
+				ms_add_join(shell, -1);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = get_CMD(type, &line[i]);
 			append_command->content.fd = 0;
@@ -618,15 +430,15 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		}
 		else if (type == E_WILDCARD)
 		{
-			add_join(shell, -1);
+			ms_add_join(shell, -1);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_WILDCARD;
-			append_command->content.str = select_str(&line[i], len);
+			append_command->content.str = ft_select_str(&line[i], len);
 			ft_arr_append(shell->cursor, append_command);
 		}
 		else if (type == E_EMPTY) {
 			//a voir
-			if (on_join(shell))
+			if (ms_is_join(shell))
 			{
 				append_command = malloc(sizeof(t_command));
 				append_command->type = CMD_EMPTY;
@@ -636,9 +448,9 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 		}
 		else if(!status->heredoc && type != E_PARENTHESIS)
 		{
-			if(exit_quote(status))
-				shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
-			append_quote(shell);
+			if(ms_reset_quote(status))
+				shell->command = ft_strjoin(shell->command, ft_select_str(&line[i], len));
+			ms_append_quote(shell);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = get_CMD(type, &line[i]);
 			if (append_command->type == CMD_PIPE)
@@ -646,31 +458,31 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 				append_command = NULL;
 				
 				
-				if (on_join(shell))
+				if (ms_is_join(shell))
 				{
-					exit_join(shell);
+					ms_exit_join(shell);
 					append_command = ft_arr_pop(shell->cursor);
 				}
-				else if (actual_cursor(shell)->type == CMD_PARENTHESIS)
+				else if (ms_get_cursor(shell)->type == CMD_PARENTHESIS)
 				{
 					append_command = ft_arr_pop(shell->cursor);
 				}
-				add_pipe(shell);
+				ms_add_pipeline(shell);
 				if (append_command != NULL)
 					ft_arr_append(shell->cursor, append_command);
 			}
 			else if (append_command->type == CMD_TEXT)
 			{
-				add_join(shell, -1);
-				append_command->content.str = select_str(&line[i], len);
+				ms_add_join(shell, -1);
+				append_command->content.str = ft_select_str(&line[i], len);
 				ft_arr_append(shell->cursor, append_command);
 			}
 			else
 			{
-				exit_join(shell);
-				exit_pipe(shell);
+				ms_exit_join(shell);
+				ms_exit_pipeline(shell);
 				append_command->content.array = ft_arr_new(10);
-				if (shell->cursor_array->size > 0 &&  get_parent(shell, 1) != NULL && get_parent(shell, 1)->type != CMD_PARENTHESIS)
+				if (shell->cursor_array->size > 0 &&  ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type != CMD_PARENTHESIS)
 					shell->cursor = ft_arr_pop(shell->cursor_array);
                 ft_arr_append(shell->cursor_array, shell->cursor);
 				shell->cursor = append_command->content.array;
@@ -682,9 +494,9 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 	}
 	
 	
-	// if(exit_quote(status))
-	// 	shell->command = ft_strjoin(shell->command, select_str(&line[i], len));
-	// append_quote(shell);
+	// if(ms_reset_quote(status))
+	// 	shell->command = ft_strjoin(shell->command, ft_select_str(&line[i], len));
+	// ms_append_quote(shell);
 	
     if (status->chevron)
         ms_syntax_error(E_SYNTAX_UPD_NLN, NULL, shell);
@@ -709,87 +521,6 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 	return (1);
 }
 
-//production
-/**/
-
-//fd[0] = read/input
-//fd[1] = write/output
-//todo ms_handle_join
-//expand
-//fd
-//join
-
-
-
-void	ms_get_fd(t_array *array, t_shell *shell,int *fd)
-{
-	t_command	*command;
-	char		*word;
-	(void)shell;
-	(void)word;
-	int			t_fd[2];
-	size_t	i;
-
-	t_fd[0] = -1;
-	t_fd[1] = -1;
-
-	word = NULL;
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-		if (command->type == CMD_HEREDOC)
-		{
-			if (t_fd[0] != -1)
-				close(t_fd[0]);
-			t_fd[0] = command->content.fd;
-		}
-		else if (command->type == CMD_REDIR_IN)
-		{
-			if (t_fd[0] != -1)
-				close(t_fd[0]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			t_fd[0] = open(command->content.str, O_RDONLY);
-		}
-		else if (command->type == CMD_REDIR_OUT)
-		{
-			if (t_fd[1] != -1)
-				close(t_fd[1]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			t_fd[1] = open(command->content.str, O_CREAT | O_WRONLY | O_TRUNC,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-		}
-		else if (command->type == CMD_APPEND)
-		{
-			if (t_fd[1] != -1)
-				close(t_fd[1]);
-			i++;
-			command = (t_command *)array->data[i];
-			if (command->type == CMD_EMPTY)
-				i++;
-			command = (t_command *)array->data[i];
-			//[TODO]faire gestion erreur expand | access...
-			t_fd[1] = open(command->content.str, O_CREAT | O_APPEND | O_WRONLY,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-		}
-		i++;
-	}
-
-	if (t_fd[0] != -1)
-		fd[0] = t_fd[0];
-	if (t_fd[1] != -1)
-		fd[1] = t_fd[1];
-}
 
 int	ms_prompt(t_shell *shell)
 {
