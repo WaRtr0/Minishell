@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/16 20:51:58 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/17 04:14:20 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,7 +554,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 				add_join(shell, -1);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_HEREDOC;
-			append_command->content.fd = (int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1];
+			append_command->content.fd = (int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 2];
 			ft_arr_append(shell->cursor, append_command);
 			// ft_arr_append(shell->commands, ft_strjoin("<< ",ft_itoa((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1])));
 			status->heredoc = 0;

@@ -2,7 +2,7 @@
 
 =======================================================================================
 [Maxence]
-Probleme FD du heredoc avec Cat... : __
+Probleme FD du heredoc avec Cat... : OK
 --------------------
 Join word/guillemet => redir_name : __
 --------------------
@@ -36,7 +36,7 @@ faire :
   close...
 --------------------
 Fix expand [OK]
->$  $PWD$
+>$  $PWD$ 
 >>>  "home/androlink$"
 --------------------
 gestion des redirection avec les parenthese : OK
