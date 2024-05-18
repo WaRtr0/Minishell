@@ -6,12 +6,12 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/18 05:29:05 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/18 06:28:14 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-#  define PARSER_H
+# define PARSER_H
 
 # include "minishell.h"
 # include <stdio.h>
@@ -112,18 +112,28 @@ typedef enum e_operator
 	E_AND_IF
 }	t_operator;
 
-// temp
+// utils
+int		ms_is_chevron(t_type type);
+int		ms_is_semicolon(t_type type, char *line);
+int		ms_get_indent(t_type value, char *str);
+t_type	ms_get_type(char *str);
 
-int	ms_is_chevron(t_type type);
+int		ms_inc_word(const char *str);
+int		ms_inc_name(const char *str);
+int		ms_inc_blank(const char *str);
+
+int		ms_get_operator(char *str);
+int		ms_get_metachar(char *str);
+
+int		ms_reset_quote(t_prompt_s *status);
 
 // parser - heredoc
-int	ms_heredoc(t_shell *shell, char *limiter);
-
-
-int	ms_reset_quote(t_prompt_s *status);
+int		ms_heredoc(t_shell *shell, char *limiter);
 
 // parser - syntax
-int	ms_syntax_error(t_error error, char *msg, t_shell *shell);
-int	ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_s *status);
+int		ms_syntax_error(t_error error, char *msg, t_shell *shell);
+int		ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_s *status);
+
+int		ms_parser(char *line, t_prompt_s *status, t_shell *shell);
 
 #endif
