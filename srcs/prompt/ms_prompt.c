@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/17 08:10:06 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/18 05:25:48 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ int	pass_name(const char *str)
 	i = 1;
 	if (str[i] && str[i] == '?')
 		return (2);
-	while (str[i] && (ft_isdigit(str[i]) || ft_isalpha(str[i]) || ft_include("_", str[i])))
+	while (str[i] && (ft_isdigit(str[i])
+			|| ft_isalpha(str[i])
+			|| ft_include("_", str[i])))
 		i++;
 	return (i);
 }
@@ -103,16 +105,16 @@ t_type	get_type(char *str)
 
 	i = 0;
 	while (!(rule[i].type == R_STOP
-		|| (rule[i].type == R_NOT_INC && !ft_include(rule[i].str, str[0]))
-		|| (rule[i].type == R_INC && ft_include(rule[i].str, str[0]))
-		|| (rule[i].type == R_OPER && get_operator(str) != -1)
-		|| (rule[i].type == R_META && get_metachar(str) != -1)
-		|| (rule[i].type == R_CMP && !ft_strncmp(str, rule[i].str,
-				strlen(rule[i].str)))))
-		{
-			printf("%ld\n", i);
-			i++;
-		}
+			|| (rule[i].type == R_NOT_INC && !ft_include(rule[i].str, str[0]))
+			|| (rule[i].type == R_INC && ft_include(rule[i].str, str[0]))
+			|| (rule[i].type == R_OPER && get_operator(str) != -1)
+			|| (rule[i].type == R_META && get_metachar(str) != -1)
+			|| (rule[i].type == R_CMP && !ft_strncmp(str, rule[i].str,
+					strlen(rule[i].str)))))
+	{
+		printf("%ld\n", i);
+		i++;
+	}
 	return (rule[i].value);
 }
 
@@ -130,11 +132,14 @@ int	next_indent(t_type value, char *str)
 		return (pass_blank(str));
 	return (-1);
 }
-	
+
 int ms_is_chevron(t_type type)
 {
-    if (type == E_REDIR_IN || type == E_REDIR_OUT || type == E_APPEND || type == E_HEREDOC)
-        return (1);
+	if (type == E_REDIR_IN
+		|| type == E_REDIR_OUT
+		|| type == E_APPEND
+		|| type == E_HEREDOC)
+		return (1);
     return (0);
 }
 
@@ -172,7 +177,7 @@ t_command_type	get_CMD(int type, char *str)
 	return (CMD_TEXT);
 }
 
-int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
+int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 {
 	size_t		i;
 	size_t		len;
@@ -525,7 +530,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 int	ms_prompt(t_shell *shell)
 {
 	char			*line;
-	t_prompt_status	status;
+	t_prompt_s	status;
 
 	shell->line = 0;
 	shell->status = 0;
@@ -533,7 +538,7 @@ int	ms_prompt(t_shell *shell)
     shell->in_pipe = 0;
 	while (1)
 	{
-        status = (t_prompt_status){0};
+        status = (t_prompt_s){0};
 		line = readline(MS_NAME"$ ");
 		shell->heredoc_fd = ft_arr_new(10);
 		shell->heredoc_size = 0;
@@ -546,7 +551,7 @@ int	ms_prompt(t_shell *shell)
 		{
 			add_history(line);
             shell->prompt_listen = 0;
-			status = (t_prompt_status){0};
+			status = (t_prompt_s){0};
             shell->prompt = ft_strdup(line);
 			ms_parser(line, &status, shell);
 			if (shell->prompt_listen)

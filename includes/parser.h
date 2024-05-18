@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/17 07:18:34 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/18 05:29:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,66 @@ typedef enum e_type
 	E_EMPTY
 }	t_type;
 
-typedef struct s_prompt_status {
-    int     started;
-    int     squote;
-    int     dquote;
-    int     no_print;
-    int     print;
-    int     chevron;
-    int     heredoc;
-    int     no_empty;
-    int     operator;
-    int     parenthesis;
-    int     c_parenthesis;
-    int     last_parenthesis;
-    int     newline;
-}   t_prompt_status;
+typedef struct s_prompt_s
+{
+	int	started;
+	int	squote;
+	int	dquote;
+	int	no_print;
+	int	print;
+	int	chevron;
+	int	heredoc;
+	int	no_empty;
+	int	operator;
+	int	parenthesis;
+	int	c_parenthesis;
+	int	last_parenthesis;
+	int	newline;
+}	t_prompt_s;
 
+
+typedef enum e_metachar
+{
+	E_PIPE,
+	E_SEMICOLON,
+	E_AND
+}	t_metachar;
+
+enum	e_rule
+{
+	R_STOP = 0,
+	R_NOT_INC = 1,
+	R_INC = 2,
+	R_OPER = 3,
+	R_META = 4,
+	R_CMP = 5
+};
+
+typedef struct s_rule
+{
+	enum e_rule	type;
+	void		*str;
+	t_type		value;
+}	t_rule;
+
+typedef enum e_operator
+{
+	E_OR,
+	E_AND_IF
+}	t_operator;
 
 // temp
 
-int     ms_is_chevron(t_type type);
+int	ms_is_chevron(t_type type);
 
 // parser - heredoc
-int     ms_heredoc(t_shell *shell, char *limiter);
+int	ms_heredoc(t_shell *shell, char *limiter);
 
 
-int ms_reset_quote(t_prompt_status *status);
+int	ms_reset_quote(t_prompt_s *status);
 
 // parser - syntax
-int     ms_syntax_error(t_error error, char *msg, t_shell *shell);
-int     ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_status *status);
+int	ms_syntax_error(t_error error, char *msg, t_shell *shell);
+int	ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_s *status);
 
 #endif

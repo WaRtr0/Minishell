@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int ms_reset_quote(t_prompt_status *status)
+int ms_reset_quote(t_prompt_s *status)
 {
 	// printf("quote-A\n");
 	if (status->squote + status->dquote > 1)

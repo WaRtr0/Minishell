@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-int ms_syntax_rule(int type, char *str,t_shell *shell, t_prompt_status *status)
+int ms_syntax_rule(int type, char *str,t_shell *shell, t_prompt_s *status)
 {
     if (status->no_print && (type == E_WORD || type == E_NAME || type == E_SQUOTE || type == E_DQUOTE) && !status->chevron)
         ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);
