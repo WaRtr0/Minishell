@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_add_pipeline.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 15:46:07 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/20 15:46:13 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 
-void ms_add_pipeline(t_shell *shell)
+void	ms_add_pipeline(t_shell *shell)
 {
-	t_command *append_command;
+	t_command	*append_command;
 
 	if (!ms_is_pipeline(shell))
 	{

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_add_join.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 15:46:01 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/20 15:46:02 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 
-void ms_add_join(t_shell *shell, int type )
+void	ms_add_join(t_shell *shell, int type )
 {
-	t_command *append_command;
+	t_command	*append_command;
 
 	if (!ms_is_join(shell))
 	{
