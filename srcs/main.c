@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/08 00:14:08 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/20 15:15:09 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@
  */
 int	main(int argc, char **argv, char **envp)
 {
+	t_shell	shell;
+
 	(void) argc;
 	(void) argv;
-
-	t_shell	shell;
 	ft_bzero(&shell, sizeof(t_shell));
 	ms_env_gen(envp, &(shell.env));
 	ms_env_complete(&shell.env, argv[0]);

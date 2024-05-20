@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_io_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:08:42 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/07 21:58:02 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/20 15:06:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	save_io(int	old[2], int	new[2])
 	return (0);
 }
 
-int	restore_io(int	old[2])
+int	restore_io(int	old[2]) 
 {
 	dup2(old[0], 0);
 	dup2(old[1], 1);

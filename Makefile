@@ -28,7 +28,7 @@ LIB_FLAGS := -l readline
 
 all:
 	@echo "compiling $(NAME):"
-	@$(MAKE) -s $(NAME)
+	@$(MAKE) -s $(NAME) 
 
 include config/libft.mk
 #include config/srcs.mk

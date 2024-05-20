@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ms_run_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:40:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:44:10 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/20 14:43:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "builtin.h"
 #include "exec.h"
-#include "put.h"
+#include "put.h" 
 
 int	run_bti(t_exec *exec, t_shell *shell);
 

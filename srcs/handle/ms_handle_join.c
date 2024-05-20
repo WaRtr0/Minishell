@@ -166,6 +166,6 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		printf(C_BLUE"%s\n"C_RESET, buffer);
 		free(buffer);
 	}
-	printf("\n");
+	printf("\n"); 
 	return (1);
 }
