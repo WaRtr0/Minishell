@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_handle_join.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/20 23:40:58 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "minishell.h"
 #include "conf.h"
@@ -78,7 +90,6 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 					word = ft_strjoin(word, ft_strdup(shell->command));	
 				shell->command = NULL;
 			}
-			
 		}
 		else if (command->type == CMD_EMPTY)
 		{
