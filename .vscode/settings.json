@@ -14,6 +14,10 @@
         "initializer_list": "c",
         "ranges": "c",
         "span": "c",
-        "utility": "c"
-    }
+        "utility": "c",
+        "parser.h": "c",
+        "cstdint": "c",
+        "stdio.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

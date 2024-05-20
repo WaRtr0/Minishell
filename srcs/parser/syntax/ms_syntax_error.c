@@ -1,16 +1,17 @@
-#include "arr.h"
-#include "char.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_syntax_error.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 15:29:02 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/20 15:29:07 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "conf.h"
 #include "parser.h"
-#include "str.h"
-// #include "num.h"
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "exec.h"
-#include <stdint.h>
-#include <fcntl.h>
-#include <sys/stat.h>
 
 
 int	ms_syntax_error(t_error error, char *msg, t_shell *shell)

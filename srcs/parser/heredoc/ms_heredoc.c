@@ -1,25 +1,23 @@
-#include "arr.h"
-#include "char.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_heredoc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/20 15:42:19 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "conf.h"
-#include "minishell.h"
-#include "prompt.h"
 #include "str.h"
-// #include "num.h"
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "exec.h"
 #include <stdint.h>
 #include <fcntl.h>
-#include <sys/stat.h>
-
 
 static int	add_fd(t_shell *shell)
 {
-	(void)shell;
-	int		fd[2];
-	// 0 = read
-	// 1 = write
+	int	fd[2];
 
 	if (pipe(fd) == -1)
 	{
@@ -40,32 +38,41 @@ static int	add_fd(t_shell *shell)
 	return (0);
 }
 
-int ms_heredoc(t_shell *shell, char *limiter)
+static	int	ms_heredoc_handle(t_shell *shell, char *line)
 {
-    char    *newline;
+	if (!line)
+		return (1);
+	if (ft_strlen(shell->limiter) == ft_strlen(line)
+		&& ft_strncmp(line, shell->limiter, ft_strlen(shell->limiter)) == 0)
+	{
+		free(line);
+		return (0);
+	}
+	write(
+		((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]),
+		line,
+		ft_strlen(line));
+	write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1],
+		"\n", 1);
+	free(line);
+	return (1);
+}
 
-    shell->limiter = limiter;
-    if (add_fd(shell))
-        return (0);
-    while (1)
-    {
-        newline = readline("heredoc> ");
-        if (!newline)
-            break ;
-        if (ft_strlen(shell->limiter) == ft_strlen(newline) && ft_strncmp(newline, shell->limiter, ft_strlen(shell->limiter)) == 0)
-        {
-            free(newline);
-            break ;
-        }
-        write(
-            ((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]), 
-            newline, 
-            ft_strlen(newline));
-        write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\n", 1);
-        free(newline);
-    }
-    write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\0", 1);
-    close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
-    //check
-    return (1);
+int	ms_heredoc(t_shell *shell, char *limiter)
+{
+	char	*newline;
+
+	shell->limiter = limiter;
+	if (add_fd(shell))
+		return (0);
+	while (1)
+	{
+		newline = readline("heredoc> ");
+		if (ms_heredoc_handle(shell, newline) == 0)
+			break ;
+	}
+	write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1],
+		"\0", 1);
+	close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
+	return (1);
 }
