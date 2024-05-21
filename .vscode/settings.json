@@ -20,7 +20,9 @@
         "stdio.h": "c",
         "hash_map": "c",
         "format": "c",
-        "valarray": "c"
+        "valarray": "c",
+        "string": "c",
+        "any": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

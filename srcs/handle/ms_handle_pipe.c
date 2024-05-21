@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/20 15:53:56 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/21 09:50:43 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
-	size_t i;
-	t_command *command;
-	int pipe_fd[2];
-	int	temp_fd[2];
-	int t_fd[2];
-	
+	size_t		i;
+	t_command	*command;
+	int			pipe_fd[2];
+	int			temp_fd[2];
+	int			t_fd[2];
 	pid_t pid;
+
 	temp_fd[0] = fd[0];
 	shell->arb_pipe++;
 	if (!shell->prompt_listen)
@@ -69,7 +69,7 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 					ms_get_fd(command->content.array, shell, t_fd);
 				command = (t_command *)array->data[i];
 			}
-			ms_handle(command->content.array, shell, t_fd);
+			// ms_handle(command->content.array, shell, t_fd); #grosse erreur MDR
 
 			pid = fork();
 			if (pid == 0)
