@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/08 00:14:08 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 15:37:24 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,38 @@ int	main(int argc, char **argv, char **envp)
 
 	t_shell	shell;
 	ft_bzero(&shell, sizeof(t_shell));
+	ms_sig_init();
 	ms_env_gen(envp, &(shell.env));
 	ms_env_complete(&shell.env, argv[0]);
 	ms_prompt(&shell);
-
+	ms_env_collapse(&shell.env);
 	return (0);
 }
+
+//#include "wildcard.h"
+//#include <sys/types.h>
+//#include <dirent.h>
+
+//int	main(int ac, char **av)
+//{
+//	(void) ac;
+//	(void) av;
+//	char	*str;
+
+//	if (ac != 2)
+//		return (1);
+//	str = ms_pathexp(av[1]);
+//	printf("> %s\n", str);
+//	free(str);
+//	return (0);
+//}
+
+//#include "wildcard.h"
+
+//int	main(int ac, char **av)
+//{
+//	if (ac != 3)
+//		return (1);
+//	printf("match : %d\n", pattern_match(av[1], av[2]));
+//	return (0);
+//}

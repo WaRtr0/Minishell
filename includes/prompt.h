@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 04:22:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/14 15:14:37 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,6 @@ typedef struct s_command {
 
 t_command   *ms_parse_command(char *line);
 int ms_prompt(t_shell *shell);
+char	*ms_expends(t_shell *shell, char *str);
+
 #endif

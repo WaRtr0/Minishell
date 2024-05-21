@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/11 04:22:09 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/17 19:44:31 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ typedef struct exec
 }   t_exec;
 
 
-int     main(int argc, char **argv, char **envp);
+//int     main(int argc, char **argv, char **envp);
 void    free_shell(t_shell *shell);
 
 void    free_exec(t_exec    *exec);
+int	    ms_sig_init();
 #endif

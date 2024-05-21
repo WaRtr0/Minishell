@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 00:05:38 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/17 02:51:33 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define CONF_H
 
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 0
+# define DEBUG_MODE 1
 // ------------------------------
 // MISHEL CONFIGURATION
 
@@ -228,9 +228,9 @@ enum e_rule {
 
 typedef struct s_rule
 {
-	enum e_rule	type;
 	void		*str;
 	t_type		value;
+	enum e_rule	type;
 }	t_rule;
 
 typedef enum e_operator

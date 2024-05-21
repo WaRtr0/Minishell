@@ -1,4 +1,4 @@
-U_DIR := env builtin prompt parser exec
+U_DIR := env builtin prompt parser exec wildcard
 OUT = ./out.mk
 
 $(touch $(OUT))

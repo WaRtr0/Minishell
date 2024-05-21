@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 03:55:46 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:57:16 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/15 18:53:08 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "exec.h"
 #include "put.h"
+#include "num.h"
 
 int	def_exit(t_exec *exec, t_shell *shell);
 int	ag_exit(t_exec *exec, t_shell *shell);
@@ -30,7 +31,6 @@ int	def_exit(t_exec *exec, t_shell *shell)
 {
 	int	st;
 
-	
 	st = shell->status;
 	free_shell(shell);
 	free_exec(exec);
@@ -42,7 +42,7 @@ int	ag_exit(t_exec *exec, t_shell *shell)
 {
 	int	st;
 
-	st = atoi(exec->content->data[1]);
+	st = ft_atoi(exec->content->data[1]);
 	free_shell(shell);
 	free_exec(exec);
 	ft_putnbr_fd(st, 2);

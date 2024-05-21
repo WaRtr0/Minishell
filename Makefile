@@ -67,11 +67,16 @@ run: all
 
 valgrind: all
 	@echo "__Vinishell__" 
-	@valgrind --leak-check=full -s ./minishell
+	@valgrind --suppressions=config/valgrind_ignore_leaks.conf --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes ./minishell
+
+include config/forbidden.mk
 
 norm:
+	@echo "norminette"
 	-@norminette libft-1.2/ srcs/ | grep Error
+	@echo "comment"
 	-@cat $(SFILES) | grep "//"
+	@$(MAKE) -s check_forbidden_function
 
 -include config/update.mk
 
