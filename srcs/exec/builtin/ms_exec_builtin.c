@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:43:57 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 15:42:54 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int	child(t_exec *exec, t_shell *shell)
 	ret = ms_run_builtin(exec, shell);
 	free_shell(shell);
 	free_exec(exec);
-	return(ret);
+	return (ret);
 }

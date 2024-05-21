@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:03:07 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 15:12:20 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 15:45:58 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <dirent.h>
 #include "exec.h"
 
-int	add_file(t_pattern	*pattern_ptr, char	*pattern, struct dirent	*ep);
+int	add_file(t_pattern	*pattern_ptr, char	*pattern, struct dirent *ep);
 int	list_file(t_pattern	*pattern_ptr, char	*pattern);
 
 char	*ms_pathexp(char *pattern)
@@ -92,4 +92,3 @@ int	add_file(t_pattern	*pattern_ptr, char	*pattern, struct dirent *ep)
 		ft_arr_append(pattern_ptr->list, str);
 	return (1);
 }
-

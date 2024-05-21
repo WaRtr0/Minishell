@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:33:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/06 21:40:28 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 15:43:55 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 int	jump_nflags(char **args, int *njumps);
-int is_nflags(char *str);
+int	is_nflags(char *str);
 
 int	echo(char **args)
 {
@@ -51,7 +51,7 @@ int	jump_nflags(char **args, int *njumps)
 	return (j > 1);
 }
 
-int is_nflags(char *str)
+int	is_nflags(char *str)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/11 04:35:30 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/16 22:56:39 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -588,14 +588,14 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 						break ;
 					}
 					write(
-						((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]), 
+						((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_fd->size - 1]),
 						newline, 
 						ft_strlen(newline));
-					write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\n", 1);
+					write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_fd->size - 1], "\n", 1);
 					free(newline);
 				}
-				write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1], "\0", 1);
-				close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
+				write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_fd->size - 1], "\0", 1);
+				close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_fd->size - 1]);
 			}
 
             if (type > E_PARENTHESIS && type <= E_OPERATOR)
@@ -706,7 +706,7 @@ int	ms_parser(char *line, t_prompt_status *status, t_shell *shell)
 				add_join(shell, -1);
 			append_command = malloc(sizeof(t_command));
 			append_command->type = CMD_HEREDOC;
-			append_command->content.fd = (int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1];
+			append_command->content.fd = (int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 2];
 			ft_arr_append(shell->cursor, append_command);
 			// ft_arr_append(shell->commands, ft_strjoin("<< ",ft_itoa((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1])));
 			status->heredoc = 0;
@@ -994,7 +994,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 				word = ft_strjoin(word, "$");
 			else
 			{
-				shell->command =  ms_env_get(shell->env,command->content.str);
+				shell->command =  ms_expends(shell, command->content.str);
 				if (command->type != CMD_EXPAND_QUOTE)
 				{
 					if (shell->command != NULL && shell->command[0])
@@ -1363,7 +1363,7 @@ int	ms_prompt(t_shell *shell)
 					char *buffer = ft_calloc(sizeof(char), 100);
 					ft_strcpy(buffer, "test");
 					read((int)(intptr_t)shell->heredoc_fd->data[i], buffer, 100);
-					printf(C_BLUE"%s\n"C_RESET, buffer);
+					printf(C_BLUE"[%d] - %s\n"C_RESET, (int)(intptr_t)shell->heredoc_fd->data[i], buffer);
 					free(buffer);
 					i += 2;
 				}

@@ -6,10 +6,9 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:40:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:44:10 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 15:42:40 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "builtin.h"
 #include "exec.h"
@@ -22,7 +21,7 @@ int	ms_run_builtin(t_exec *exec, t_shell *shell)
 	int	save_fd[2];
 	int	ret;
 
-	save_io((int[2]) {0, 1}, save_fd);
+	save_io((int [2]){0, 1}, save_fd);
 	set_io(exec->fd);
 	ret = run_bti(exec, shell);
 	restore_io(save_fd);
