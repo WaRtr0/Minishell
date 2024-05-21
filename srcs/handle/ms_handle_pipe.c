@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/21 09:50:43 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/21 17:06:14 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,80 +20,94 @@
 #include "exec.h"
 #include "handle.h"
 
+static	int	join_part(t_array *array, t_shell *shell, int fd[2])
+{
+	shell->in_pipe = 1;
+	return (ms_handle_join(array, shell, fd));
+}
+
+static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
+{
+	int			t_fd[2];
+	pid_t		pid;
+	t_command	*command;
+	t_command	*second_command;
+
+	t_fd[0] = fd[0];
+	t_fd[1] = fd[1];
+	command = (t_command *)array->data[i];
+	if (i + 1 < array->size)
+	{
+		second_command = (t_command *)array->data[i + 1];
+		if (second_command->type == CMD_JOIN_NO_PRINT)
+			ms_get_fd(second_command->content.array, shell, t_fd);
+	}
+	pid = fork();
+	if (pid == 0)
+		exit(ms_handle(command->content.array, shell,
+				(int [2]){t_fd[0], t_fd[1]}));
+	else if (pid < 0)
+	{
+		perror("fork");
+		return (1);
+	}
+	return (0);
+}
+
+static	int	pipe_input(t_pipe_run *run)
+{
+
+	if (run->index < run->array->size - 1)
+	{
+		if (pipe(run->pipe_fd) == -1)
+		{
+			perror("pipe");
+			return (1);
+		}
+		run->tmp_fd[1] = run->pipe_fd[1];
+	}
+	else
+		run->tmp_fd[1] = run->fd[1];
+	return (0);
+}
+
+static	int	pipe_run(t_pipe_run *run, t_shell *shell)
+{
+	t_command	*command;
+
+	command = (t_command *)run->array->data[run->index];
+	pipe_input(run);
+	if (command->type == CMD_JOIN)
+		join_part(command->content.array, shell,
+			(int [2]){run->tmp_fd[0], run->tmp_fd[1]});
+	else if (command->type == CMD_PARENTHESIS)
+		pare_part(run->array, shell,
+			(int [2]){run->tmp_fd[0], run->tmp_fd[1]}, run->index);
+	if (run->index < run->array->size - 1)
+	{
+		close(run->pipe_fd[1]);
+		run->tmp_fd[0] = run->pipe_fd[0];
+	}
+	run->index++;
+	return (0);
+}
 
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
-	size_t		i;
-	t_command	*command;
-	int			pipe_fd[2];
-	int			temp_fd[2];
-	int			t_fd[2];
-	pid_t pid;
+	t_pipe_run	run;
 
-	temp_fd[0] = fd[0];
+	run.tmp_fd[0] = fd[0];
+	run.fd[0] = fd[0];
+	run.fd[1] = fd[1];
+	run.array = array;
 	shell->arb_pipe++;
 	if (!shell->prompt_listen)
 		return (0);
-	printf("PIPE... [%d]\n", shell->in_pipe);
-
-	i = 0;
-	while (i < array->size)
-	{
-		command = (t_command *)array->data[i];
-
-		 if (i < array->size - 1)
-		 {
-            if (pipe(pipe_fd) == -1)
-			{
-                perror("pipe");
-                return (1);
-            }
-			temp_fd[1] = pipe_fd[1];
-        }
-		else
-			temp_fd[1] = fd[1];
-
-		if (command->type == CMD_JOIN)
-		{
-			shell->in_pipe = 1;
-			ms_handle_join(command->content.array, shell, (int [2]){temp_fd[0], temp_fd[1]});
-		}
-		else if (command->type == CMD_PARENTHESIS)
-		{
-			t_fd[0] = temp_fd[0];
-			t_fd[1] = temp_fd[1];
-			if (i + 1 < array->size)
-			{
-				command = (t_command *)array->data[i + 1];
-				if (command->type == CMD_JOIN_NO_PRINT)
-					ms_get_fd(command->content.array, shell, t_fd);
-				command = (t_command *)array->data[i];
-			}
-			// ms_handle(command->content.array, shell, t_fd); #grosse erreur MDR
-
-			pid = fork();
-			if (pid == 0)
-			{
-				ms_handle(command->content.array, shell, (int [2]){t_fd[0], t_fd[1]});
-				exit(0);
-			}
-			else if (pid < 0)
-			{
-				perror("fork");
-				return (1);
-			}
-		}
-
-		if (i < array->size - 1)
-		{
-			close(pipe_fd[1]);
-			temp_fd[0] = pipe_fd[0];
-		}
-		i++;
-	}
+	run.index = 0;
+	while (run.index < array->size)
+		pipe_run(&run, shell);
 	while (wait(NULL) != -1)
 		(void) "todo";
-	//wait => attente que tout les programmes ce termine
 	shell->in_pipe--;
 	return (0);
 }

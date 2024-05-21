@@ -22,7 +22,8 @@
         "format": "c",
         "valarray": "c",
         "string": "c",
-        "any": "c"
+        "any": "c",
+        "handle.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

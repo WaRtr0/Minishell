@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 08:50:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/21 09:16:30 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/21 18:19:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "lexer.h"
 #include <sys/stat.h>
 
-static int	heredoc_part(t_array *array, size_t *i, int *t_fd)
+int	ms_heredoc_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
@@ -25,7 +25,7 @@ static int	heredoc_part(t_array *array, size_t *i, int *t_fd)
 	return (1);
 }
 
-static int	redir_in_part(t_array *array, size_t *i, int *t_fd)
+int	ms_redir_in_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
@@ -41,7 +41,7 @@ static int	redir_in_part(t_array *array, size_t *i, int *t_fd)
 	return (1);
 }
 
-static int	append_part(t_array *array, size_t *i, int *t_fd)
+int	ms_append_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
@@ -58,7 +58,7 @@ static int	append_part(t_array *array, size_t *i, int *t_fd)
 	return (1);
 }
 
-static int	redir_out_part(t_array *array, size_t *i, int *t_fd)
+int	ms_redir_out_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
@@ -89,13 +89,13 @@ void	ms_get_fd(t_array *array, t_shell *shell, int *fd)
 	{
 		command = (t_command *)array->data[i];
 		if (command->type == CMD_HEREDOC)
-			heredoc_part(array, &i, t_fd);
+			ms_heredoc_part(array, &i, t_fd);
 		else if (command->type == CMD_REDIR_IN)
-			redir_in_part(array, &i, t_fd);
+			ms_redir_in_part(array, &i, t_fd);
 		else if (command->type == CMD_REDIR_OUT)
-			redir_out_part(array, &i, t_fd);
+			ms_redir_out_part(array, &i, t_fd);
 		else if (command->type == CMD_APPEND)
-			append_part(array, &i, t_fd);
+			ms_append_part(array, &i, t_fd);
 		i++;
 	}
 	if (t_fd[0] != -1)

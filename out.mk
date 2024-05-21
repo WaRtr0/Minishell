@@ -25,9 +25,9 @@ SRCS += builtin/unset.c
 SRCS += prompt/ms_prompt.c
 #---parser---
 SRCS += parser/heredoc/ms_heredoc.c
+SRCS += parser/ms_parser.c
 SRCS += parser/syntax/ms_syntax_error.c
 SRCS += parser/syntax/ms_syntax_rule.c
-SRCS += parser/utils/ms_reset_quote.c
 SRCS += parser/utils/ms_get_indent.c
 SRCS += parser/utils/ms_get_metachar.c
 SRCS += parser/utils/ms_get_operator.c
@@ -37,7 +37,7 @@ SRCS += parser/utils/ms_inc_name.c
 SRCS += parser/utils/ms_inc_word.c
 SRCS += parser/utils/ms_is_chevron.c
 SRCS += parser/utils/ms_is_semicolon.c
-SRCS += parser/ms_parser.c
+SRCS += parser/utils/ms_reset_quote.c
 #---exec---
 SRCS += exec/binary/ms_exec_bin.c
 SRCS += exec/binary/ms_exec_get_path.c
@@ -56,6 +56,7 @@ SRCS += utils/ft_select_str.c
 SRCS += utils/ft_splitstr.c
 SRCS += utils/ft_strjoin_seperator.c
 #---lexer---
+SRCS += lexer/ms_get_cmd.c
 SRCS += lexer/ms_lexer.c
 SRCS += lexer/utils/ms_add_join.c
 SRCS += lexer/utils/ms_add_pipeline.c
@@ -67,9 +68,9 @@ SRCS += lexer/utils/ms_get_cursor.c
 SRCS += lexer/utils/ms_get_parent.c
 SRCS += lexer/utils/ms_is_join.c
 SRCS += lexer/utils/ms_is_pipeline.c
-SRCS += lexer/ms_get_cmd.c
 #---handle---
 SRCS += handle/expand/ms_get_fd.c
+SRCS += handle/expand/ms_expand.c
 SRCS += handle/ms_handle.c
 SRCS += handle/ms_handle_join.c
 SRCS += handle/ms_handle_pipe.c

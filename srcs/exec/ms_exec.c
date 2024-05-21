@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:39:35 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 16:14:49 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "put.h"
+#include "conf.h"
 
 static int	is_builtin(char *str);
 int	ms_execsh(t_exec *exec, t_shell *shell);
@@ -19,7 +20,9 @@ int	ms_execsh(t_exec *exec, t_shell *shell);
 int	ms_exec(t_exec *exec, t_shell *shell)
 {
 	int	ret;
-	ft_putendl_fd("==exec==", 2);
+
+	if (DEBUG_MODE)
+		ft_putendl_fd("==exec==", 2);
 	ret = ms_execsh(exec, shell);
 	shell->status = ret;
 	return (ret);
@@ -41,7 +44,8 @@ int	ms_execsh(t_exec *exec, t_shell *shell)
 
 static int	is_builtin(char *str)
 {
-	printf("==%s==\n", str);
+	if (DEBUG_MODE)
+		printf("==%s==\n", str);
 	if (ft_strncmp(str, "cd", 3) == 0
 		|| ft_strncmp(str, "exit", 5) == 0
 		|| ft_strncmp(str, "echo", 5) == 0

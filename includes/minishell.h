@@ -6,12 +6,12 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/20 13:29:10 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/21 17:12:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#  define MINISHELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -31,39 +31,39 @@
 
 typedef struct s_shell
 {
-    int     prompt_listen;
-    int     line;
-    int     status;
-    int     arb_pipe;
-    int     in_pipe;
-    char    *prompt;
-    t_array *commands;
-    t_array *cursor_array;
-    void    *cursor;
-    char    *command;
-    t_array *heredoc_fd;
-    int     heredoc_size;
-    char    *limiter;
-    t_env   *env;
+	int		prompt_listen;
+	int		line;
+	int		status;
+	int		arb_pipe;
+	int		in_pipe;
+	char	*prompt;
+	t_array	*commands;
+	t_array	*cursor_array;
+	void	*cursor;
+	char	*command;
+	t_array	*heredoc_fd;
+	int		heredoc_size;
+	char	*limiter;
+	t_env	*env;
 }	t_shell;
 
 union u_content
 {
-    char        *str;
-    t_array    *array;
-    int         fd;
+	char	*str;
+	t_array	*array;
+	int		fd;
 };
 typedef struct exec
 {
-    t_array *content;
-    int     fd[2];
-}   t_exec;
+	t_array	*content;
+	int		fd[2];
+}	t_exec;
 
-int     main(int argc, char **argv, char **envp);
-void    free_shell(t_shell *shell);
+int		main(int argc, char **argv, char **envp);
+void	free_shell(t_shell *shell);
 
-void    free_exec(t_exec    *exec);
+void	free_exec(t_exec *exec);
 
-void	ms_get_fd(t_array *array, t_shell *shell,int *fd);
+void	ms_get_fd(t_array *array, t_shell *shell, int *fd);
 
 #endif

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/21 17:10:05 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/21 17:10:29 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DEBUG_H
-#  define DEBUG_H
+# define DEBUG_H
 
 # include "minishell.h"
 
-int ms_debug(t_shell *shell);
+int	ms_debug(t_shell *shell);
 
 #endif

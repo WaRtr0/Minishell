@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execbin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:43:46 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/21 16:17:31 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "str.h"
 #include "put.h"
+#include "conf.h"
 
 int		on_error(char **envp, char **arg, char *cmd);
 char	**get_env(t_env	*env);
@@ -42,7 +43,8 @@ int	execbin(t_exec *exec, t_shell *shell)
 
 int	run_bin(char *cmd, char **args, char **envp)
 {
-	ft_putendl_fd("==run_bin", 2);
+	if (DEBUG_MODE)
+		ft_putendl_fd("==run_bin", 2);
 	execve(cmd, args, envp);
 	return (EXIT_FAILURE);
 }

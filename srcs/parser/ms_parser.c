@@ -118,7 +118,6 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 						ms_syntax_error(E_SYNTAX_UPD_TOK, ft_select_str(&line[i],len), shell);
 					if(ms_get_cursor(shell) != NULL && ms_get_cursor(shell)->type == CMD_PARENTHESIS && !(ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type == CMD_PIPE))
 					{
-						printf("Y");
 						ms_syntax_error(E_SYNTAX_UPD_TOK, ft_select_str(&line[i],len), shell);
 					}
 					status->c_parenthesis = 0;

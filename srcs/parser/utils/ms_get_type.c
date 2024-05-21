@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:43:55 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/20 15:43:59 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/21 18:14:46 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@ t_type	ms_get_type(char *str)
 			|| (rule[i].type == R_META && ms_get_metachar(str) != -1)
 			|| (rule[i].type == R_CMP && !ft_strncmp(str, rule[i].str,
 					ft_strlen(rule[i].str)))))
-	{
-		printf("%ld\n", i);
 		i++;
-	}
 	return (rule[i].value);
 }
