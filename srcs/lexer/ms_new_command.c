@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ms_new_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 00:30:55 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/22 20:45:48 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/22 20:55:41 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "lexer.h"
 
-int	unset(char **av, t_env **env)
+t_command	*ms_new_command(t_shell *shell)
 {
-	char	**ptr;
+	t_command	*new_command;
 
-	ptr = av;
-	while (*++ptr)
-		ms_env_remove(env, *ptr);
-	return (0);
+	new_command = (t_command *)malloc(sizeof(t_command));
+	if (new_command == NULL)
+	{
+		shell->error = 1;
+		shell->prompt_listen = 0;
+	}
+	return (new_command);
 }

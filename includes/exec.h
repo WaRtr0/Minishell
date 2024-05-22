@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:50:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 23:40:15 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/23 00:34:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ enum e_file_status
 	fs_write = 1 << 3,
 	fs_is_dir = 1 << 4,
 };
-
 
 int					ms_exec(t_exec *exec, t_shell *shell);
 

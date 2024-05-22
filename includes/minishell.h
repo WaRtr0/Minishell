@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/21 17:12:40 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:01:44 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_shell
 	int		prompt_listen;
 	int		line;
 	int		status;
+	int		error;
 	int		arb_pipe;
 	int		in_pipe;
 	char	*prompt;
@@ -53,6 +54,7 @@ union u_content
 	t_array	*array;
 	int		fd;
 };
+
 typedef struct exec
 {
 	t_array	*content;

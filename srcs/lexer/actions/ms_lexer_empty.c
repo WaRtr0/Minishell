@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ms_lexer_empty.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 00:30:55 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/22 20:20:35 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/22 20:47:45 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "lexer.h"
 
-int	unset(char **av, t_env **env)
+void	ms_lexer_empty(t_shell *shell)
 {
-	char	**ptr;
+	t_command	*new_command;
 
-	ptr = av;
-	while (*++ptr)
-		ms_env_remove(env, *ptr);
-	return (0);
+	if (ms_is_join(shell))
+	{
+		new_command = ms_new_command(shell);
+		ms_add_type(new_command, CMD_EMPTY);
+		ms_commit_command(shell, new_command);
+	}
 }

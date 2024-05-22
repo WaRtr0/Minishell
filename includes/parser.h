@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/18 06:28:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:35:41 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_prompt_s
 	int	newline;
 }	t_prompt_s;
 
-
 typedef enum e_metachar
 {
 	E_PIPE,
@@ -112,6 +111,14 @@ typedef enum e_operator
 	E_AND_IF
 }	t_operator;
 
+typedef struct s_parser_str
+{
+	char		*str;
+	size_t		index;
+	int			len;
+	t_type		type;
+}	t_parser_str;
+
 // utils
 int		ms_is_chevron(t_type type);
 int		ms_is_semicolon(t_type type, char *line);
@@ -133,6 +140,14 @@ int		ms_heredoc(t_shell *shell, char *limiter);
 // parser - syntax
 int		ms_syntax_error(t_error error, char *msg, t_shell *shell);
 int		ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_s *status);
+
+// parser - syntax - update
+
+void	ms_update_status_text(t_prompt_s *status, t_type type);
+void	ms_update_status_quote(t_prompt_s *status, t_type type);
+void	ms_update_status_operator(t_prompt_s *status, t_type type,
+			t_parser_str *str);
+void	ms_update_status_heredoc(t_prompt_s *status, t_type type);
 
 int		ms_parser(char *line, t_prompt_s *status, t_shell *shell);
 

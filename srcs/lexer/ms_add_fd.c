@@ -1,12 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_env_print.c                                     :+:      :+:    :+:   */
+/*   ms_add_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/04 03:17:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/04 03:17:29 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/22 21:37:54 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/22 21:39:01 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lexer.h"
+
+void	ms_add_fd(t_command *command, int fd)
+{
+	if (command != NULL)
+		command->content.fd = fd;
+}

@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/21 18:10:36 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/23 00:34:18 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CONF_H
 # define CONF_H
@@ -17,7 +16,7 @@
 # include "minishell.h"
 
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 0
+# define DEBUG_MODE 1
 # include "debug.h"
 // ------------------------------
 

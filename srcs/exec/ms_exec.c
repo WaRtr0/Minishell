@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 16:14:49 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:37:22 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "conf.h"
 
 static int	is_builtin(char *str);
-int	ms_execsh(t_exec *exec, t_shell *shell);
+int			ms_execsh(t_exec *exec, t_shell *shell);
 
 int	ms_exec(t_exec *exec, t_shell *shell)
 {
@@ -33,7 +33,7 @@ int	ms_execsh(t_exec *exec, t_shell *shell)
 	if (is_builtin(exec->content->data[0]))
 	{
 		if (shell->in_pipe)
-			return(ms_exec_builtin(exec, shell));
+			return (ms_exec_builtin(exec, shell));
 		else
 			return (ms_run_builtin(exec, shell));
 	}

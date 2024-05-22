@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/15 04:47:54 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:28:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 int	check_file(char *path, char *name, char **out);
 int	ms_find_cmd(char *cmd, char *env_path, char **out);
 int	check_bin(char *bin, char *cmd);
-
 
 char	*get_bin(char *cmd, t_env *env)
 {

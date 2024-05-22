@@ -6,13 +6,12 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:29:02 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/20 15:29:07 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:29:41 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "conf.h"
 #include "parser.h"
-
 
 int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 {

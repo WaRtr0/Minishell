@@ -23,7 +23,17 @@
         "valarray": "c",
         "string": "c",
         "any": "c",
-        "handle.h": "c"
+        "handle.h": "c",
+        "lexer.h": "c",
+        "chrono": "c",
+        "variant": "c",
+        "utils.h": "c",
+        "charconv": "c",
+        "compare": "c",
+        "functional": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "type_traits": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

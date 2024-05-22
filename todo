@@ -2,11 +2,12 @@
 
 =======================================================================================
 [Maxence]
-Probleme FD du heredoc avec Cat... : OK
+Fix pas de retour a la ligne lors des expand hors quote
 --------------------
 Join word/guillemet => redir_name : __
 --------------------
 A faire "Errdoc doit prendre les strings" : __
+Probleme FD du heredoc avec Cat... : OK
 --------------------
 add detection "?" sur les expands : OK
 --------------------

@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:07:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/21 18:54:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:35:13 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include "lexer.h"
+
 typedef struct s_pipe_run
 {
 	t_array	*array;
@@ -33,7 +34,7 @@ void	ms_get_fd(t_array *array, t_shell *shell, int *fd);
 
 // expand env
 int		ms_expand(t_command *command, t_shell *shell,
-			t_exec *exec_cmd, char *word);
+			t_exec *exec_cmd, char **word);
 
 int		ms_handle_join(t_array *array, t_shell *shell, int fd[2]);
 int		ms_handle_pipe(t_array *array, t_shell *shell, int fd[2]);

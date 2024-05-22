@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ms_clear_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 00:30:55 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/22 22:46:30 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/22 22:46:41 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "lexer.h"
 
-int	unset(char **av, t_env **env)
+void	*ms_clear_command(t_command *command)
 {
-	char	**ptr;
-
-	ptr = av;
-	while (*++ptr)
-		ms_env_remove(env, *ptr);
-	return (0);
+	if (command != NULL)
+	{
+		if (command->content.str != NULL)
+			free(command->content.str);
+		free(command);
+	}
+	return (NULL);
 }

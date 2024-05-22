@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ms_get_command_type.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 00:30:55 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/22 22:45:32 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/22 22:45:55 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "lexer.h"
 
-int	unset(char **av, t_env **env)
+int	ms_get_command_type(t_command *command)
 {
-	char	**ptr;
-
-	ptr = av;
-	while (*++ptr)
-		ms_env_remove(env, *ptr);
-	return (0);
+	if (command != NULL)
+		return (command->type);
+	return (-1);
 }

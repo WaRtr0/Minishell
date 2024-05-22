@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:08:42 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 16:14:22 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:37:49 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "conf.h"
 
-int	set_io(int	old[2])
+int	set_io(int old[2])
 {
 	if (DEBUG_MODE)
 		printf("===set %d as input\n", old[0]);
@@ -25,7 +25,7 @@ int	set_io(int	old[2])
 	return (0);
 }
 
-int	save_io(int	old[2], int	new[2])
+int	save_io(int old[2], int new[2])
 {
 	new[0] = dup(old[0]);
 	new[1] = dup(old[1]);
@@ -36,7 +36,7 @@ int	save_io(int	old[2], int	new[2])
 	return (0);
 }
 
-int	restore_io(int	old[2]) 
+int	restore_io(int old[2])
 {
 	dup2(old[0], 0);
 	dup2(old[1], 1);

@@ -6,12 +6,11 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:28:06 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/20 15:28:07 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:36:19 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
 
 int	ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_s *status)
 {

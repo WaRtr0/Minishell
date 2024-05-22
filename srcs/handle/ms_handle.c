@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:54:00 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/21 08:51:07 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:32:26 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "arr.h"
 #include "lexer.h"
 #include "handle.h"
-
 
 static	int	classic_part(t_array *array, t_shell *shell, int fd[2])
 {

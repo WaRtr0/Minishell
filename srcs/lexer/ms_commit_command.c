@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ms_commit_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 00:30:55 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/22 20:44:03 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/22 20:45:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "lexer.h"
 
-int	unset(char **av, t_env **env)
+void	ms_commit_command(t_shell *shell, t_command *command)
 {
-	char	**ptr;
-
-	ptr = av;
-	while (*++ptr)
-		ms_env_remove(env, *ptr);
-	return (0);
+	if (command != NULL && shell->cursor != NULL)
+		ft_arr_append(shell->cursor, command);
 }

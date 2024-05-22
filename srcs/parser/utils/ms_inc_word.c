@@ -6,14 +6,14 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:44:19 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/20 15:44:19 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:29:59 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "conf.h"
 #include "utils.h"
 
-int ms_inc_word(const char *str)
+int	ms_inc_word(const char *str)
 {
 	size_t	i;
 

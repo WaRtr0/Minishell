@@ -6,10 +6,9 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/21 17:06:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 00:32:16 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 #include "conf.h"
@@ -56,7 +55,6 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 
 static	int	pipe_input(t_pipe_run *run)
 {
-
 	if (run->index < run->array->size - 1)
 	{
 		if (pipe(run->pipe_fd) == -1)
