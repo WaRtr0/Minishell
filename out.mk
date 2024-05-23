@@ -22,8 +22,10 @@ SRCS += builtin/exit.c
 SRCS += builtin/env.c
 #---prompt---
 SRCS += prompt/ms_prompt.c
+SRCS += prompt/ms_join_prompt.c
 #---parser---
 SRCS += parser/heredoc/ms_heredoc.c
+SRCS += parser/ms_join_parsers.c
 SRCS += parser/utils/ms_is_chevron.c
 SRCS += parser/utils/ms_get_metachar.c
 SRCS += parser/utils/ms_inc_name.c
@@ -52,7 +54,11 @@ SRCS += exec/ms_exec.c
 SRCS += exec/ms_exec_io_utils.c
 SRCS += exec/ms_exec_free.c
 #---debug---
+SRCS += debug/ms_debug_command_map.c
 SRCS += debug/ms_debug.c
+SRCS += debug/ms_debug_command_to_json.c
+SRCS += debug/ms_debug_print_json.c
+SRCS += debug/ms_debug_cmd_to_str.c
 #---utils---
 SRCS += utils/ft_include.c
 SRCS += utils/ft_select_str.c
@@ -79,6 +85,7 @@ SRCS += lexer/utils/ms_get_parent.c
 SRCS += lexer/utils/ms_add_join.c
 SRCS += lexer/utils/ms_get_cursor.c
 SRCS += lexer/utils/ms_is_join.c
+SRCS += lexer/utils/ms_join_command.c
 SRCS += lexer/ms_clear_command.c
 SRCS += lexer/actions/ms_lexer_parenthesis.c
 SRCS += lexer/actions/ms_lexer_wildcard.c

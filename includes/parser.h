@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/23 00:35:41 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 20:57:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	ms_update_status_operator(t_prompt_s *status, t_type type,
 			t_parser_str *str);
 void	ms_update_status_heredoc(t_prompt_s *status, t_type type);
 
+void	ms_join_parsers(t_shell *shell, t_prompt_s *status, char *line);
 int		ms_parser(char *line, t_prompt_s *status, t_shell *shell);
 
 #endif

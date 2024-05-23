@@ -33,7 +33,9 @@
         "functional": "c",
         "ratio": "c",
         "tuple": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "sstream": "c",
+        "ft_printf.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

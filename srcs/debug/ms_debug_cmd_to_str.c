@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec_free.c                                     :+:      :+:    :+:   */
+/*   ms_debug_cmd_to_str.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 01:29:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 23:34:13 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/23 20:43:41 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/23 20:43:49 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "arr.h"
+#include "debug.h"
 
-void	free_shell(t_shell *shell)
+char	*ms_debug_cmd_to_str(t_command_type type)
 {
-	(void) shell;
-}
+	static char	*cmd[] = {"CMD_PIPE", "CMD_REDIR_IN", "CMD_REDIR_OUT",
+		"CMD_APPEND", "CMD_HEREDOC", "CMD_SEMICOLON", "CMD_AND_IF", "CMD_AND",
+		"CMD_OR", "CMD_QUOTE", "CMD_PARENTHESIS", "CMD_EXPAND",
+		"CMD_EXPAND_QUOTE", "CMD_TEXT", "CMD_JOIN", "CMD_JOIN_NO_PRINT",
+		"CMD_EMPTY", "CMD_WILDCARD"};
 
-void	free_exec(t_exec	*exec)
-{
-	ft_arr_free(&exec->content, free);
+	return (cmd[type]);
 }

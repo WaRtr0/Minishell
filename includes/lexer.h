@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:38:50 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:37:08 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 22:35:19 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void			ms_add_join(t_shell *shell, int type );
 
 void			ms_exit_pipeline(t_shell *shell);
 void			ms_exit_join(t_shell *shell);
+
+void			ms_join_command(t_shell *shell, char *str);
 
 void			ms_append_quote(t_shell *shell);
 

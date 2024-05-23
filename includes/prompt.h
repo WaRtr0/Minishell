@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:44:12 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/22 21:04:36 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 23:04:32 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 # include "minishell.h"
 
-int	ms_prompt(t_shell *shell);
+void	ms_join_prompt(t_shell *shell, char *str, const char *sep);
+int		ms_prompt(t_shell *shell);
 #endif

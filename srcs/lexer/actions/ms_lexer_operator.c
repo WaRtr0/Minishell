@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:17:05 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:29:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/23 22:36:26 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	ms_lexer_operator(t_shell *shell, t_prompt_s *status, t_parser_str *str)
 	t_command	*new_command;
 
 	if (ms_reset_quote(status))
-		shell->command = ft_strjoin(shell->command,
-				ft_select_str(&str->str[str->index], str->len));
+		ms_join_command(shell, ft_select_str(&str->str[str->index], str->len));
 	ms_append_quote(shell);
 	new_command = ms_new_command(shell);
 	ms_add_type(new_command, ms_get_cmd(str->type, &str->str[str->index]));

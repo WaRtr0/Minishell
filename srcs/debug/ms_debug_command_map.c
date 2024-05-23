@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec_free.c                                     :+:      :+:    :+:   */
+/*   ms_debug_command_map.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 01:29:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 23:34:13 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/23 20:41:05 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/23 20:41:31 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "arr.h"
+#include "debug.h"
 
-void	free_shell(t_shell *shell)
+void	ms_debug_command_map(t_array *array, void *(*f)(void *))
 {
-	(void) shell;
-}
-
-void	free_exec(t_exec	*exec)
-{
-	ft_arr_free(&exec->content, free);
+	ft_arr_map(array, (void *)f, 0);
 }

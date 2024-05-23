@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:31:36 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 00:11:44 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,24 @@
 #include "utils.h"
 #include "handle.h"
 
-static int	add_word(t_command *command, char **word)
+static int	add_word(t_command *command, char **word, t_shell *shell)
 {
+	char	*tmp;
+
 	if (*word == NULL)
 		*word = ft_strdup(command->content.str);
 	else
+	{
+		tmp = *word;
 		*word = ft_strjoin(*word, command->content.str);
+		free(tmp);
+	}
+	if (*word == NULL)
+	{
+		shell->error = 1;
+		shell->prompt_listen = 0;
+		return (1);
+	}
 	return (0);
 }
 
@@ -46,11 +58,11 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 	t_command	*command;
 
 	i = 0;
-	while (i < array->size)
+	while (i < array->size && shell->error < 1)
 	{
 		command = (t_command *)array->data[i];
 		if (command->type == CMD_TEXT)
-			add_word(command, word);
+			add_word(command, word, shell);
 		else if (command->type == CMD_EXPAND
 			|| command->type == CMD_EXPAND_QUOTE)
 			ms_expand(command, shell, exec_cmd, word);
@@ -69,6 +81,26 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 	return (0);
 }
 
+static int	add_exec(t_exec **exec_cmd, t_shell *shell)
+{
+	*exec_cmd = malloc(sizeof(t_exec));
+	if (exec_cmd == NULL)
+	{
+		shell->error = 1;
+		return (shell->prompt_listen = 0);
+	}
+	(*exec_cmd)->content = ft_arr_new(20);
+	if ((*exec_cmd)->content == NULL)
+	{
+		free((*exec_cmd));
+		shell->error = 1;
+		return (shell->prompt_listen = 0);
+	}
+	(*exec_cmd)->fd[0] = -1;
+	(*exec_cmd)->fd[1] = -1;
+	return (1);
+}
+
 int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 {
 	t_exec		*exec_cmd;
@@ -76,11 +108,10 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 
 	if (!shell->prompt_listen)
 		return (0);
-	exec_cmd = malloc(sizeof(t_exec));
-	exec_cmd->content = ft_arr_new(20);
-	exec_cmd->fd[0] = -1;
-	exec_cmd->fd[1] = -1;
+	add_exec(&exec_cmd, shell);
 	word = NULL;
+	if (exec_cmd == NULL)
+		return (0);
 	run_join(array, exec_cmd, shell, &word);
 	if (exec_cmd->fd[0] == -1)
 		exec_cmd->fd[0] = fd[0];
@@ -90,5 +121,9 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		ft_arr_append(exec_cmd->content, word);
 	if (exec_cmd->content->size > 0)
 		ms_exec(exec_cmd, shell);
+	//Free
+	free_exec(exec_cmd);
+	free(exec_cmd);
+	//endFree
 	return (1);
 }
