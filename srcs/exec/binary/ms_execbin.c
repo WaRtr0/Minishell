@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 16:17:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:55:27 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,14 @@ int	execbin(t_exec *exec, t_shell *shell)
 
 int	run_bin(char *cmd, char **args, char **envp)
 {
+	size_t	i;
+
 	if (DEBUG_MODE)
 		ft_putendl_fd("==run_bin", 2);
+	i = 3;
+	while (i < 1024)
+		close(i++);
+	ft_putendl_fd("fuck you", 2);
 	execve(cmd, args, envp);
 	return (EXIT_FAILURE);
 }

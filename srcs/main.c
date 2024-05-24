@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 23:57:05 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:27:50 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	(void) envp;
 	ft_bzero(&shell, sizeof(t_shell));
-	// ms_env_gen(envp, &(shell.env));
-	// ms_env_complete(&shell.env, argv[0]);
+	ms_env_gen(envp, &(shell.env));
+	ms_env_complete(&shell.env, argv[0]);
 	ms_prompt(&shell);
+	ms_env_collapse(&shell.env);
 	return (0);
 }

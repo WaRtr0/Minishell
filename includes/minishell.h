@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/22 21:01:44 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:33:49 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct exec
 
 int		main(int argc, char **argv, char **envp);
 void	free_shell(t_shell *shell);
-
 void	free_exec(t_exec *exec);
 
 void	ms_get_fd(t_array *array, t_shell *shell, int *fd);

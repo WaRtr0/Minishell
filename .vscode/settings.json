@@ -35,7 +35,8 @@
         "tuple": "c",
         "type_traits": "c",
         "sstream": "c",
-        "ft_printf.h": "c"
+        "ft_printf.h": "c",
+        "exec.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

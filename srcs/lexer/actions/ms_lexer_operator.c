@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:17:05 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 22:36:26 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:38:46 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	ms_lexer_text(t_command *command, t_shell *shell, t_parser_str *str)
 
 static void	ms_lexer_pipeline(t_command *command, t_shell *shell)
 {
-	command = ms_clear_command(command);
+	command = ms_free_command(command);
 	if (ms_is_join(shell))
 	{
 		ms_exit_join(shell);

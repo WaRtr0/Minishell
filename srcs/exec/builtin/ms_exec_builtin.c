@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/22 19:39:42 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:05:55 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ int	parent(t_shell *shell, int pid)
 int	child(t_exec *exec, t_shell *shell)
 {
 	int	ret;
+	size_t	i;
 
 	ret = ms_run_builtin(exec, shell);
 	free_shell(shell);
 	free_exec(exec);
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	return (ret);
 }

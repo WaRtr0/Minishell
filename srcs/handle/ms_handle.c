@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:54:00 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:32:26 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:59:47 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 	int			t_fd[2];
 	t_command	*command;
 	t_command	*second_command;
+	int			response;
 
 	t_fd[0] = fd[0];
 	t_fd[1] = fd[1];
@@ -45,7 +46,9 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 		if (second_command->type == CMD_JOIN_NO_PRINT)
 			ms_get_fd(second_command->content.array, shell, t_fd);
 	}
-	return (ms_handle(command->content.array, shell, t_fd));
+	response = ms_handle(command->content.array, shell, t_fd);
+	ms_close_fd(fd, t_fd);
+	return (response);
 }
 
 int	ms_handle(t_array *array, t_shell *shell, int fd[2])

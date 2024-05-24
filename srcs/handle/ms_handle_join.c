@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 00:11:44 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:00:56 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		ft_arr_append(exec_cmd->content, word);
 	if (exec_cmd->content->size > 0)
 		ms_exec(exec_cmd, shell);
-	//Free
+	ms_close_fd(fd, exec_cmd->fd);
 	free_exec(exec_cmd);
-	free(exec_cmd);
-	//endFree
 	return (1);
 }

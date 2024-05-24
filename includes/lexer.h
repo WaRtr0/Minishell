@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:38:50 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 22:35:19 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:36:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void			ms_add_str(t_shell *shell,
 					t_command *command, t_parser_str *str);
 void			ms_add_fd(t_command *command, int fd);
 void			*ms_clear_command(t_command *command);
+void			*ms_free_command(t_command *command);
 int				ms_get_command_type(t_command *command);
 
 void			ms_lexer(t_shell *shell, t_prompt_s *status,

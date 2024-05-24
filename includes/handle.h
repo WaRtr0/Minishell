@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:07:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:35:13 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:55:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ int		ms_expand(t_command *command, t_shell *shell,
 int		ms_handle_join(t_array *array, t_shell *shell, int fd[2]);
 int		ms_handle_pipe(t_array *array, t_shell *shell, int fd[2]);
 int		ms_handle(t_array *array, t_shell *shell, int fd[2]);
-
+int		ms_close_fd(int fd[2], int t_fd[2]);
 #endif

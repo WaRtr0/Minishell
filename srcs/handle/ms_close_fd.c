@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec_free.c                                     :+:      :+:    :+:   */
+/*   ms_close_fd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 01:29:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 23:34:13 by mmorot           ###   ########.fr       */
+/*   Created: 2024/05/24 15:54:14 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/24 15:55:12 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "arr.h"
 
-void	free_shell(t_shell *shell)
+int	ms_close_fd(int fd[2], int t_fd[2])
 {
-	(void) shell;
-}
-
-void	free_exec(t_exec	*exec)
-{
-	ft_arr_free(&exec->content, free);
+	if (fd[0] != t_fd[0])
+		close(t_fd[0]);
+	if (fd[1] != t_fd[1])
+		close(t_fd[1]);
+	return (0);
 }

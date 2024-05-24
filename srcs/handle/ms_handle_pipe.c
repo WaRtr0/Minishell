@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:32:16 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:18:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 		perror("fork");
 		return (1);
 	}
+	ms_close_fd(fd, t_fd);
 	return (0);
 }
 
@@ -62,6 +63,7 @@ static	int	pipe_input(t_pipe_run *run)
 			perror("pipe");
 			return (1);
 		}
+		close(run->pipe_fd[0]);
 		run->tmp_fd[1] = run->pipe_fd[1];
 	}
 	else
