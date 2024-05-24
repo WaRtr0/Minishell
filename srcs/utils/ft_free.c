@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:05:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 15:28:13 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/24 22:30:09 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_shell(t_shell *shell)
 	free_commands(shell->commands);
 	shell->cursor = NULL;
 	free(shell->prompt);
+	ms_env_collapse(&shell->env);
 }
 
 void	free_exec(t_exec	*exec)
