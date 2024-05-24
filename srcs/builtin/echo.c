@@ -6,13 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:33:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 15:43:55 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/24 18:24:33 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "str.h"
 #include "put.h"
 #include <stdio.h>
+#include "conf.h"
 
 int	jump_nflags(char **args, int *njumps);
 int	is_nflags(char *str);
@@ -44,7 +45,8 @@ int	jump_nflags(char **args, int *njumps)
 	j = 1;
 	while (args[j] && is_nflags(args[j]))
 	{
-		printf("===echo %d\n", j);
+		if (DEBUG_MODE)
+			printf("===echo %d\n", j);
 		j++;
 	}
 	*njumps = j;

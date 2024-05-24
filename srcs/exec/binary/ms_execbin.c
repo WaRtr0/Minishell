@@ -6,13 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:43:46 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/24 18:58:18 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "str.h"
 #include "put.h"
+#include "conf.h"
 
 int		on_error(char **envp, char **arg, char *cmd);
 char	**get_env(t_env	*env);
@@ -42,7 +43,13 @@ int	execbin(t_exec *exec, t_shell *shell)
 
 int	run_bin(char *cmd, char **args, char **envp)
 {
-	ft_putendl_fd("==run_bin", 2);
+	size_t	i;
+
+	if (DEBUG_MODE)
+		ft_putendl_fd("==run_bin", 2);
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	execve(cmd, args, envp);
 	return (EXIT_FAILURE);
 }

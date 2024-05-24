@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 15:37:24 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/24 18:31:12 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,25 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "exec.h"
-
-/**
- * @file main.c
- * @brief Fichier principale du programme qui va initialiser la structure shell et lancer le prompt
- * 
- */
- 
 #include "minishell.h"
 #include "prompt.h"
 
 /**
- * @brief Fonction principale du programme qui va initialiser la structure shell et lancer le prompt
+ * @brief Fonction principale du programme qui va
+ * initialiser la structure shell et lancer le prompt
  * 
- * @param argc **Non Utilisé** (Argument Count) Contient le nombre d'arguments passés au programme
- * @param argv **Non Utilisé** (Argument Vector) Contient les arguments passés au programme
- * @param envp Variable d'**environnement** qui seront **dupliqué** et **stocké** dans la **structure shell**
+ * @param argc
+ * @param argv
+ * @param envp
  * @return int **0** si tout c'est bien passé sinon **1**
  */
 int	main(int argc, char **argv, char **envp)
 {
+	t_shell	shell;
+
 	(void) argc;
 	(void) argv;
-
-	t_shell	shell;
+	(void) envp;
 	ft_bzero(&shell, sizeof(t_shell));
 	ms_sig_init();
 	ms_env_gen(envp, &(shell.env));

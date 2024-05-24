@@ -6,12 +6,13 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 15:43:08 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/24 18:33:50 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "put.h"
+#include "conf.h"
 
 int	check_file(char *path, char *name, char **out);
 int	ms_find_cmd(char *cmd, char *env_path, char **out);

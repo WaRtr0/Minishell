@@ -28,7 +28,7 @@ LIB_FLAGS := -l readline
 
 all:
 	@echo "compiling $(NAME):"
-	@$(MAKE) -s $(NAME)
+	@$(MAKE) -s $(NAME) 
 
 include config/libft.mk
 #include config/srcs.mk
@@ -67,7 +67,7 @@ run: all
 
 valgrind: all
 	@echo "__Vinishell__" 
-	@valgrind --suppressions=config/valgrind_ignore_leaks.conf --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes ./minishell
+	@valgrind --track-fds=all --suppressions=config/valgrind_ignore_leaks.conf --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes ./minishell
 
 include config/forbidden.mk
 

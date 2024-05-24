@@ -6,12 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 15:40:57 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/24 18:44:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "put.h"
+#include "put.h"
+#include "conf.h"
 
 static int	is_builtin(char *str);
 int			ms_execsh(t_exec *exec, t_shell *shell);
@@ -20,7 +22,8 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 {
 	int	ret;
 
-	ft_putendl_fd("==exec==", 2);
+	if (DEBUG_MODE)
+		ft_putendl_fd("==exec==", 2);
 	ret = ms_execsh(exec, shell);
 	shell->status = ret;
 	return (ret);
@@ -42,7 +45,8 @@ int	ms_execsh(t_exec *exec, t_shell *shell)
 
 static int	is_builtin(char *str)
 {
-	printf("==%s==\n", str);
+	if (DEBUG_MODE)
+		printf("==%s==\n", str);
 	if (ft_strncmp(str, "cd", 3) == 0
 		|| ft_strncmp(str, "exit", 5) == 0
 		|| ft_strncmp(str, "echo", 5) == 0

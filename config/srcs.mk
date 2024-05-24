@@ -14,6 +14,16 @@ SRCS += env/ms_env_gen.c
 SRCS += env/ms_env_complete.c
 SRCS += env/ms_env_exist.c
 
+
+#----parser----
+
+
+
+SRCS += parser/heredoc/ms_heredoc.c
+SRCS += parser/syntax/ms_syntax_error.c
+SRCS += parser/syntax/ms_syntax_rule.c
+
+
 #----prompt----
 
 SRCS += prompt/ms_prompt.c

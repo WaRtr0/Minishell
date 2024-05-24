@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/17 02:51:33 by gcros            ###   ########.fr       */
+/*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
+/*   Updated: 2024/05/24 18:19:16 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 #ifndef CONF_H
 # define CONF_H
 
+# include "minishell.h"
+
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
+# include "debug.h"
 // ------------------------------
+
 // MISHEL CONFIGURATION
 
 // ERRORS
 // UPD == UNEXPECTED
-# define ERR_NOT_FOUND		MS_NAME" : %s: command not found\n"
-# define ERR_PERM_DENIED	MS_NAME" : %s: Permission denied\n"
-# define ERR_SYNTAX_UPD_TOK	MS_NAME" : syntax error near unexpected token `%s'\n"
-# define ERR_SYNTAX_UPD_EOF MS_NAME" : syntax error: unexpected `end of file'\n"
-# define ERR_SYNTAX_UPD_NLN	MS_NAME" : syntax error: unexpected `newline'\n"
-# define ERR_NOT_SUCH		MS_NAME" : %s: not such file or directory\n"
-# define ERR_IS_DIR			MS_NAME" : %s: is a directory\n"
-# define ERR_NO_FILE		MS_NAME" : %s: No such file or directory\n"
-# define ERR_TOO_MANY_ARGS	MS_NAME" : Too many arguments\n"
-# define ERR_EXECVE			MS_NAME" : execve failed\n"
-# define ERR_MALLOC			MS_NAME" : malloc failed\n"
-# define ERR_PIPE			MS_NAME" : pipe failed\n"
-# define ERR_FD 			MS_NAME" : Bad file descriptor\n"	
+# define ERR_NOT_FOUND		" : %s: command not found\n"
+# define ERR_PERM_DENIED	" : %s: Permission denied\n"
+# define ERR_SYNTAX_TOK " : syntax error near unexpected token `%s'\n"
+# define ERR_SYNTAX_UPD_EOF " : syntax error: unexpected `end of file'\n"
+# define ERR_SYNTAX_UPD_NLN " : syntax error: unexpected `newline'\n"
+# define ERR_NOT_SUCH " : %s: not such file or directory\n"
+# define ERR_IS_DIR	" : %s: is a directory\n"
+# define ERR_NO_FILE " : %s: No such file or directory\n"
+# define ERR_TOO_MANY_ARGS	" : Too many arguments\n"
+# define ERR_EXECVE	" : execve failed\n"
+# define ERR_MALLOC " : malloc failed\n"
+# define ERR_PIPE " : pipe failed\n"
+# define ERR_FD " : Bad file descriptor\n"	
 
 // PARSER SYMBOLS
 
@@ -96,7 +100,9 @@
 
 # define B_LOCAL				"local" // declare var
 # define B_READ					"read" //like echo
-# define B_READARRAY			"readarray" // read lines from a file into an array
+
+// read lines from a file into an array
+# define B_READARRAY			"readarray"
 # define B_READONLY				"readonly" // mark variables as readonly
 # define B_BREAK				"break"
 # define B_CONTINUE				"continue"
@@ -116,18 +122,28 @@
 # define B_TRAP					"trap" // set signal handler
 # define B_LOGOUT				"logout" // exit shell
 # define B_DISOWN				"disown" // remove job from shell
-# define B_BIND					"bind" // bind a key sequence to a readline function
-# define B_BUILTIN				"builtin" // run a shell builtin (no search in PATH)
-# define B_CALLER				"caller" // return context of current subroutine call
+
+// bind a key sequence to a readline function
+# define B_BIND					"bind"
+
+// run a shell builtin (no search in PATH)
+# define B_BUILTIN				"builtin"
+// return context of current subroutine call
+# define B_CALLER				"caller"
 # define B_COMMAD				"command" // run command with optional args
-# define B_DECLARE				"declare" // declare variables and give them attributes
-# define B_ENABLE				"enable" // enable and disable builtin shell commands
+// declare variables and give them attributes
+# define B_DECLARE				"declare"
+// enable and disable builtin shell commands
+# define B_ENABLE				"enable"
 # define B_HELP					"help" // display help for a builtin
 # define B_COMPGEN				"compgen" // display possible completions
-# define B_COMPLETE				"complete" // specify how arguments should be completed
-# define B_COMPOPT				"compopt" // modify completion options for a command
+// specify how arguments should be completed
+# define B_COMPLETE				"complete"
+// modify completion options for a command
+# define B_COMPOPT				"compopt"
 # define B_HASH					"hash" // remember or forget commands
-# define B_MAPFILE				"mapfile" // read lines from a file into an array
+// read lines from a file into an array
+# define B_MAPFILE				"mapfile"
 # define B_POPD					"popd" // remove directories from stack
 # define B_PUSH					"pushd" // add directories to stack
 # define B_SUSPEND				"suspend" // suspend shell execution
@@ -142,7 +158,7 @@
 // # define K_NOT					"!"
 # define K_COND_OPEN			"[["
 # define K_COND_CLOSE			"]]"
-# define k_GROUP_OPEN			"{"
+# define K_GROUP_OPEN			"{"
 # define K_GROUP_CLOSE			"}"
 # define K_IF					"if"
 # define K_THEN					"then"
@@ -173,70 +189,5 @@
 # define C_WHITE			"\033[0;37m"
 # define C_RESET			"\033[0m"
 # define C_BOLD				"\033[1m"
-
-// ------------------------------
-typedef enum e_error
-{
-	E_NOT_FOUND,
-	E_PERM_DENIED,
-	E_SYNTAX_UPD_TOK,
-	E_SYNTAX_UPD_EOF,
-	E_SYNTAX_UPD_NLN,
-	E_NOT_SUCH,
-	E_IS_DIR,
-	E_NO_FILE,
-	E_TOO_MANY_ARGS,
-	E_EXECVE,
-	E_MALLOC,
-	E_EXEC
-}	t_error;
-
-typedef enum e_type
-{
-	E_EOF = -1,
-	E_DQUOTE,
-	E_SQUOTE,
-	E_PARENTHESIS,
-	E_NEWLINE,
-	E_METACHAR,
-	E_REDIR_OUT,
-	E_REDIR_IN,
-	E_HEREDOC,
-	E_APPEND,
-	E_OPERATOR,
-	E_WILDCARD,
-	E_WORD,
-	E_NAME,
-	E_EMPTY
-}	t_type;
-
-typedef enum e_metachar
-{
-	E_PIPE,
-	E_SEMICOLON,
-	E_AND
-}	t_metachar;
-
-enum e_rule {
-	R_STOP = 0,
-	R_NOT_INC = 1,
-	R_INC = 2,
-	R_OPER = 3,
-	R_META = 4,
-	R_CMP = 5
-};
-
-typedef struct s_rule
-{
-	void		*str;
-	t_type		value;
-	enum e_rule	type;
-}	t_rule;
-
-typedef enum e_operator
-{
-	E_OR,
-	E_AND_IF
-}	t_operator;
 
 #endif
