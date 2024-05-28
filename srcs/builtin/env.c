@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:46:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:44:37 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:35:20 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	env(char **av, t_env *env)
 	if (av[0] && av[1])
 		return (env_error(E2BIG));
 	print_env(env);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void	print_env(t_env *env)

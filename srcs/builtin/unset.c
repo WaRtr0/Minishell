@@ -6,11 +6,13 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 18:25:09 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:36:08 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 int	unset(char **av, t_env **env)
 {
@@ -19,6 +21,6 @@ int	unset(char **av, t_env **env)
 	ptr = av;
 	while (*++ptr)
 		ms_env_remove(env, *ptr);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 

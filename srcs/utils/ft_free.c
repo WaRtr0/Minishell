@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:05:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 15:14:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:28:58 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,18 @@ static int	free_commands(t_array *array)
 	return (0);
 }
 
-void	free_shell(t_shell *shell)
+void	free_prompt(t_shell *shell)
 {
 	ft_arr_free(&shell->cursor_array, NULL);
 	ft_arr_free(&shell->heredoc_fd, NULL);
 	free_commands(shell->commands);
 	shell->cursor = NULL;
 	free(shell->prompt);
+}
+
+void	free_shell(t_shell *shell)
+{
+	free_prompt(shell);
 	ms_env_collapse(&shell->env);
 }
 

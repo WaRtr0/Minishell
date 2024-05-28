@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 04:53:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 18:24:57 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:35:36 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	pwd(char **av)
 		return (pwd_error(errno, NULL));
 	ft_putendl_fd(pwd, 1);
 	free(pwd);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	pwd_error(int err, char *op)

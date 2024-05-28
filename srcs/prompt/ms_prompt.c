@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 15:16:21 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:29:36 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 		return (1);
 	if (line[0] != '\0')
 	{
-		// add_history(line);
+		add_history(line);
 		shell->prompt_listen = 0;
 		status = (t_prompt_s){0};
 		shell->prompt = ft_strdup(line);
@@ -52,7 +52,7 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 			ms_handle(shell->commands, shell, (int [2]){0, 1});
 		if (DEBUG_MODE)
 			ms_debug(shell);
-		free_shell(shell);
+		free_prompt(shell);
 		shell->line++;
 	}
 	return (0);

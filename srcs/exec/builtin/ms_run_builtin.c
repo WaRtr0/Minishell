@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/24 18:32:41 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:17:38 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ms_run_builtin(t_exec *exec, t_shell *shell)
 	set_io(exec->fd);
 	ret = run_bti(exec, shell);
 	restore_io(save_fd);
+	ms_set_status(ret);
 	return (ret);
 }
 

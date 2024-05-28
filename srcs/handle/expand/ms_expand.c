@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 18:30:04 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:31:22 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:20:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int	ms_expand(t_command *command, t_shell *shell, t_exec *exec_cmd, char **word)
 		*word = ft_strjoin(*word, "$");
 	else
 	{
-		env_str = ms_env_get(shell->env, command->content.str);
+		if (ft_strncmp(command->content.str, "?", 2) == 0)
+			env_str = ft_itoa(ms_get_status());
+		else
+			env_str = ms_env_get(shell->env, command->content.str);
 		if (command->type != CMD_EXPAND_QUOTE)
 			return (expand_quote(exec_cmd, env_str, word));
 		else if (env_str != NULL)

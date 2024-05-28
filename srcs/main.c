@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 18:31:12 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:32:59 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 	ms_env_complete(&shell.env, argv[0]);
 	ms_prompt(&shell);
 	ms_env_collapse(&shell.env);
-	return (0);
+	return (ms_get_status());
 }
 
 //#include "wildcard.h"

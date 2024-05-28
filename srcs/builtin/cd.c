@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:03:53 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:44:20 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:35:03 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	cd(char **args, t_env **env)
 	if (err == -1)
 		return (cd_error(errno, op));
 	if (cd_update_env(env))
-		return (1);
-	return (0);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static int	cd_update_env(t_env	**env)
