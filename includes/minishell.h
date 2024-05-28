@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/28 16:29:27 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 17:45:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct exec
 void    free_shell(t_shell *shell);
 void	free_prompt(t_shell *shell);
 void    free_exec(t_exec    *exec);
-int	    ms_sig_init();
+int		ms_sig_init(int rules);
 void	ms_get_fd(t_array *array, t_shell *shell, int *fd);
 
 int		ms_exit_status(int	new_status, int save);

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 16:29:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 17:52:01 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "handle.h"
+#include "exec.h"
 
 static	void	ms_prompt_init(t_shell *shell)
 {
@@ -60,18 +61,13 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 
 int	ms_prompt(t_shell *shell)
 {
-	char			*line;
+	char	*line;
 
 	ms_prompt_init(shell);
 	while (1)
 	{
+		ms_sig_init(1 << 0);
 		line = readline("\r"MS_NAME"$ ");
-		// line = ft_strdup("&& hola tout le monde");
-		//line = ft_strdup("(cat | cat > test.txt) < test.txt && cat test.txt");
-		//line = ft_strdup("(cat | cat > test.txt) < test.txt && cat test.txt");
-		//line = ft_strdup("(echo \"salut\" | cat > test.txt | cat)");
-		//line = ft_strdup("exit");
-		// line = ft_strdup("hola tout le monde");
 		if (line == NULL)
 			break ;
 		if (!ms_prompt_handle(shell, line))

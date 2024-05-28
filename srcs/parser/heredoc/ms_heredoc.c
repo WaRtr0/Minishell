@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 22:46:48 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:09:20 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "str.h"
 #include <stdint.h>
 #include <fcntl.h>
+#include "exec.h"
 
 static int	add_fd(t_shell *shell)
 {
@@ -43,8 +44,8 @@ static int	add_fd(t_shell *shell)
 
 static	int	ms_heredoc_handle(t_shell *shell, char *line)
 {
-	if (!line)
-		return (1);
+	if (line == NULL)
+		return (0);
 	if (ft_strlen(shell->limiter) == ft_strlen(line)
 		&& ft_strncmp(line, shell->limiter, ft_strlen(shell->limiter)) == 0)
 	{
@@ -64,7 +65,10 @@ static	int	ms_heredoc_handle(t_shell *shell, char *line)
 int	ms_heredoc(t_shell *shell, char *limiter)
 {
 	char	*newline;
+	int		fds[2];
 
+	save_io((int [2]){0, 1}, fds);
+	ms_sig_init(1 << 1);
 	shell->limiter = limiter;
 	if (add_fd(shell))
 	{
@@ -77,6 +81,7 @@ int	ms_heredoc(t_shell *shell, char *limiter)
 		if (ms_heredoc_handle(shell, newline) == 0)
 			break ;
 	}
+	restore_io(fds);
 	write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1],
 		"\0", 1);
 	close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
