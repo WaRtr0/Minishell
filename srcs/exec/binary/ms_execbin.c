@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 15:00:04 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 23:08:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ int	execbin(t_exec *exec, t_shell *shell)
 	char	**args;
 	char	**envp;
 	char	*cmd;
+	size_t	i;
 
 	cmd = NULL;
 	args = NULL;
 	envp = NULL;
 	set_io(exec->fd);
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	args = get_args(exec->content);
 	envp = get_env(shell->env);
 	if (args != NULL)
@@ -46,13 +50,8 @@ int	execbin(t_exec *exec, t_shell *shell)
 
 int	run_bin(char *cmd, char **args, char **envp)
 {
-	size_t	i;
-
 	if (DEBUG_MODE)
 		ft_putendl_fd("==run_bin", 2);
-	i = 3;
-	while (i < 1024)
-		close(i++);
 	execve(cmd, args, envp);
 	return (EXIT_FAILURE);
 }

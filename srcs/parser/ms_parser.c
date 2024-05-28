@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 22:47:01 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:41:32 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	syntax_no_quote(t_parser_str str, t_shell *shell,
 	ms_update_status_text(status, str.type);
 	ms_update_status_heredoc(status, str.type);
 	if (status->heredoc && status->print)
-		ms_heredoc(shell, ft_select_str(&line[str.index], str.len));
+		if (ms_heredoc(shell, ft_select_str(&line[str.index], str.len)) == 0)
+			shell->prompt_listen = 0;
 	ms_update_status_operator(status, str.type, &str);
 	if (str.type == E_PARENTHESIS)
 		ms_lexer_parenthesis(shell, status, &str);

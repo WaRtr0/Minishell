@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 18:09:20 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 18:36:13 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <fcntl.h>
 #include "exec.h"
+#include <errno.h>
 
 static int	add_fd(t_shell *shell)
 {
@@ -75,6 +76,7 @@ int	ms_heredoc(t_shell *shell, char *limiter)
 		free(limiter);
 		return (0);
 	}
+	errno = 0;
 	while (1)
 	{
 		newline = readline("heredoc> ");
@@ -86,5 +88,5 @@ int	ms_heredoc(t_shell *shell, char *limiter)
 		"\0", 1);
 	close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
 	free(limiter);
-	return (1);
+	return (errno == 0);
 }
