@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 19:23:39 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 15:16:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,19 @@ int	ms_prompt(t_shell *shell)
 	char			*line;
 
 	ms_prompt_init(shell);
-	// while (1)
-	// {
-		// line = readline(MS_NAME"$ ");
+	while (1)
+	{
+		line = readline("\r"MS_NAME"$ ");
 		// line = ft_strdup("&& hola tout le monde");
 		//line = ft_strdup("(cat | cat > test.txt) < test.txt && cat test.txt");
 		//line = ft_strdup("(cat | cat > test.txt) < test.txt && cat test.txt");
 		//line = ft_strdup("(echo \"salut\" | cat > test.txt | cat)");
-		line = ft_strdup("echo a | cat");
+		//line = ft_strdup("exit");
 		// line = ft_strdup("hola tout le monde");
+		if (line == NULL)
+			break ;
 		if (!ms_prompt_handle(shell, line))
 			free(line);
-	// }
+	}
 	return (0);
 }

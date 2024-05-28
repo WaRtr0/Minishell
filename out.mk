@@ -1,4 +1,5 @@
 #---auto gen---
+SRCS += /exit_status.c
 SRCS += /ms_signal_handler.c
 SRCS += /main.c
 #---env---

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/16 21:52:59 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 14:56:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	quit_handler();
 
 int	ms_sig_init()
 {
-	signal(SIGQUIT, quit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, int_handler);
 	return (0);
 }
@@ -35,11 +35,11 @@ void	quit_handler()
 
 void	int_handler()
 {
+	ms_set_status(130);
 	ft_putendl_fd("", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	ms_sig_init();
 }
 
 void	do_nothing()

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 22:33:52 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/28 15:00:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "str.h"
 #include "put.h"
 #include "conf.h"
+#include <signal.h>
 
 int		on_error(char **envp, char **arg, char *cmd);
 char	**get_env(t_env	*env);
@@ -36,6 +37,8 @@ int	execbin(t_exec *exec, t_shell *shell)
 		cmd = get_bin(args[0], shell->env);
 	free_shell(shell);
 	free_exec(exec);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	if ((!(size_t)args | !(size_t)envp | !(size_t)cmd))
 		return (on_error(envp, args, cmd));
 	return (run_bin(cmd, args, envp));
