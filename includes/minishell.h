@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/28 17:45:28 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 15:47:40 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,20 @@ typedef struct exec
 	int		fd[2];
 }	t_exec;
 
+enum e_sig_set
+{
+	sig_restore = 0,
+	sig_prompt = 1 << 0,
+	sig_heredoc = 1 << 1,
+};
+
 //int     main(int argc, char **argv, char **envp);
-void    free_shell(t_shell *shell);
+void	free_shell(t_shell *shell);
 void	free_prompt(t_shell *shell);
-void    free_exec(t_exec    *exec);
-int		ms_sig_init(int rules);
+void	free_exec(t_exec *exec);
+int		ms_sig_set(enum e_sig_set rules);
 void	ms_get_fd(t_array *array, t_shell *shell, int *fd);
 
-int		ms_exit_status(int	new_status, int save);
 void	ms_set_status(int new_status);
 int		ms_get_status(void);
 

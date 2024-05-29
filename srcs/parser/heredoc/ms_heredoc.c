@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 18:36:13 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 15:45:03 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ms_heredoc(t_shell *shell, char *limiter)
 	int		fds[2];
 
 	save_io((int [2]){0, 1}, fds);
-	ms_sig_init(1 << 1);
+	ms_sig_set(sig_heredoc);
 	shell->limiter = limiter;
 	if (add_fd(shell))
 	{

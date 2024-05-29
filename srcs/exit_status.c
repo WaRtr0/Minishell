@@ -6,11 +6,11 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:27:06 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 14:32:50 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 15:35:23 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ms_exit_status(int	new_status, int save)
+static int	ms_exit_status(int new_status, int save)
 {
 	static int	status;
 

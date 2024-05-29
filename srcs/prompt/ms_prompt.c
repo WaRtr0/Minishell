@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 17:52:01 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 15:45:30 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
  * @brief Fichier qui contient la fonction qui va lancer le prompt
  *
  */
-
 #include "conf.h"
 #include "minishell.h"
 #include "parser.h"
@@ -66,7 +65,7 @@ int	ms_prompt(t_shell *shell)
 	ms_prompt_init(shell);
 	while (1)
 	{
-		ms_sig_init(1 << 0);
+		ms_sig_set(sig_prompt);
 		line = readline("\r"MS_NAME"$ ");
 		if (line == NULL)
 			break ;

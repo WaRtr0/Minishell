@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 18:54:20 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 15:33:46 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 	if (word != NULL)
 		ft_arr_append(exec_cmd->content, word);
 	if (exec_cmd->content->size > 0)
-		ms_exec(exec_cmd, shell);
+		ms_set_status(ms_exec(exec_cmd, shell));
 	ms_close_fd(fd, exec_cmd->fd);
 	free_exec(exec_cmd);
 	return (1);
