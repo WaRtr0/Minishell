@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 14:29:26 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/29 18:22:12 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	if (run->index < run->array->size - 1)
 	{
 		close(run->pipe_fd[1]);
-		if (run->tmp_fd[0] != -1)   //voir
+		if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)   //voir
 			close(run->tmp_fd[0]);  //voir
 		run->tmp_fd[0] = run->pipe_fd[0];
 	}
