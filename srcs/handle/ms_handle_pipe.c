@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 20:44:35 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 13:45:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static	int	pipe_input(t_pipe_run *run)
 {
 	if (run->index < run->array->size - 1)
 	{
-		//close(run->pipe_fd[0]);
+		if (run->pipe_fd[0] != -1)
+			close(run->pipe_fd[0]);
 		if (pipe(run->pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -101,6 +102,8 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 	run.tmp_fd[0] = fd[0];
 	run.fd[0] = fd[0];
 	run.fd[1] = fd[1];
+	run.pipe_fd[0] = -1;
+	run.pipe_fd[1] = -1;
 	run.array = array;
 	shell->arb_pipe++;
 	if (!shell->prompt_listen)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_signal_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 23:47:13 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 12:50:29 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 #include <signal.h>
 #include <stddef.h>
+#include <stdio.h> //a rajouter car pas compilation!
 #include <readline/readline.h>
 #include "put.h"
 #include "exec.h"
+
 
 void	do_nothing();
 void	heredoc_handler();
