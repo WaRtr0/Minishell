@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 16:08:44 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 16:45:23 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <signal.h>
 #include <stddef.h>
+#include <stdio.h> //a rajouter car pas compilation!
 #include <readline/readline.h>
 #include "put.h"
 #include "exec.h"

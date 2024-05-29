@@ -36,7 +36,8 @@
         "type_traits": "c",
         "sstream": "c",
         "ft_printf.h": "c",
-        "exec.h": "c"
+        "exec.h": "c",
+        "readline.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
