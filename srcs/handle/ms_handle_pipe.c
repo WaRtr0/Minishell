@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 13:45:15 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/29 14:29:26 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static	int	pipe_input(t_pipe_run *run)
 {
 	if (run->index < run->array->size - 1)
 	{
-		if (run->pipe_fd[0] != -1)
-			close(run->pipe_fd[0]);
 		if (pipe(run->pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -89,6 +87,8 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	if (run->index < run->array->size - 1)
 	{
 		close(run->pipe_fd[1]);
+		if (run->tmp_fd[0] != -1)   //voir
+			close(run->tmp_fd[0]);  //voir
 		run->tmp_fd[0] = run->pipe_fd[0];
 	}
 	run->index++;
