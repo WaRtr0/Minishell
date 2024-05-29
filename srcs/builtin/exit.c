@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 03:55:46 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 15:26:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 23:01:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	b_exit(t_exec *exec, t_shell *shell)
 		close(i++);
 	if (exec->content->size == 2)
 		return (arg_exit(exec, shell));
-	return (def_exit(exec, shell));
+	else if (exec->content->size == 1)
+		return (def_exit(exec, shell));
+	return (EXIT_FAILURE);
 }
 
 int	def_exit(t_exec *exec, t_shell *shell)

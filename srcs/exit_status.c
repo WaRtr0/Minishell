@@ -6,11 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:27:06 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 15:35:23 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 23:22:40 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	ms_exit_status(int new_status, int save)
+#include <sys/types.h>
+ #include <sys/wait.h>
+ 
+int	ms_exit_status(int new_status, int save)
 {
 	static int	status;
 
@@ -26,5 +29,7 @@ int	ms_get_status(void)
 
 void	ms_set_status(int new_status)
 {
+	if (WIFEXITED(new_status))
+		new_status = WEXITSTATUS(new_status);
 	ms_exit_status(new_status, 1);
 }

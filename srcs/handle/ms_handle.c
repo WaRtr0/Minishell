@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:54:00 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 15:59:47 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/29 23:15:23 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	ms_handle(t_array *array, t_shell *shell, int fd[2])
 		command = (t_command *)array->data[i];
 		if (command->type == CMD_JOIN)
 			join_part(command->content.array, shell, fd);
-		else if (command->type == CMD_AND_IF && !shell->status)
+		else if (command->type == CMD_AND_IF && !ms_get_status())
 			classic_part(command->content.array, shell, fd);
-		else if (command->type == CMD_OR && shell->status)
+		else if (command->type == CMD_OR && ms_get_status())
 			classic_part(command->content.array, shell, fd);
 		else if (command->type == CMD_SEMICOLON)
 			classic_part(command->content.array, shell, fd);

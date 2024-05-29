@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 18:22:12 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 23:26:23 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 	}
 	pid = fork();
 	if (pid == 0)
-		exit(ms_handle(command->content.array, shell,
-				(int [2]){t_fd[0], t_fd[1]}));
+		exit(ms_exit_status(ms_handle(command->content.array, shell,
+					(int [2]){t_fd[0], t_fd[1]}), 1));
 	else if (pid < 0)
 	{
 		perror("fork");
@@ -98,6 +98,8 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
 	t_pipe_run	run;
+	int			ret;
+	int			tmp;
 
 	run.tmp_fd[0] = fd[0];
 	run.fd[0] = fd[0];
@@ -109,10 +111,12 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 	if (!shell->prompt_listen)
 		return (0);
 	run.index = 0;
+	ret = 0;
 	while (run.index < array->size)
 		pipe_run(&run, shell);
-	while (wait(NULL) != -1)
-		(void) "todo";
+	while (wait(&tmp) != -1)
+		ret = tmp;
+	ms_set_status(ret);
 	shell->in_pipe--;
 	return (0);
 }

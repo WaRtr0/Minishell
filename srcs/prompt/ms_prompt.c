@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 15:45:30 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 18:46:01 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "parser.h"
 #include "handle.h"
 #include "exec.h"
+#include "put.h"
 
 static	void	ms_prompt_init(t_shell *shell)
 {
@@ -69,8 +70,10 @@ int	ms_prompt(t_shell *shell)
 		line = readline("\r"MS_NAME"$ ");
 		if (line == NULL)
 			break ;
+		ms_sig_set(sig_exec);
 		if (!ms_prompt_handle(shell, line))
 			free(line);
 	}
+	ft_putstr_fd("lol\n", 2);
 	return (0);
 }

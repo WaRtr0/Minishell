@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 16:45:23 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/29 23:07:49 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 #include "exec.h"
 #include "minishell.h"
 
-void	do_nothing(int signo, siginfo_t *info, void *context);
 void	heredoc_handler(int signo, siginfo_t *info, void *context);
 void	prompt_handler(int signo, siginfo_t *info, void *context);
 void	quit_handler(int signo, siginfo_t *info, void *context);
+void	exec_handler(int signo, siginfo_t *info, void *context);
 
 int	ms_sig_set(enum e_sig_set rules)
 {
@@ -42,6 +42,8 @@ int	ms_sig_set(enum e_sig_set rules)
 		act_int.sa_sigaction = &prompt_handler;
 	else if (rules == sig_heredoc)
 		act_int.sa_sigaction = &heredoc_handler;
+	else if (rules == sig_exec)
+		act_int.sa_sigaction = &exec_handler;
 	sigaction(SIGINT, &act_int, NULL);
 	return (0);
 }
@@ -58,7 +60,7 @@ void	heredoc_handler(int signo, siginfo_t *info, void *context)
 	(void) signo;
 	(void) info;
 	(void) context;
-	ms_set_status(130);
+	ms_set_status(128 + signo);
 	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	close(0);
@@ -69,16 +71,18 @@ void	prompt_handler(int signo, siginfo_t *info, void *context)
 	(void) signo;
 	(void) info;
 	(void) context;
-	ms_set_status(130);
+	ms_set_status(128 + signo);
 	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void	do_nothing(int signo, siginfo_t *info, void *context)
+void	exec_handler(int signo, siginfo_t *info, void *context)
 {
 	(void) signo;
 	(void) info;
 	(void) context;
+	ms_set_status(128 + signo);
+	ft_putendl_fd("", 2);
 }
