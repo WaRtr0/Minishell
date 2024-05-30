@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 15:47:09 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 17:06:13 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,12 @@ int	ms_wait_pipeline(t_shell *shell)
 
 	pid = 0;
 	exit_stat = 0;
-	fprintf(stderr, "==wait pipeline==\n");
 	while (pid != -1)
 	{
 		pid = wait(&tmp_stat);
 		if (pid == shell->last_pid)
 			exit_stat = tmp_stat;
 	}
-	fprintf(stderr, "==exit pipeline==\n");
 	return (exit_stat);
 }
 
