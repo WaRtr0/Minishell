@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 04:02:21 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 06:43:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "env.h"
 #include "exec.h"
 #include "handle.h"
+#include "errno.h"
 
 static	int	join_part(t_array *array, t_shell *shell, int fd[2])
 {
@@ -116,9 +117,9 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 	run.index = 0;
 	while (run.index < array->size)
 		pipe_run(&run, shell);
-	while (wait(NULL) != -1)
-		;
-	waitpid(shell->last_pid, &ret, 0);
+	ret = 0;
+	while (wait(&ret) != -1)
+		(void) "todo";
 	ms_set_status(ret);
 	shell->in_pipe--;
 	return (0);

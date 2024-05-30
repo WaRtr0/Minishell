@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 04:00:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 06:42:46 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	ms_prompt(t_shell *shell)
 		g_signal_value = 0;
 		if (!ms_prompt_handle(shell, line))
 			free(line);
+		if (g_signal_value != 0)
+			ft_putchar_fd('\n', 2);
 	}
 	return (0);
 }

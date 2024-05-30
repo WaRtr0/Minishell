@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 04:13:02 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 06:23:31 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	heredoc_handler(int signo, siginfo_t *info, void *context)
 	(void) signo;
 	(void) info;
 	(void) context;
-	ms_set_status(128 + signo);
+	ms_set_status(signo);
 	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	close(0);
@@ -73,7 +73,7 @@ void	prompt_handler(int signo, siginfo_t *info, void *context)
 	(void) signo;
 	(void) info;
 	(void) context;
-	ms_set_status(128 + signo);
+	ms_set_status(signo);
 	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -85,7 +85,5 @@ void	exec_handler(int signo, siginfo_t *info, void *context)
 	(void) signo;
 	(void) info;
 	(void) context;
-	ms_set_status(128 + signo);
 	g_signal_value = signo;
-	ft_putendl_fd("", 2);
 }

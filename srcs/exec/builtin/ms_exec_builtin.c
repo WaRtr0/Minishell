@@ -6,12 +6,13 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 04:25:28 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 06:34:33 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "exec.h"
+#include <errno.h>
 
 int	parent(t_shell *shell, int pid);
 int	child(t_exec *exec, t_shell *shell);
@@ -38,7 +39,9 @@ int	parent(t_shell *shell, int pid)
 	shell->last_pid = pid;
 	if (!shell->in_pipe)
 	{
-		waitpid(shell->last_pid, &ret, 0);
+		errno = 0;
+		while (waitpid(shell->last_pid, &ret, 0) == -1 && errno == 4)
+			errno = 0;
 	}
 	return (ret);
 }
