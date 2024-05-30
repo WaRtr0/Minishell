@@ -6,19 +6,17 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 06:23:31 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 15:41:26 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _XOPEN_SOURCE 700
-
-#include <signal.h>
+#include "minishell.h"
+# include <stdio.h>
 #include <stddef.h>
-#include <stdio.h> //a rajouter car pas compilation!
 #include <readline/readline.h>
 #include "put.h"
 #include "exec.h"
-#include "minishell.h"
+
 
 int		g_signal_value;
 
@@ -32,7 +30,7 @@ int	ms_sig_set(enum e_sig_set rules)
 	struct sigaction	act_int;
 
 	ft_bzero(&act_int, sizeof(act_int));
-	act_int.sa_flags = SA_SIGINFO;
+	act_int.sa_flags = SA_SIGINFO | SA_RESTART;
 	signal(SIGQUIT, SIG_IGN);
 	if (rules == sig_restore)
 	{

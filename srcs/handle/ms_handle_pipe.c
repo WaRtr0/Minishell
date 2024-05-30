@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 06:43:42 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 15:47:09 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,28 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	return (0);
 }
 
+int	ms_wait_pipeline(t_shell *shell)
+{
+	int	pid;
+	int	tmp_stat;
+	int	exit_stat;
+
+	pid = 0;
+	exit_stat = 0;
+	fprintf(stderr, "==wait pipeline==\n");
+	while (pid != -1)
+	{
+		pid = wait(&tmp_stat);
+		if (pid == shell->last_pid)
+			exit_stat = tmp_stat;
+	}
+	fprintf(stderr, "==exit pipeline==\n");
+	return (exit_stat);
+}
+
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
 	t_pipe_run	run;
-	int			ret;
 
 	run.tmp_fd[0] = fd[0];
 	run.fd[0] = fd[0];
@@ -117,10 +135,7 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 	run.index = 0;
 	while (run.index < array->size)
 		pipe_run(&run, shell);
-	ret = 0;
-	while (wait(&ret) != -1)
-		(void) "todo";
-	ms_set_status(ret);
+	ms_set_status(ms_wait_pipeline(shell));
 	shell->in_pipe--;
 	return (0);
 }

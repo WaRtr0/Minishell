@@ -6,10 +6,11 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 06:34:33 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 15:36:19 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "builtin.h"
 #include "exec.h"
 #include <errno.h>
@@ -39,9 +40,7 @@ int	parent(t_shell *shell, int pid)
 	shell->last_pid = pid;
 	if (!shell->in_pipe)
 	{
-		errno = 0;
-		while (waitpid(shell->last_pid, &ret, 0) == -1 && errno == 4)
-			errno = 0;
+		waitpid(shell->last_pid, &ret, 0);
 	}
 	return (ret);
 }
