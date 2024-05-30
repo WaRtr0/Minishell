@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/29 23:22:46 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 01:58:37 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_shell
 	int		heredoc_size;
 	char	*limiter;
 	t_env	*env;
+	int		last_pid;
 }	t_shell;
 
 union u_content

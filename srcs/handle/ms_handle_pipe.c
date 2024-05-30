@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 23:26:23 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 01:56:18 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 	pid = fork();
 	if (pid == 0)
 		exit(ms_exit_status(ms_handle(command->content.array, shell,
-					(int [2]){t_fd[0], t_fd[1]}), 1));
+					(int [2]){t_fd[0], t_fd[1]}), 0));
 	else if (pid < 0)
 	{
 		perror("fork");
@@ -84,11 +84,11 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	else if (command->type == CMD_PARENTHESIS)
 		pare_part(run->array, shell,
 			(int [2]){run->tmp_fd[0], run->tmp_fd[1]}, run->index);
+	if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)   //voir
+		close(run->tmp_fd[0]);  //voir
 	if (run->index < run->array->size - 1)
 	{
 		close(run->pipe_fd[1]);
-		if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)   //voir
-			close(run->tmp_fd[0]);  //voir
 		run->tmp_fd[0] = run->pipe_fd[0];
 	}
 	run->index++;

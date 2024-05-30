@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 15:34:10 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 02:00:49 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	parent(t_shell *shell, int pid)
 	int	ret;
 
 	ret = 0;
+	shell->last_pid = pid;
 	if (!shell->in_pipe)
 	{
 		waitpid(pid, &ret, 0);
