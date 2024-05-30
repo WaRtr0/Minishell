@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 04:00:05 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 04:25:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	child(t_exec *exec, t_shell *shell)
 	int	ret;
 	size_t	i;
 
-	ms_sig_set(sig_restore);
 	ret = ms_run_builtin(exec, shell);
 	free_shell(shell);
 	free_exec(exec);

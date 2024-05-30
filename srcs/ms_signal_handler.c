@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 03:53:56 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 04:13:02 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	ms_sig_set(enum e_sig_set rules)
 	if (rules == sig_restore)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		act_int.sa_handler = SIG_DFL;
+		signal(SIGINT, SIG_DFL);
+		return (0);
 	}
 	else if (rules == sig_prompt)
 		act_int.sa_sigaction = &prompt_handler;
