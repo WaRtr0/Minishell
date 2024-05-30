@@ -6,12 +6,13 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:27:06 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 23:22:40 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 04:03:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
- #include <sys/wait.h>
+#include <sys/wait.h>
+#include <stdio.h>
  
 int	ms_exit_status(int new_status, int save)
 {
@@ -31,5 +32,7 @@ void	ms_set_status(int new_status)
 {
 	if (WIFEXITED(new_status))
 		new_status = WEXITSTATUS(new_status);
+	else if (WIFSIGNALED(new_status))
+		new_status = WTERMSIG(new_status);
 	ms_exit_status(new_status, 1);
 }

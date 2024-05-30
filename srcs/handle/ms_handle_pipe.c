@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 01:56:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 04:02:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,31 @@ static	int	join_part(t_array *array, t_shell *shell, int fd[2])
 	return (ms_handle_join(array, shell, fd));
 }
 
+static	int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
+{
+	ms_handle(command->content.array, shell, fds);
+	free_shell(shell);
+	close(fds[0]);
+	exit(ms_get_status());
+}
+
 static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 {
 	int			t_fd[2];
-	pid_t		pid;
-	t_command	*command;
 	t_command	*second_command;
 
 	t_fd[0] = fd[0];
 	t_fd[1] = fd[1];
-	command = (t_command *)array->data[i];
 	if (i + 1 < array->size)
 	{
 		second_command = (t_command *)array->data[i + 1];
 		if (second_command->type == CMD_JOIN_NO_PRINT)
 			ms_get_fd(second_command->content.array, shell, t_fd);
 	}
-	pid = fork();
-	if (pid == 0)
-		exit(ms_exit_status(ms_handle(command->content.array, shell,
-					(int [2]){t_fd[0], t_fd[1]}), 0));
-	else if (pid < 0)
+	shell->last_pid = fork();
+	if (shell->last_pid == 0)
+		exit_pare_part((t_command *)array->data[i], shell, t_fd);
+	else if (shell->last_pid < 0)
 	{
 		perror("fork");
 		return (1);
@@ -99,7 +103,6 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 {
 	t_pipe_run	run;
 	int			ret;
-	int			tmp;
 
 	run.tmp_fd[0] = fd[0];
 	run.fd[0] = fd[0];
@@ -111,11 +114,11 @@ int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
 	if (!shell->prompt_listen)
 		return (0);
 	run.index = 0;
-	ret = 0;
 	while (run.index < array->size)
 		pipe_run(&run, shell);
-	while (wait(&tmp) != -1)
-		ret = tmp;
+	while (wait(NULL) != -1)
+		;
+	waitpid(shell->last_pid, &ret, 0);
 	ms_set_status(ret);
 	shell->in_pipe--;
 	return (0);

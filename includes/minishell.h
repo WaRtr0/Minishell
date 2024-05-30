@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/30 01:58:37 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 02:53:18 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ enum e_sig_set
 	sig_heredoc = 1 << 1,
 	sig_exec = 1 << 2,
 };
+
+extern int	g_signal_value;
 
 //int     main(int argc, char **argv, char **envp);
 void	free_shell(t_shell *shell);

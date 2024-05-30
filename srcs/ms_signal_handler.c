@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 23:07:49 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 03:53:56 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "put.h"
 #include "exec.h"
 #include "minishell.h"
+
+int		g_signal_value;
 
 void	heredoc_handler(int signo, siginfo_t *info, void *context);
 void	prompt_handler(int signo, siginfo_t *info, void *context);
@@ -35,8 +37,7 @@ int	ms_sig_set(enum e_sig_set rules)
 	if (rules == sig_restore)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		return (0);
+		act_int.sa_handler = SIG_DFL;
 	}
 	else if (rules == sig_prompt)
 		act_int.sa_sigaction = &prompt_handler;
@@ -84,5 +85,6 @@ void	exec_handler(int signo, siginfo_t *info, void *context)
 	(void) info;
 	(void) context;
 	ms_set_status(128 + signo);
+	g_signal_value = signo;
 	ft_putendl_fd("", 2);
 }

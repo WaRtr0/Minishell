@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/29 15:45:19 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 03:25:47 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	execbin(t_exec *exec, t_shell *shell)
 	char	*cmd;
 	size_t	i;
 
+	ms_sig_set(sig_restore);
 	cmd = NULL;
 	args = NULL;
 	envp = NULL;
@@ -40,7 +41,6 @@ int	execbin(t_exec *exec, t_shell *shell)
 		cmd = get_bin(args[0], shell->env);
 	free_shell(shell);
 	free_exec(exec);
-	ms_sig_set(sig_restore);
 	if ((!(size_t)args | !(size_t)envp | !(size_t)cmd))
 		return (on_error(envp, args, cmd));
 	return (run_bin(cmd, args, envp));

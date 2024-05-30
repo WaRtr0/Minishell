@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 15:33:46 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 02:51:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 	t_exec		*exec_cmd;
 	char		*word;
 
-	if (!shell->prompt_listen)
+	if (!shell->prompt_listen || g_signal_value != 0)
 		return (0);
 	add_exec(&exec_cmd, shell);
 	word = NULL;

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 18:46:01 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 04:00:54 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	ms_prompt(t_shell *shell)
 	while (1)
 	{
 		ms_sig_set(sig_prompt);
-		line = readline("\r"MS_NAME"$ ");
+		line = readline(MS_NAME"$ ");
 		if (line == NULL)
 			break ;
 		ms_sig_set(sig_exec);
+		g_signal_value = 0;
 		if (!ms_prompt_handle(shell, line))
 			free(line);
 	}
-	ft_putstr_fd("lol\n", 2);
 	return (0);
 }
