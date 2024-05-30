@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:07:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 15:55:38 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/30 22:36:51 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ typedef struct s_pipe_run
 	int		tmp_fd[2];
 	int		fd[2];
 }	t_pipe_run;
+
+typedef struct s_wildcard_run
+{
+	t_array	*array;
+	char	*word;
+	t_shell	*shell;
+	t_exec	*exec_cmd;
+	size_t	index;
+}	t_wildcard_run;
 
 // expand fd
 int		ms_heredoc_part(t_array *array, size_t *i, int *t_fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 18:41:32 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/30 18:22:11 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "conf.h"
 #include "str.h"
 #include "utils.h"
+#include "exec.h"
 
 static void	syntax_no_quote(t_parser_str str, t_shell *shell,
 	t_prompt_s *status, char *line)
@@ -62,7 +63,10 @@ static void	run_parsing(char *line, t_prompt_s *status,
 static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 {
 	char		*newline;
+	int		fds[2];
 
+	save_io((int [2]){0, 1}, fds);	// a valide
+	ms_sig_set(sig_heredoc);        // a valide
 	while (status->heredoc || status->squote
 		|| status->dquote || status->parenthesis || status->newline)
 	{
@@ -75,6 +79,7 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 		if (newline)
 			free(newline);
 	}
+	restore_io(fds);			// a valide
 }
 
 int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
