@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/31 00:17:44 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:42:44 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ static t_wildcard_run	*ms_handle_wildcard(t_shell *shell, t_array *array,
 		free(run);
 		return (0);
 	}
-	printf("IN2 wildcard\n");
+	// printf("IN2 wildcard\n");
 	run_wildcard(run);
 	return (run);
 }
@@ -181,7 +181,7 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	t_wildcard_run	*run;
 	(void) exec_cmd;
 	
-	printf("IN wildcard\n");
+	//printf("IN wildcard\n");
 	if (*word == NULL)
 	{
 		*word = ft_strdup("");
@@ -189,15 +189,15 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 			return (1);
 	}
 	run = ms_handle_wildcard(shell, array, i, word);
-	printf("OUT wildcard\n");
+	//printf("OUT wildcard\n");
 	if (run == NULL)
 		return (0);
 
-	printf("COUCOU1\n");
+	//printf("COUCOU1\n");
 	
 	if (run->exec_cmd->content->size > 0)
 	{
-		printf("COUCOUA\n [%s]\n", (char *)run->exec_cmd->content->data[0]);
+		//printf("COUCOUA\n [%s]\n", (char *)run->exec_cmd->content->data[0]);
 		char *tmp;
 		tmp = ms_pathexp(run->exec_cmd->content->data[0]);
 		if (tmp != NULL)
@@ -213,13 +213,13 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	}
 	else
 	{
-		printf("COUCOUB\n [%s]\n", run->word);
+		//printf("COUCOUB\n [%s]\n", run->word);
 		*word = ms_pathexp(run->word);
 	}
 	*i = run->index;
 	// word = NULL;
-	free(run->exec_cmd);
-	free(run);
+	// free(run->exec_cmd);
+	// free(run);
 
 	return (0);
 }

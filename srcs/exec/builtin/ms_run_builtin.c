@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_run_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/29 15:33:52 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/31 16:43:09 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	ms_run_builtin(t_exec *exec, t_shell *shell)
 	int	save_fd[2];
 	int	ret;
 
-	save_io((int [2]){0, 1}, save_fd);
 	save_io((int [2]){0, 1}, save_fd);
 	set_io(exec->fd);
 	ret = run_bti(exec, shell);

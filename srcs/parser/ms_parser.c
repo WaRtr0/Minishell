@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 18:22:11 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/31 23:29:33 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,24 @@
 #include "utils.h"
 #include "exec.h"
 
-static void	syntax_no_quote(t_parser_str str, t_shell *shell,
+static void	syntax_no_quote(t_parser_str *str, t_shell *shell,
 	t_prompt_s *status, char *line)
 {
-	ms_syntax_rule(str.type,
-		ft_select_str(&line[str.index], str.len), shell, status);
-	ms_update_status_text(status, str.type);
-	ms_update_status_heredoc(status, str.type);
+	if (str->type == E_WILDCARD && (status->heredoc || status->chevron))
+	{
+		str->type = E_WORD;
+	}
+	ms_syntax_rule(str->type,
+		ft_select_str(&line[str->index], str->len), shell, status);
+	ms_update_status_text(status, str->type);
+	ms_update_status_heredoc(status, str->type);
+		
 	if (status->heredoc && status->print)
-		if (ms_heredoc(shell, ft_select_str(&line[str.index], str.len)) == 0)
+		if (ms_heredoc(shell, ft_select_str(&line[str->index], str->len)) == 0)
 			shell->prompt_listen = 0;
-	ms_update_status_operator(status, str.type, &str);
-	if (str.type == E_PARENTHESIS)
-		ms_lexer_parenthesis(shell, status, &str);
+	ms_update_status_operator(status, str->type, str);
+	if (str->type == E_PARENTHESIS)
+		ms_lexer_parenthesis(shell, status, str);
 }
 
 static void	run_parsing(char *line, t_prompt_s *status,
@@ -50,10 +55,11 @@ static void	run_parsing(char *line, t_prompt_s *status,
 			&& ms_get_metachar(&line[str.index]) == E_AND)
 			str.type = E_WORD;
 		if (!status->squote && !status->dquote)
-			syntax_no_quote(str, shell, status, line);
-		ms_update_status_quote(status, str.type);
+			syntax_no_quote(&str, shell, status, line);
+		ms_update_status_quote(status, &str.type);
 		if (shell->prompt_listen == 0 || shell->error > 0)
 			break ;
+		// printf(" %d \n", str.type);
 		ms_lexer(shell, status, str.type, &str);
 		str.index += str.len;
 		str.len = 0;

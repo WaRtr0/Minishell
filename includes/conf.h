@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 22:01:52 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/31 16:11:59 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "minishell.h"
 
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 # include "debug.h"
 // ------------------------------
 
@@ -42,7 +42,7 @@
 // PARSER SYMBOLS
 
 # define NO_WORD				"\'\"()\n|;&<> \t\\$*"
-# define BLANK					" \t"
+# define BLANK					" \t\n"
 # define PARENTHESIS			"()"
 # define S_BQUOTE				"`"
 # define S_SQUOTE				"\'"

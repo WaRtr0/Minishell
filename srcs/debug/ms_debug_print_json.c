@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:42:02 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 20:50:53 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:06:43 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ms_debug_print_json(t_command *command)
 		|| command->type == CMD_EXPAND_QUOTE)
 		printf("content:`%s`", command->content.str);
 	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
-		(void)"tkt frere";
+		(void)"void";
 	else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN
 		|| command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
 		printf("content:%d", command->content.fd);

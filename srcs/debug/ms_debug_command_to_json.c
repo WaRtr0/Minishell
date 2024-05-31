@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:42:31 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 20:50:11 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:22:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	print_conditional(int indent, t_array *array)
 		|| command->type == CMD_EXPAND_QUOTE)
 		printf("\t\tcontent : `%s`\n", command->content.str);
 	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
-		(void)"tkt frere";
+		(void)"void";
 	else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN
 		|| command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
 		printf("\t\tcontent : %d\n", command->content.fd);
