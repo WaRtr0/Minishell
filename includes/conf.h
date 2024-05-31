@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/31 01:15:53 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/31 16:18:38 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "minishell.h"
 
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 # include "debug.h"
 // ------------------------------
 
@@ -42,7 +42,7 @@
 // PARSER SYMBOLS
 
 # define NO_WORD				"\'\"()\n|;&<> \t\\$*"
-# define BLANK					" \t"
+# define BLANK					" \t\n"
 # define PARENTHESIS			"()"
 # define S_BQUOTE				"`"
 # define S_SQUOTE				"\'"

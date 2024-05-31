@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 18:33:50 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/31 22:21:05 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include "put.h"
 #include "conf.h"
 
-int	check_file(char *path, char *name, char **out);
-int	ms_find_cmd(char *cmd, char *env_path, char **out);
-int	check_bin(char *bin, char *cmd);
+int		check_file(char *path, char *name, char **out);
+int		ms_find_cmd(char *cmd, char *env_path, char **out);
+int		check_bin(char *bin, char *cmd);
+void	set_exit(char *bin, char *cmd);
 
 char	*get_bin(char *cmd, t_env *env)
 {
@@ -26,9 +27,28 @@ char	*get_bin(char *cmd, t_env *env)
 		ms_find_cmd(cmd, ms_env_get(env, "PATH"), &bin);
 	else
 		bin = ft_strdup(cmd);
+	set_exit(bin, cmd);
 	if (check_bin(bin, cmd) == 0)
 		ft_nfree((void **)&bin);
 	return (bin);
+}
+
+void	set_exit(char *bin, char *cmd)
+{
+	int			st;
+	const int	is_cmd = !ft_strchr(cmd, '/');
+
+	st = fs_default;
+	if (bin)
+		st = get_status(bin);
+	if (!(st & fs_exist) && is_cmd)
+		ms_set_status(127);
+	else if (!(st & fs_exist) && !is_cmd)
+		ms_set_status(127);
+	else if (st & fs_is_dir)
+		ms_set_status(32256);
+	else if (!((st & (fs_exec | fs_read)) == (fs_exec | fs_read)))
+		ms_set_status(32256);
 }
 
 int	check_bin(char *bin, char *cmd)

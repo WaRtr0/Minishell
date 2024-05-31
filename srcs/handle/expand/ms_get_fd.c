@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_get_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 08:50:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/21 18:19:38 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:35:58 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ms_redir_in_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
-	command = (t_command *)array->data[(*i)];
 	if (t_fd[0] != -1)
 		close(t_fd[0]);
 	(*i)++;
@@ -45,7 +44,6 @@ int	ms_append_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
-	command = (t_command *)array->data[(*i)];
 	if (t_fd[1] != -1)
 		close(t_fd[1]);
 	(*i)++;
@@ -62,7 +60,6 @@ int	ms_redir_out_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
-	command = (t_command *)array->data[(*i)];
 	if (t_fd[1] != -1)
 		close(t_fd[1]);
 	(*i)++;

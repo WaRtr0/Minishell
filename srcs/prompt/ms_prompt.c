@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 06:42:46 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/31 17:05:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "handle.h"
 #include "exec.h"
 #include "put.h"
+#include "get_next_line.h"
 
 static	void	ms_prompt_init(t_shell *shell)
 {
@@ -59,6 +60,15 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 	return (0);
 }
 
+char	*next_line(char *prompt)
+{
+	char	*str;
+
+	str = NULL;
+	str = readline(prompt);
+	return (str);
+}
+
 int	ms_prompt(t_shell *shell)
 {
 	char	*line;
@@ -67,7 +77,7 @@ int	ms_prompt(t_shell *shell)
 	while (1)
 	{
 		ms_sig_set(sig_prompt);
-		line = readline(MS_NAME"$ ");
+		line = next_line(MS_NAME"$ ");
 		if (line == NULL)
 			break ;
 		ms_sig_set(sig_exec);
