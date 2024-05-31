@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:05:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 16:28:58 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/31 18:04:30 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	free_commands(t_array *array)
 			free(command->content.str);
 		else if (command->type == CMD_HEREDOC || command->type == CMD_EMPTY
 			|| command->type == CMD_REDIR_IN || command->type == CMD_REDIR_OUT
-			|| command->type == CMD_APPEND)
-			(void)"tkt frere";
+			|| command->type == CMD_APPEND || command->type == CMD_WILDCARD)
+			(void)"void";
 		else
 			free_commands(command->content.array);
 		free(command);

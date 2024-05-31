@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_join.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 02:51:41 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/31 15:42:44 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,181 @@ static int	commit_word(t_exec *exec_cmd, char **word)
 	return (0);
 }
 
+// static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word)
+// {
+// 	t_command	*command;
+// 	char		*str;
+// 	char		*path;
+// 	char		*tmp;
+// 	command = (t_command *)array->data[*i];
+	
+// 	if (word != NULL)
+// 	{
+// 		str = ft_strjoin(*word, "*");
+// 		free(*word);
+// 		*word = NULL;
+// 	}
+// 	else
+// 		str = ft_strdup("*");
+// 	if (str == NULL)
+// 		return (1);
+	
+// 	while ((*i + 1) < array->size )
+// 	{
+// 		if (((t_command *)array->data[*i + 1])->type == CMD_WILDCARD)
+// 		{
+// 			tmp = ft_strjoin(str, "*");
+// 			free(str);
+// 			str = tmp;
+// 			*i += 1;
+// 		}
+// 		else if (((t_command *)array->data[*i + 1])->type == CMD_TEXT)
+// 		{
+// 			tmp = ft_strjoin(str, ((t_command *)array->data[*i + 1])->content.str);
+// 			free(str);
+// 			str = tmp;
+// 			*i += 1;
+// 		}
+// 		else
+// 			break;
+// 	} 
+	
+
+
+
+// 	if (path == NULL)
+// 	{
+// 		*i += 1;
+// 		return (0);
+// 	}
+
+
+// 	path = ms_pathexp(command->content.str);
+// 	ft_arr_append(exec_cmd->content, path);
+// 	free(path);
+// 	*i += 1;
+// 	return (0);
+// }
+
+static int	add_exec(t_exec **exec_cmd, t_shell *shell);
+
+static int	run_wildcard(t_wildcard_run *run)
+{
+	t_command	*command;
+	char		*tmp;
+
+	while (run->index < run->array->size && run->shell->error < 1)
+	{
+		command = (t_command *)run->array->data[run->index];
+		if (run->exec_cmd->content->size > 0)
+			return (1);
+		if (command->type == CMD_TEXT)
+			add_word(command, &run->word, run->shell);
+		else if (command->type == CMD_EXPAND
+			|| command->type == CMD_EXPAND_QUOTE)
+			ms_expand(command, run->shell, run->exec_cmd, &run->word);
+		else if (command->type == CMD_WILDCARD)
+		{
+			tmp = run->word;
+			run->word = ft_strjoin(run->word, "*");
+			if (run->word == NULL)
+			{
+				run->shell->error = 1;
+				run->shell->prompt_listen = 0;
+				free(tmp);
+				return (0);
+			}
+			free(tmp);
+		}
+		else
+			return (1);
+		run->index++;
+	}
+	return (0);
+}
+
+static t_wildcard_run	*ms_handle_wildcard(t_shell *shell, t_array *array,
+	size_t *i, char **word)
+{
+	t_wildcard_run	*run;
+
+	run = malloc(sizeof(t_wildcard_run));
+	if (run == NULL)
+	{
+		shell->error = 1;
+		shell->prompt_listen = 0;
+		return (NULL);
+	}
+
+	if (!shell->prompt_listen)
+		return (0);
+	add_exec(&run->exec_cmd, shell);
+	run->index = *i;
+	run->array = array;
+	run->shell = shell;
+	run->word = *word;
+	if (run->exec_cmd == NULL)
+	{
+		free(run);
+		return (0);
+	}
+	// printf("IN2 wildcard\n");
+	run_wildcard(run);
+	return (run);
+}
+
+#include "wildcard.h"
+
+static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word, t_shell *shell)
+{
+	t_wildcard_run	*run;
+	(void) exec_cmd;
+	
+	//printf("IN wildcard\n");
+	if (*word == NULL)
+	{
+		*word = ft_strdup("");
+		if (*word == NULL)
+			return (1);
+	}
+	run = ms_handle_wildcard(shell, array, i, word);
+	//printf("OUT wildcard\n");
+	if (run == NULL)
+		return (0);
+
+	//printf("COUCOU1\n");
+	
+	if (run->exec_cmd->content->size > 0)
+	{
+		//printf("COUCOUA\n [%s]\n", (char *)run->exec_cmd->content->data[0]);
+		char *tmp;
+		tmp = ms_pathexp(run->exec_cmd->content->data[0]);
+		if (tmp != NULL)
+			ft_arr_append(exec_cmd->content, tmp);
+		free(ft_arr_shift(run->exec_cmd->content));
+		size_t i = 0;
+		while (i < run->exec_cmd->content->size)
+		{
+			ft_arr_append(exec_cmd->content, run->exec_cmd->content->data[i]);
+			i++;
+		}
+		*word = run->word;
+	}
+	else
+	{
+		//printf("COUCOUB\n [%s]\n", run->word);
+		*word = ms_pathexp(run->word);
+	}
+	*i = run->index;
+	// word = NULL;
+	// free(run->exec_cmd);
+	// free(run);
+
+	return (0);
+}
+
+
+
 static int	run_join(t_array *array, t_exec *exec_cmd,
 	t_shell *shell, char **word)
 {
@@ -66,6 +241,8 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 		else if (command->type == CMD_EXPAND
 			|| command->type == CMD_EXPAND_QUOTE)
 			ms_expand(command, shell, exec_cmd, word);
+		else if (command->type == CMD_WILDCARD)
+			ms_wildcard(array, &i, exec_cmd, word, shell);
 		else if (command->type == CMD_EMPTY)
 			commit_word(exec_cmd, word);
 		else if (command->type == CMD_HEREDOC)
