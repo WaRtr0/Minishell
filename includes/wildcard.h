@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 06:04:21 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/21 10:32:11 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/01 02:12:10 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 # include "arr.h"
 
-typedef struct s_pattern
+typedef struct s_pathexp
 {
-	t_array	*list;
 	int		dir;
-}	t_pattern;
+	char 	**patterns;
+	t_array	*files;
+}	t_pathexp;
 
 char	*ms_pathexp(char *pattern);
 int		pattern_match(char *pattern, char *str);
