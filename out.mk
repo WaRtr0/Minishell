@@ -107,5 +107,6 @@ SRCS += handle/ms_handle.c
 SRCS += handle/ms_handle_join.c
 SRCS += handle/ms_handle_pipe.c
 #---wildcard---
+SRCS += wildcard/pathexp_utils.c
 SRCS += wildcard/ms_pathexp.c
 SRCS += wildcard/pattern_match.c

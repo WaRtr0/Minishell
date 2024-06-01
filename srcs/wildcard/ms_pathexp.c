@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pathexp_new.c                                   :+:      :+:    :+:   */
+/*   ms_pathexp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/01 02:11:35 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/01 02:39:49 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "utils.h"
 
 int		req_list(int lvl, t_pathexp *pathexp, char *path);
-char	*get_files(char **strs, int dir);
 
 char	*ms_pathexp(char *pattern)
 {
@@ -34,11 +33,14 @@ char	*ms_pathexp(char *pattern)
 	str = NULL;
 	if (pathexp.patterns != NULL)
 	{
-		req_list(0, &pathexp, ".");
+		if (pattern[0] == '/')
+			req_list(0, &pathexp, "/");
+		else
+			req_list(0, &pathexp, ".");
 		if (pathexp.files->size == 0)
 			str = ft_strdup(pattern);
 		else if (ft_arr_append(pathexp.files, NULL))
-			str = get_files((char **)pathexp.files->data, pathexp.dir);
+			str = exp_get_files((char **)pathexp.files->data, pathexp.dir);
 	}
 	ft_strsfree(pathexp.patterns);
 	ft_arr_free(&pathexp.files, free);
@@ -49,37 +51,12 @@ char	*get_path(char *path, char *file, int lvl)
 {
 	char	*str;
 
-	if (lvl == 0 && *path == '.')
+	if (lvl == 0 && (*path == '.'))
 		str = ft_strdup(file);
+	else if (lvl == 0 && (*path == '/'))
+		str = ft_strjoin_seperator(path, file, "");
 	else
 		str = ft_strjoin_seperator(path, file, "/");
-	return (str);
-}
-
-char	*get_files(char **strs, int dir)
-{
-	char	*str;
-	char	*p;
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (strs[i])
-		count += ft_strlen(strs[i++]);
-	str = malloc(count + 1 + i + dir * count);
-	if (!str)
-		return (NULL);
-	i = 0;
-	p = str;
-	while (strs[i])
-	{
-		p = ft_stpcpy(p, strs[i++]);
-		if (dir)
-			*(p++) = '/';
-		*(p++) = ' ';
-	}
-	*(p) = '\0';
 	return (str);
 }
 
@@ -109,17 +86,18 @@ int	req_list(int lvl, t_pathexp *pathexp, char *path)
 	if (pathexp->patterns[lvl] == NULL || path == NULL)
 		return (0);
 	dp = opendir(path);
-	ep = readdir(dp);
+	ep = NULL + 1;
 	while (dp != NULL && ep != NULL)
 	{
-		if (is_valide_file(ep->d_name, pathexp->patterns[lvl]))
+		ep = readdir(dp);
+		if (ep != NULL && is_valide_file(ep->d_name, pathexp->patterns[lvl]))
 		{
 			str = get_path(path, ep->d_name, lvl);
 			if (req_list(lvl + 1, pathexp, str) == 1)
 				free(str);
 		}
-		ep = readdir(dp);
 	}
-	closedir(dp);
+	if (dp != NULL)
+		closedir(dp);
 	return (0);
 }

@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.h                                         :+:      :+:    :+:   */
+/*   pathexp_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 06:04:21 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/01 02:36:36 by gcros            ###   ########.fr       */
+/*   Created: 2024/06/01 02:14:24 by gcros             #+#    #+#             */
+/*   Updated: 2024/06/01 02:27:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARD_H
-# define WILDCARD_H
+#include "minishell.h"
 
-# include "arr.h"
-
-typedef struct s_pathexp
+char	*exp_get_files(char **strs, int dir)
 {
-	int		dir;
-	char 	**patterns;
-	t_array	*files;
-}	t_pathexp;
+	char	*str;
+	char	*p;
+	size_t	i;
+	size_t	count;
 
-char	*ms_pathexp(char *pattern);
-int		pattern_match(char *pattern, char *str);
-char	*exp_get_files(char **strs, int dir);
-
-#endif
+	i = 0;
+	count = 0;
+	while (strs[i])
+		count += ft_strlen(strs[i++]);
+	str = malloc(count + 1 + i + dir * count);
+	if (!str)
+		return (NULL);
+	i = 0;
+	p = str;
+	while (strs[i])
+	{
+		p = ft_stpcpy(p, strs[i++]);
+		if (dir)
+			*(p++) = '/';
+		*(p++) = ' ';
+	}
+	*(p) = '\0';
+	return (str);
+}
