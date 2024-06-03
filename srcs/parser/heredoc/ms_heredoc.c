@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/29 15:45:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/03 16:14:12 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ static int	add_fd(t_shell *shell)
 static	int	ms_heredoc_handle(t_shell *shell, char *line)
 {
 	if (line == NULL)
+	{
+		shell->prompt_listen = 0;
 		return (0);
+	}
 	if (ft_strlen(shell->limiter) == ft_strlen(line)
 		&& ft_strncmp(line, shell->limiter, ft_strlen(shell->limiter)) == 0)
 	{
@@ -88,5 +91,6 @@ int	ms_heredoc(t_shell *shell, char *limiter)
 		"\0", 1);
 	close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
 	free(limiter);
+	ms_sig_set(sig_exec);
 	return (errno == 0);
 }

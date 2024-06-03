@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 15:41:26 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/03 16:00:32 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,5 @@ void	exec_handler(int signo, siginfo_t *info, void *context)
 	(void) info;
 	(void) context;
 	g_signal_value = signo;
+	rl_replace_line("", 0);
 }
