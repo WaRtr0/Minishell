@@ -30,6 +30,8 @@ all:
 	@echo "compiling $(NAME):"
 	@$(MAKE) -s $(NAME) 
 
+bonus:	all
+
 include config/libft.mk
 #include config/srcs.mk
 include out.mk
