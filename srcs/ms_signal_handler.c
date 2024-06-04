@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/03 16:00:32 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/04 13:43:20 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	heredoc_handler(int signo, siginfo_t *info, void *context)
 	(void) info;
 	(void) context;
 	ms_set_status(signo);
+	g_signal_value = signo;
 	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	close(0);

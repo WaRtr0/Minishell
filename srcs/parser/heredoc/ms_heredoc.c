@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/03 16:14:12 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/04 13:20:35 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "exec.h"
 #include <errno.h>
+#include "put.h"
 
 static int	add_fd(t_shell *shell)
 {
@@ -43,11 +44,23 @@ static int	add_fd(t_shell *shell)
 	return (0);
 }
 
+void	print_hd(t_shell *shell, char *line, int fd)
+{
+	(void) shell;
+	//todo expend '$' before write
+	ft_putendl_fd(line, fd);
+}
+
+
 static	int	ms_heredoc_handle(t_shell *shell, char *line)
 {
 	if (line == NULL)
 	{
-		shell->prompt_listen = 0;
+		if (g_signal_value == 130)
+		{
+			shell->prompt_listen = 0;
+			g_signal_value = 0;
+		}
 		return (0);
 	}
 	if (ft_strlen(shell->limiter) == ft_strlen(line)
@@ -56,12 +69,8 @@ static	int	ms_heredoc_handle(t_shell *shell, char *line)
 		free(line);
 		return (0);
 	}
-	write(
-		((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]),
-		line,
-		ft_strlen(line));
-	write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1],
-		"\n", 1);
+	print_hd(shell, line,
+		((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]));
 	free(line);
 	return (1);
 }
