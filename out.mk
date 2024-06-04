@@ -33,6 +33,7 @@ SRCS += parser/syntax/ms_update_status_quote.c
 SRCS += parser/syntax/ms_update_status_heredoc.c
 SRCS += parser/syntax/ms_syntax_error.c
 SRCS += parser/ms_join_parsers.c
+SRCS += parser/heredoc/ms_herdoc_utils.c
 SRCS += parser/heredoc/ms_heredoc.c
 SRCS += parser/utils/ms_get_operator.c
 SRCS += parser/utils/ms_get_type.c
