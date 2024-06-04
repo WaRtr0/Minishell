@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/04 13:39:35 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/04 15:22:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ static t_wildcard_run	*ms_handle_wildcard(t_shell *shell, t_array *array,
 {
 	t_wildcard_run	*run;
 
+	if (!shell->prompt_listen)
+		return (NULL);
 	run = malloc(sizeof(t_wildcard_run));
 	if (run == NULL)
 	{
@@ -156,19 +158,15 @@ static t_wildcard_run	*ms_handle_wildcard(t_shell *shell, t_array *array,
 		shell->prompt_listen = 0;
 		return (NULL);
 	}
-
-	if (!shell->prompt_listen)
-		return (0);
-	add_exec(&run->exec_cmd, shell);
+	if (add_exec(&run->exec_cmd, shell) == 0 || run->exec_cmd == NULL)
+	{
+		free(run);
+		return (NULL);
+	}
 	run->index = *i;
 	run->array = array;
 	run->shell = shell;
 	run->word = *word;
-	if (run->exec_cmd == NULL)
-	{
-		free(run);
-		return (0);
-	}
 	// printf("IN2 wildcard\n");
 	run_wildcard(run);
 	return (run);
@@ -269,7 +267,8 @@ static int	add_exec(t_exec **exec_cmd, t_shell *shell)
 	(*exec_cmd)->content = ft_arr_new(20);
 	if ((*exec_cmd)->content == NULL)
 	{
-		free((*exec_cmd));
+		free(*exec_cmd);
+		exec_cmd = NULL;
 		shell->error = 1;
 		return (shell->prompt_listen = 0);
 	}
@@ -289,9 +288,8 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 			g_signal_value = 0;
 		return (0);
 	}
-	add_exec(&exec_cmd, shell);
 	word = NULL;
-	if (exec_cmd == NULL)
+	if (add_exec(&exec_cmd, shell) == 0 || exec_cmd == NULL)
 		return (0);
 	run_join(array, exec_cmd, shell, &word);
 	if (exec_cmd->fd[0] == -1)
