@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:03:53 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 16:35:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/04 11:07:46 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ int	cd(char **args, t_env **env)
 	if (args[0] && args[1] && args[2])
 		return (cd_error(E2BIG, NULL));
 	if (cd_getop(args[1], *env, &op) == 1)
-		return (1);
+		return (EXIT_FAILURE);
 	err = chdir(op);
 	if (err == -1)
 		return (cd_error(errno, op));
 	if (cd_update_env(env))
+	{
+		cd_error(errno, op);
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
