@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 16:32:06 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 17:41:39 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ t_array	*ms_pathexp(char *pattern)
 		exp_get_files(&pathexp, pathexp.dir);
 	}
 	ft_strsfree(pathexp.patterns);
-	for (size_t i = 0; i < pathexp.files->size; i++)
-		ft_putendl_fd(pathexp.files->data[i], 1);
+	//for (size_t i = 0; i < pathexp.files->size; i++)
+	//	ft_putendl_fd(pathexp.files->data[i], 1);
 	return (pathexp.files);
 }
 
