@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/31 22:11:22 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 13:06:30 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	run_bin(char *cmd, char **args, char **envp)
 	if (DEBUG_MODE)
 		ft_putendl_fd("==run_bin", 2);
 	execve(cmd, args, envp);
-	return (ms_get_status());
+	ms_set_status(EXIT_FAILURE << 8);
+	return (on_error(envp, args, cmd));
 }
 
 char	**get_env(t_env *env)
