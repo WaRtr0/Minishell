@@ -33,8 +33,7 @@ all:
 bonus:	all
 
 include config/libft.mk
-#include config/srcs.mk
-include out.mk
+include config/srcs.mk
 
 $(NAME) : $(OFILES) | $(LIB_PATH)
 	$(CC) $(CFLAGS) -o $@ $(OFILES) $(LIB_FLAGS)

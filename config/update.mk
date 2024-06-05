@@ -1,5 +1,5 @@
 U_DIR := env builtin prompt parser exec debug utils lexer handle wildcard
-OUT = ./out.mk
+OUT = ./config/srcs.mk
 
 $(touch $(OUT))
 
