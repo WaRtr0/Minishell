@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pathexp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 16:32:06 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 17:27:35 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_array	*ms_pathexp(char *pattern)
 	}
 	ft_strsfree(pathexp.patterns);
 	for (size_t i = 0; i < pathexp.files->size; i++)
-		ft_putendl_fd(pathexp.files->data[i], 1);
+	 	ft_putendl_fd(pathexp.files->data[i], 1);
 	return (pathexp.files);
 }
 

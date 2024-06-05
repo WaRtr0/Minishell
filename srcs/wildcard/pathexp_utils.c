@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathexp_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 02:14:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 16:48:41 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 17:26:56 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	exp_get_files(t_pathexp *pathexp, int dir)
 		tmp = ft_strdup(pathexp->pattern);
 		if (tmp != NULL)
 			ft_arr_append(pathexp->files, tmp);
+		else
+			write(2, "la\n", 3);
 		return ;
 	}
 	sort_files(pathexp->files);

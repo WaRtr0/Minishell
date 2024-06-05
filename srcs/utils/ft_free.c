@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:05:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/31 18:04:30 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:38:07 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void	free_prompt(t_shell *shell)
 	ft_arr_free(&shell->cursor_array, NULL);
 	ft_arr_free(&shell->heredoc_fd, NULL);
 	free_commands(shell->commands);
+	if (shell->command)
+		free(shell->command);
+	shell->command = NULL;
 	shell->cursor = NULL;
 	free(shell->prompt);
 }
