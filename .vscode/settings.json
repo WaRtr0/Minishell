@@ -42,7 +42,14 @@
         "get_next_line.h": "c",
         "wildcard.h": "c",
         "put.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "atomic": "c",
+        "*.tcc": "c",
+        "cmath": "c",
+        "unordered_map": "c",
+        "random": "c",
+        "limits": "c",
+        "optional": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
