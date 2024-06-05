@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 12:43:16 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 16:37:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,9 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	{
 		//printf("COUCOUA\n [%s]\n", (char *)run->exec_cmd->content->data[0]);
 		char *tmp;
-		tmp = ms_pathexp(run->exec_cmd->content->data[0]);
+		//tmp = ms_pathexp(run->exec_cmd->content->data[0]);
+		ms_pathexp(run->exec_cmd->content->data[0]);
+		tmp = NULL;
 		if (tmp != NULL)
 			ft_arr_append(exec_cmd->content, tmp);
 		free(ft_arr_shift(run->exec_cmd->content));
@@ -212,7 +214,9 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	else
 	{
 		//printf("COUCOUB\n [%s]\n", run->word);
-		*word = ms_pathexp(run->word);
+		//*word = ms_pathexp(run->word);
+		ms_pathexp(run->word);
+		*word = NULL;
 	}
 	*i = run->index;
 	// word = NULL;

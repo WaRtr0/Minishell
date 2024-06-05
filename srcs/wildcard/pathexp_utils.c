@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 02:14:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 16:23:14 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 16:48:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	exp_get_files(t_pathexp *pathexp, int dir)
 		tmp = ft_strdup(pathexp->pattern);
 		if (tmp != NULL)
 			ft_arr_append(pathexp->files, tmp);
+		return ;
 	}
 	sort_files(pathexp->files);
 	if (dir)
