@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:01:36 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/31 16:34:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 13:31:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ void	ms_update_status_quote(t_prompt_s *status, t_type *type)
 		status->squote++;
 	if (*type == E_DQUOTE && !status->squote)
 		status->dquote++;
-	if ((status->dquote && *type == E_SQUOTE) || (status->squote && *type == E_DQUOTE))
+	if ((status->dquote && *type == E_SQUOTE)
+		|| (status->squote && *type == E_DQUOTE))
 		*type = E_WORD;
+	if (status->heredoc && status->squote + status->dquote == 1)
+		status->heredoc = 2;
 	if (status->squote + status->dquote > 1)
 	{
 		status->print = 1;
