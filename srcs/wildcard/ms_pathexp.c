@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 17:43:55 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 17:53:48 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	req_list(int lvl, t_pathexp *pathexp, char *path)
 	if (pathexp->patterns[lvl] == NULL || path == NULL)
 		return (0);
 	dp = opendir(path);
-	ep = NULL + 1;
+	ep = (void *)1;
 	while (dp != NULL && ep != NULL)
 	{
 		ep = readdir(dp);

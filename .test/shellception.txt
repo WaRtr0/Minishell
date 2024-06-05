@@ -5,3 +5,5 @@ bash
 echo $? => 42
 
 #export $(echo -n $(ls -R | sed 's/[:.]//g' |sed -e 's/ /\n/g' | awk '{print $1"="$1}' | sed -e 's/^=$/ /g' | awk '{print $1}'))
+
+echo * | cat -e | awk '{print $2}' | ./minishell | ls
