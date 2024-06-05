@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:54:25 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 23:06:27 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 18:16:10 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,17 @@ static void	join_quote(t_shell *shell, t_prompt_s *status)
 
 static void	join_parenthesis(t_shell *shell, t_prompt_s *status, char *line)
 {
+	t_parser_str	str;
 	if (status->print
 		|| status->parenthesis != status->last_parenthesis)
+	{
 		ms_join_prompt(shell, line, "; ");
+		str.type = E_METACHAR;
+		str.str = ";";
+		str.len = 1;
+		str.index = 0;
+		ms_lexer_operator(shell, status, &str);
+	}
 	else
 		ms_join_prompt(shell, line, " ");
 }

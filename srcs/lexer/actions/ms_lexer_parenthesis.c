@@ -6,13 +6,23 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:01:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/22 23:46:46 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 18:45:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "parser.h"
 #include "utils.h"
+
+static int is_semicolon(t_shell *shell)
+{
+	if (ms_get_cursor_type(shell) != -1)
+		return (0);
+	if (ms_get_parent(shell, 1) != NULL
+		&& ms_get_parent(shell, 1)->type == CMD_SEMICOLON)
+		return (1);
+	return (0);
+}
 
 static int	open_parenthesis(t_shell *shell, t_prompt_s *status,
 	t_parser_str *str)
@@ -47,7 +57,7 @@ static int	close_parenthesis(t_shell *shell, t_prompt_s *status,
 {
 	status->c_parenthesis = 1;
 	if ((status->parenthesis == 0 || status->operator || !status->no_empty)
-		&& (ms_get_cursor_type(shell) != CMD_SEMICOLON))
+		&& !is_semicolon(shell))
 		return (ms_syntax_error(E_SYNTAX_UPD_TOK,
 				ft_select_str(&str->str[str->index], str->len), shell));
 	else
