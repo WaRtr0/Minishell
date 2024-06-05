@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_join.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 16:37:21 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 17:31:27 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,24 @@ static t_wildcard_run	*ms_handle_wildcard(t_shell *shell, t_array *array,
 
 #include "wildcard.h"
 
+static int swap_wildcard(char *pattern, t_array *array)
+{
+	t_array *tmp_array;
+
+	tmp_array = ms_pathexp(pattern);
+	if (tmp_array == NULL)
+		return (1);
+	if (ft_arr_resize(array, array->size + tmp_array->size + 20))
+	{
+		while (tmp_array->size > 0)
+		{
+			ft_arr_push(array, ft_arr_shift(tmp_array));
+		}
+	}
+	ft_arr_free(&tmp_array, free);
+	return (0);
+}
+
 static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word, t_shell *shell)
 {
 	t_wildcard_run	*run;
@@ -195,10 +213,8 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	
 	if (run->exec_cmd->content->size > 0)
 	{
-		//printf("COUCOUA\n [%s]\n", (char *)run->exec_cmd->content->data[0]);
 		char *tmp;
-		//tmp = ms_pathexp(run->exec_cmd->content->data[0]);
-		ms_pathexp(run->exec_cmd->content->data[0]);
+		swap_wildcard((char *)run->exec_cmd->content->data[0], exec_cmd->content);
 		tmp = NULL;
 		if (tmp != NULL)
 			ft_arr_append(exec_cmd->content, tmp);
@@ -213,9 +229,8 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	}
 	else
 	{
-		//printf("COUCOUB\n [%s]\n", run->word);
-		//*word = ms_pathexp(run->word);
-		ms_pathexp(run->word);
+		swap_wildcard(run->word, exec_cmd->content);
+		// ms_pathexp(run->word);
 		*word = NULL;
 	}
 	*i = run->index;
