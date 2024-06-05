@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/01 02:39:49 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 16:32:06 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,32 @@
 #include <dirent.h>
 #include "exec.h"
 #include "utils.h"
+#include "put.h"
 
 int		req_list(int lvl, t_pathexp *pathexp, char *path);
 
-char	*ms_pathexp(char *pattern)
+t_array	*ms_pathexp(char *pattern)
 {
-	char		*str;
 	t_pathexp	pathexp;
 
 	pathexp.files = ft_arr_new(20);
+	pathexp.pattern = pattern;
 	if (pathexp.files == NULL)
 		return (NULL);
 	pathexp.dir = pattern[ft_strlen(pattern) - 1] == '/';
 	pathexp.patterns = ft_split(pattern, '/');
-	str = NULL;
 	if (pathexp.patterns != NULL)
 	{
 		if (pattern[0] == '/')
 			req_list(0, &pathexp, "/");
 		else
 			req_list(0, &pathexp, ".");
-		if (pathexp.files->size == 0)
-			str = ft_strdup(pattern);
-		else if (ft_arr_append(pathexp.files, NULL))
-			str = exp_get_files((char **)pathexp.files->data, pathexp.dir);
+		exp_get_files(&pathexp, pathexp.dir);
 	}
 	ft_strsfree(pathexp.patterns);
-	ft_arr_free(&pathexp.files, free);
-	return (str);
+	for (size_t i = 0; i < pathexp.files->size; i++)
+		ft_putendl_fd(pathexp.files->data[i], 1);
+	return (pathexp.files);
 }
 
 char	*get_path(char *path, char *file, int lvl)

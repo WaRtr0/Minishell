@@ -6,46 +6,51 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 02:14:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/04 15:10:59 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 16:23:14 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "str.h"
+#include "wildcard.h"
 
-void	swap(char **p1, char **p2);
-void	sort_files(char **strs);
+void	swap(void **p1, void **p2);
+void	sort_files(t_array *files);
+void	to_dir(t_array *files);
 
-char	*exp_get_files(char **strs, int dir)
+void	exp_get_files(t_pathexp *pathexp, int dir)
 {
-	char	*str;
-	char	*p;
-	size_t	i;
-	size_t	count;
+	char	*tmp;
 
-	i = 0;
-	count = 0;
-	sort_files(strs);
-	while (strs[i])
-		count += ft_strlen(strs[i++]);
-	str = malloc(count + 1 + i + dir * count);
-	if (!str)
-		return (NULL);
-	i = 0;
-	p = str;
-	while (strs[i])
+	if (pathexp->files->size == 0)
 	{
-		p = ft_stpcpy(p, strs[i++]);
-		if (dir)
-			*(p++) = '/';
-		if (strs[i + 1])
-			*(p++) = ' ';
+		tmp = ft_strdup(pathexp->pattern);
+		if (tmp != NULL)
+			ft_arr_append(pathexp->files, tmp);
 	}
-	*(p) = '\0';
-	return (str);
+	sort_files(pathexp->files);
+	if (dir)
+		to_dir(pathexp->files);
 }
 
-void	swap(char **p1, char **p2)
+void	to_dir(t_array *files)
+{
+	char	*tmp;
+	size_t	i;
+
+	i = 0;
+	while (i < files->size)
+	{
+		tmp = ft_strjoin(files->data[i], "/");
+		if (tmp == NULL)
+			continue ;
+		swap(files->data + i, (void **)&tmp);
+		free(tmp);
+		i++;
+	}
+}
+
+void	swap(void **p1, void **p2)
 {
 	char	*tmp;
 
@@ -54,18 +59,18 @@ void	swap(char **p1, char **p2)
 	*p2 = tmp;
 }
 
-void	sort_files(char **strs)
+void	sort_files(t_array *files)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while (strs[i])
+	while (i < files->size)
 	{
 		j = i;
-		while (j > 0 && ft_strncmp(strs[j - 1], strs[j], -1) > 0)
+		while (j > 0 && ft_strncmp(files->data[j - 1], files->data[j], -1) > 0)
 		{
-			swap(strs + j, strs + j - 1);
+			swap(files->data + j, files->data + j - 1);
 			j--;
 		}
 		i++;

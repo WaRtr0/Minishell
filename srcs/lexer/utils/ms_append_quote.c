@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_append_quote.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:46:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 13:50:29 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 15:59:00 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	ms_append_quote(t_shell *shell)
 {
 	t_command	*append_command;
 
-	if (shell->command == NULL)
-		shell->command = ft_strdup("");
 	if (shell->command != NULL)
 	{
 		append_command = ms_new_command(shell);

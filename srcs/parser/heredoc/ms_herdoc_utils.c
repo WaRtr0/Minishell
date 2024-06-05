@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:25:23 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/04 21:54:24 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 15:49:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*get_var(t_shell *shell, char *word, size_t indent)
 	char	*var;
 	char	*env_var;
 
+	if (indent == 1)
+		return ("$");
 	var = ft_substr(word, 0, indent);
 	if (var == NULL)
 		return ("");

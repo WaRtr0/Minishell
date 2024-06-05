@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_lexer_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:41:01 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 22:37:58 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 15:59:35 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ void	ms_lexer_quote(t_shell *shell, t_prompt_s *status, t_parser_str *str)
 	if (str->type == E_SQUOTE || str->type == E_DQUOTE)
 	{
 		if (ms_reset_quote(status))
+		{
+			if (shell->command == NULL)
+				shell->command = ft_strdup("");
 			ms_append_quote(shell);
+		}
 	}
 	else if (ms_reset_quote(status))
 	{

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 06:04:21 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/01 02:36:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 16:23:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 typedef struct s_pathexp
 {
 	int		dir;
+	char	*pattern;
 	char 	**patterns;
 	t_array	*files;
 }	t_pathexp;
 
-char	*ms_pathexp(char *pattern);
+t_array	*ms_pathexp(char *pattern);
 int		pattern_match(char *pattern, char *str);
-char	*exp_get_files(char **strs, int dir);
+void	exp_get_files(t_pathexp *pathexp, int dir);
 
 #endif
