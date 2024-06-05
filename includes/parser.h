@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/05/31 16:35:49 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 13:16:37 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		ms_get_metachar(char *str);
 int		ms_reset_quote(t_prompt_s *status);
 
 // parser - heredoc
-int		ms_heredoc(t_shell *shell, char *limiter);
+int		ms_heredoc(t_shell *shell, char *limiter, t_prompt_s *status);
 
 // parser - syntax
 int		ms_syntax_error(t_error error, char *msg, t_shell *shell);

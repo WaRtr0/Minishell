@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:55:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 00:29:26 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 13:36:07 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,13 @@
 void	ms_lexer(t_shell *shell, t_prompt_s *status,
 			int type, t_parser_str *str)
 {
-	if (status-> print && status->heredoc)
-		ms_lexer_heredoc(shell, status);
+	if (type == E_HEREDOC)
+	{
+		if (status->no_print)
+			ms_add_join(shell, CMD_JOIN_NO_PRINT);
+		else
+			ms_add_join(shell, -1);
+	}
 	else if (type == E_NAME)
 		ms_lexer_name(shell, status, str);
 	else if (status->squote || status->dquote)
@@ -28,6 +33,8 @@ void	ms_lexer(t_shell *shell, t_prompt_s *status,
 		ms_lexer_wildcard(shell, str);
 	else if (type == E_EMPTY)
 		ms_lexer_empty(shell);
-	else if (!status->heredoc && type != E_PARENTHESIS)
+	else if (type != E_PARENTHESIS)
 		ms_lexer_operator(shell, status, str);
+	if (status->heredoc && (ms_get_cursor_type(shell) == CMD_TEXT))
+		ms_lexer_heredoc(shell, status);
 }

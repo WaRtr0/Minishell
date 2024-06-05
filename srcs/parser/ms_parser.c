@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/03 16:13:19 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 13:32:46 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ static void	syntax_no_quote(t_parser_str *str, t_shell *shell,
 		ft_select_str(&line[str->index], str->len), shell, status);
 	ms_update_status_text(status, str->type);
 	ms_update_status_heredoc(status, str->type);
-		
-	if (status->heredoc && status->print)
-		if (ms_heredoc(shell, ft_select_str(&line[str->index], str->len)) == 0)
-			shell->prompt_listen = 0;
 	ms_update_status_operator(status, str->type, str);
 	if (str->type == E_PARENTHESIS)
 		ms_lexer_parenthesis(shell, status, str);
@@ -54,12 +50,13 @@ static void	run_parsing(char *line, t_prompt_s *status,
 		if (str.type == E_METACHAR
 			&& ms_get_metachar(&line[str.index]) == E_AND)
 			str.type = E_WORD;
+		if (str.type == E_NAME && status->heredoc)
+			str.type = E_WORD;
 		if (!status->squote && !status->dquote)
 			syntax_no_quote(&str, shell, status, line);
 		ms_update_status_quote(status, &str.type);
 		if (shell->prompt_listen == 0 || shell->error > 0)
 			break ;
-		// printf(" %d \n", str.type);
 		ms_lexer(shell, status, str.type, &str);
 		str.index += str.len;
 		str.len = 0;

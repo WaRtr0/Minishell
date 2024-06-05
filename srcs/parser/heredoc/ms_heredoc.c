@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/04 21:53:24 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 13:38:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	add_fd(t_shell *shell)
 	return (0);
 }
 
-static	int	ms_heredoc_handle(t_shell *shell, char *line)
+static	int	ms_heredoc_handle(t_shell *shell, char *line, t_prompt_s *status)
 {
 	if (line == NULL)
 	{
@@ -64,12 +64,13 @@ static	int	ms_heredoc_handle(t_shell *shell, char *line)
 		return (0);
 	}
 	print_hd(shell, line,
-		((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]), 1);
+		((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]),
+		status->heredoc % 2);
 	free(line);
 	return (1);
 }
 
-int	ms_heredoc(t_shell *shell, char *limiter)
+int	ms_heredoc(t_shell *shell, char *limiter, t_prompt_s *status)
 {
 	char	*newline;
 	int		fds[2];
@@ -86,7 +87,7 @@ int	ms_heredoc(t_shell *shell, char *limiter)
 	while (1)
 	{
 		newline = readline("heredoc> ");
-		if (ms_heredoc_handle(shell, newline) == 0)
+		if (ms_heredoc_handle(shell, newline, status) == 0)
 			break ;
 	}
 	restore_io(fds);

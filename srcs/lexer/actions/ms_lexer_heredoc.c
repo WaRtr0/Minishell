@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:08:07 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/22 22:14:06 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/05 13:15:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ void	ms_lexer_heredoc(t_shell *shell, t_prompt_s *status)
 {
 	t_command	*new_command;
 
-	if (status->no_print)
-		ms_add_join(shell, CMD_JOIN_NO_PRINT);
-	else
-		ms_add_join(shell, -1);
-	new_command = ms_new_command(shell);
+	new_command = ms_get_cursor(shell);
+	if (ms_heredoc(shell, new_command->content.str, status) == 0)
+		shell->prompt_listen = 0;
 	ms_add_type(new_command, CMD_HEREDOC);
 	ms_add_fd(new_command,
 		(int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 2]);
-	ms_commit_command(shell, new_command);
 	status->heredoc = 0;
 }
