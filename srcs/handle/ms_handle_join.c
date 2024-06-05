@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/04 15:22:42 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 12:43:16 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,8 +284,6 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 
 	if (!shell->prompt_listen || g_signal_value != 0)
 	{
-		if (g_signal_value != 0)
-			g_signal_value = 0;
 		return (0);
 	}
 	word = NULL;

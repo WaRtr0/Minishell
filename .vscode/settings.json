@@ -37,7 +37,12 @@
         "sstream": "c",
         "ft_printf.h": "c",
         "exec.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "wait.h": "c",
+        "get_next_line.h": "c",
+        "wildcard.h": "c",
+        "put.h": "c",
+        "stdint.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
