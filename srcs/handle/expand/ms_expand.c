@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 18:30:04 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/28 16:20:11 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 18:32:37 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ int	ms_expand(t_command *command, t_shell *shell, t_exec *exec_cmd, char **word)
 		else if (env_str != NULL)
 			*word = ft_strjoin(*word, ft_strdup(env_str));
 		else
+		{
+			free(command->content.str);
+			ms_add_type(command, CMD_EMPTY);
 			return (1);
+		}
 		env_str = NULL;
 	}
 	return (0);
