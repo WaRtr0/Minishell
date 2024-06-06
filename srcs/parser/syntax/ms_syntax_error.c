@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:29:02 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 19:27:58 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 19:16:17 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 		str = ft_strdup("Mishell : syntax error: unexpected `end of file'");
 	else if (error == E_SYNTAX_UPD_NLN)
 		str = ft_strdup("Mishell : syntax error: unexpected `newline'");
-	free(msg);
+	//free(msg);
 	if (str)
 		ft_putendl_fd(str, 2);
 	free(str);

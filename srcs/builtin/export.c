@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 23:19:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 15:41:10 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 21:26:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	append_to_env(char *var, t_env **envp)
 			{"mishell: export: `", s, "`: not a valid identifier", NULL});
 		if (err_msg)
 			ft_putendl_fd(err_msg, 2);
+		free(s);
 		free(err_msg);
 		return (1);
 	}

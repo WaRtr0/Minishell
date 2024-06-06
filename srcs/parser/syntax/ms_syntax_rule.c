@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:28:06 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/06 16:21:24 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 19:16:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ms_syntax_rule(int type, char *str, t_shell *shell, t_prompt_s *status)
 	if ((type == E_METACHAR || type == E_OPERATOR) && status->print == 0
 		&& !status->c_parenthesis)
 		ms_syntax_error(E_SYNTAX_UPD_TOK, str, shell);
+	free(str);
 	if (shell->prompt_listen)
 		return (0);
 	return (1);
