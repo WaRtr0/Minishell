@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 03:55:46 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 13:30:49 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 15:57:40 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	b_exit(t_exec *exec, t_shell *shell)
 {
 	size_t	i;
 
-	ft_putendl_fd("exit", 1);
+	//ft_putendl_fd("exit", 2);
 	i = 3;
 	while (i < 1024)
 		close(i++);
@@ -65,15 +65,16 @@ int	arg_exit(t_exec *exec, t_shell *shell)
 	int	st;
 
 	st = ft_atol(exec->content->data[1]);
-	if (!ft_strisnumber(exec->content->data[1]))
+	if (!ft_strisnumber(exec->content->data[1])
+		|| ((char *)exec->content->data[1])[0] == '\0')
 	{
 		if (exit_error(1, exec->content->data[1]) == 1)
-			st = 2 << 8;
+			st = 2;
 	}
 	else if (exec->content->size > 2)
 	{
 		if (exit_error(0, NULL) == 0)
-			return (EXIT_FAILURE << 8);
+			return (1 << 8);
 	}
 	free_shell(shell);
 	free_exec(exec);

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:46:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 12:51:02 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 15:43:44 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int	env_error(int err)
 {
 	if (err == E2BIG)
 		ft_putstr_fd("mishell: env: too many arguments\n", 2);
-	return (EXIT_FAILURE << 8);
+	return (127 << 8);
 }

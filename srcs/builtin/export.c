@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 23:19:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 12:52:24 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 15:41:10 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int	export(char **av, t_env **envp)
 	int		ret;
 
 	ret = 0;
+	if (av[1] && av[1][0] == '-')
+	{
+		ft_putendl_fd("ishell: export: no flags allowed", 2);
+		return (2 << 8);
+	}
 	if (*(av + 1) == NULL)
 		return (print_export(*envp));
 	arg_p = av;
@@ -46,7 +51,7 @@ int	append_to_env(char *var, t_env **envp)
 		if (err_msg)
 			ft_putendl_fd(err_msg, 2);
 		free(err_msg);
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	if (!(e->value == NULL && ms_env_exist(*envp, e->key)))
 		ms_env_add(envp, e);
@@ -66,7 +71,7 @@ int	print_export(t_env *envp)
 		prt_val = ft_strsjoin((char *[]){"export ", envp->key, NULL});
 	else
 		prt_val = ft_strsjoin((char *[])
-			{"export ", envp->key, "=\"", envp->value, "\"", NULL});
+			{"export\t", envp->key, "=\"", envp->value, "\"", NULL});
 	if (prt_val)
 		ft_putendl_fd(prt_val, 1);
 	free(prt_val);

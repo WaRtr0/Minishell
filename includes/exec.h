@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:50:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 18:21:45 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 15:02:06 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ enum e_file_status
 	fs_write = 1 << 3,
 	fs_is_dir = 1 << 4,
 };
-
 
 int					ms_exec(t_exec *exec, t_shell *shell);
 

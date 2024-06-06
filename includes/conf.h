@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 19:16:33 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 15:32:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 
 // PARSER SYMBOLS
 
-# define NO_WORD				"\'\"()\n|;&<> \t\\$*"
+# define NO_WORD				"\'\"()\n|;&<> \t$*"
 # define BLANK					" \t\n"
 # define PARENTHESIS			"()"
 # define S_BQUOTE				"`"

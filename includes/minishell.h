@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/06/04 12:40:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 15:03:48 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct exec
 {
 	t_array	*content;
 	int		fd[2];
+	t_array	*redir;
+	int		dfl_fds[2];
 }	t_exec;
 
 enum e_sig_set
