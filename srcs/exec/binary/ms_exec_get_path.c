@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/31 22:21:05 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 13:49:40 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	set_exit(char *bin, char *cmd)
 	else if (!(st & fs_exist) && !is_cmd)
 		ms_set_status(127);
 	else if (st & fs_is_dir)
-		ms_set_status(32256);
+		ms_set_status(126 << 8);
 	else if (!((st & (fs_exec | fs_read)) == (fs_exec | fs_read)))
-		ms_set_status(32256);
+		ms_set_status(126 << 8);
 }
 
 int	check_bin(char *bin, char *cmd)

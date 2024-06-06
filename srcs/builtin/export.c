@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 23:19:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/11 04:45:09 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 12:52:24 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	export(char **av, t_env **envp)
 	arg_p = av;
 	while (*++arg_p)
 		ret |= append_to_env(*arg_p, envp);
-	return (ret);
+	return (ret << 8);
 }
 
 int	append_to_env(char *var, t_env **envp)
@@ -60,7 +60,7 @@ int	print_export(t_env *envp)
 	char	*prt_val;
 
 	if (envp == NULL)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE << 8);
 	print_export(envp->left);
 	if (envp->value == NULL)
 		prt_val = ft_strsjoin((char *[]){"export ", envp->key, NULL});

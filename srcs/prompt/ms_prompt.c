@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/03 16:14:50 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/05 19:40:54 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ char	*next_line(char *prompt)
 	char	*str;
 
 	str = NULL;
-	str = readline(prompt);
+	if (isatty(0))
+		str = readline(prompt);
+	else
+		str = get_next_line(0);
 	return (str);
 }
 

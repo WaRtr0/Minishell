@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 02:12:57 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 16:36:08 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 12:52:50 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	unset(char **av, t_env **env)
 	ptr = av;
 	while (*++ptr)
 		ms_env_remove(env, *ptr);
-	return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS << 8);
 }
 

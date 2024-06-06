@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:33:39 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/28 16:35:13 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/06 12:50:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	echo(char **args)
 	}
 	if (eol)
 		write (1, "\n", 1);
-	return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS << 8);
 }
 
 int	jump_nflags(char **args, int *njumps)
