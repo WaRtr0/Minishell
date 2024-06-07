@@ -6,18 +6,17 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 15:10:47 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 15:39:22 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "put.h"
-#include "put.h"
 #include "conf.h"
 
 static int	is_builtin(char *str);
 int			ms_execsh(t_exec *exec, t_shell *shell);
-int			get_redir(t_exec *exec);				//todo
+
 
 int	ms_exec(t_exec *exec, t_shell *shell)
 {
@@ -25,7 +24,7 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 
 	if (DEBUG_MODE)
 		ft_putendl_fd("==exec==", 2);
-	//get_redir(exec);								//todo
+	get_redir(exec);
 	ret = ms_execsh(exec, shell);
 	return (ret);
 }

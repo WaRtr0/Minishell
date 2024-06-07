@@ -50,6 +50,7 @@ SRCS += parser/ms_parser.c
 SRCS += exec/builtin/ms_run_builtin.c
 SRCS += exec/builtin/ms_exec_builtin.c
 SRCS += exec/ms_exec.c
+SRCS += exec/ms_exec_redir.c
 SRCS += exec/ms_exec_io_utils.c
 SRCS += exec/binary/ms_exec_get_path.c
 SRCS += exec/binary/ms_exec_bin.c

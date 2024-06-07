@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_join.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/07 15:20:05 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/07 16:05:14 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,12 +390,7 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 		else if (command->type == CMD_EMPTY)
 			commit_word(exec_cmd, word);
 		i++;
-	}
-	if (DEBUG_MODE == 1)
-	{
-		printf("DEBUG MODE | REDIR\n");
-		ms_debug_command_to_json_exec(0, exec_cmd->redir);
-	}
+	}	
 	return (0);
 }
 
@@ -443,6 +438,11 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 	if (exec_cmd->content->size > 0)
 		ms_set_status(ms_exec(exec_cmd, shell));
 	ms_close_fd(fd, exec_cmd->fd);
+	if (DEBUG_MODE == 1)
+	{
+		printf("DEBUG MODE | REDIR\n");
+		ms_debug_command_to_json_exec(0, exec_cmd->redir);
+	}
 	free_exec(exec_cmd);
 	return (1);
 }
