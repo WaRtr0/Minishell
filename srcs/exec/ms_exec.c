@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/07 18:38:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 22:45:07 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 
 int	ms_execsh(t_exec *exec, t_shell *shell)
 {
+	if (exec->content->size == 0)
+		return (0);
 	if (is_builtin(exec->content->data[0]))
 	{
 		if (shell->in_pipe)
