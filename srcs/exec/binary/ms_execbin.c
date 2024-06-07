@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 13:06:30 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 17:26:24 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	execbin(t_exec *exec, t_shell *shell)
 	cmd = NULL;
 	args = NULL;
 	envp = NULL;
-	set_io(exec->fd);
+	set_io(exec->dfl_fds);
 	i = 3;
 	while (i < 1024)
 		close(i++);

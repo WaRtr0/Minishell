@@ -50,7 +50,8 @@
         "random": "c",
         "limits": "c",
         "optional": "c",
-        "debug.h": "c"
+        "debug.h": "c",
+        "history.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

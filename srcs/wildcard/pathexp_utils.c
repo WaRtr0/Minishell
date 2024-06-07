@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathexp_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 02:14:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 17:26:56 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/07 19:03:53 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	sort_files(t_array *files)
 	while (i < files->size)
 	{
 		j = i;
-		while (j > 0 && ft_strncmp(files->data[j - 1], files->data[j], -1) > 0)
+		while (j > 0 && ft_strncmp(files->data[j - 1] + (((char *)files->data[j - 1])[0] == '.'), files->data[j] + (((char *)files->data[j])[0] == '.'), -1) > 0)
 		{
 			swap(files->data + j, files->data + j - 1);
 			j--;

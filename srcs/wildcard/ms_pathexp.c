@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 17:53:48 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 19:00:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	is_valide_file(char *file, char *pattern)
 {
 	(void) pattern;
 	(void) file;
+	if (file[0] == '.' && pattern[0] != '.' )
+		return (0);
 	if (ft_strncmp(file, ".", 2) == 0 && ft_strncmp(file, pattern, 2) != 0)
 		return (0);
 	if (ft_strncmp(file, "..", 3) == 0 && ft_strncmp(file, pattern, 3) != 0)

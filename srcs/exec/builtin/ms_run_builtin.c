@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/31 23:50:16 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 17:26:49 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ms_run_builtin(t_exec *exec, t_shell *shell)
 	int	ret;
 
 	save_io((int [2]){0, 1}, save_fd);
-	set_io(exec->fd);
+	set_io(exec->dfl_fds);
 	ret = run_bti(exec, shell);
 	restore_io(save_fd);
 	return (ret);
