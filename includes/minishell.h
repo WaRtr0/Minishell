@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/06/06 15:03:48 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 15:00:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ union u_content
 typedef struct exec
 {
 	t_array	*content;
-	int		fd[2];
 	t_array	*redir;
+	int		fd[2];
 	int		dfl_fds[2];
 }	t_exec;
 

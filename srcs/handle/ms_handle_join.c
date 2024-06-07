@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 17:31:27 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/07 15:20:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,8 +241,134 @@ static int ms_wildcard(t_array *array, size_t *i, t_exec *exec_cmd, char **word,
 	return (0);
 }
 
+//last
 
+// static int	run_join(t_array *array, t_exec *exec_cmd,
+// 	t_shell *shell, char **word)
+// {
+// 	size_t		i;
+// 	t_command	*command;
 
+// 	i = 0;
+// 	while (i < array->size && shell->error < 1)
+// 	{
+// 		command = (t_command *)array->data[i];
+// 		if (command->type == CMD_TEXT)
+// 			add_word(command, word, shell);
+// 		else if (command->type == CMD_EXPAND
+// 			|| command->type == CMD_EXPAND_QUOTE)
+// 			ms_expand(command, shell, exec_cmd, word);
+// 		else if (command->type == CMD_WILDCARD)
+// 			ms_wildcard(array, &i, exec_cmd, word, shell);
+// 		else if (command->type == CMD_EMPTY)
+// 			commit_word(exec_cmd, word);
+// 		else if (command->type == CMD_HEREDOC)
+// 			ms_heredoc_part(array, &i, exec_cmd->fd);
+// 		else if (command->type == CMD_REDIR_IN)
+// 			ms_redir_in_part(array, &i, exec_cmd->fd);
+// 		else if (command->type == CMD_REDIR_OUT)
+// 			ms_redir_out_part(array, &i, exec_cmd->fd);
+// 		else if (command->type == CMD_APPEND)
+// 			ms_append_part(array, &i, exec_cmd->fd);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+static int add_exec_heredoc(t_exec *exec, t_command *command)
+{
+	t_command	*new_command;
+
+	new_command = malloc(sizeof(t_command));
+	if (new_command == NULL)
+		return (1);
+	new_command->type = CMD_HEREDOC;
+	new_command->content.fd = command->content.fd;
+	if (ft_arr_append(exec->redir, new_command) == 0)
+	{
+		free(new_command);
+		return (1);
+	}
+	command->type = CMD_EMPTY;
+	return (0);
+}
+static char *command_get_path(t_array *array, size_t *i, t_shell *shell)
+{
+	t_command	*command;
+	char		*path;
+	int			count;
+
+	count = 0;
+	if (*i >= array->size)
+		return (NULL);
+	*i += 1;
+	while (*i < array->size && shell->error < 1)
+	{
+		command = (t_command *)array->data[*i];
+		if (command->type == CMD_EMPTY && count > 0)
+			return (path);
+		else if (command->type == CMD_TEXT)
+		{
+			path = command->content.str;
+			command->type = CMD_EMPTY;
+			command->content.str = NULL;
+		}
+		// else if (command->type == CMD_EXPAND
+		// 	|| command->type == CMD_EXPAND_QUOTE)
+		*i += 1;
+		count++;
+	}
+	*i -= 1;
+	return (path);
+}
+
+static int add_exec_redir(t_exec *exec, t_array *array, size_t *i, t_shell *shell)
+{
+	t_command	*command;
+	t_command	*new_command;
+	char		*path;
+
+	command = (t_command *)array->data[*i];
+	new_command = malloc(sizeof(t_command));
+	if (new_command == NULL)
+		return (1);
+	new_command->type = command->type;
+	path = command_get_path(array, i, shell);
+	if (path == NULL)
+	{
+		free(new_command);
+		return (1);
+	}
+	new_command->content.str = path;
+	if (ft_arr_append(exec->redir, new_command) == 0)
+	{
+		free(new_command);
+		return (1);
+	}
+	command->type = CMD_EMPTY;
+	return (0);
+}
+
+static int	command_get_redir(t_array *array, t_exec *exec_cmd, t_shell *shell)
+{
+	size_t		i;
+	t_command	*command;
+
+	i = 0;
+	while (i < array->size && shell->error < 1)
+	{
+		command = (t_command *)array->data[i];
+		if (command->type == CMD_HEREDOC)
+		{
+			add_exec_heredoc(exec_cmd, command);
+		}
+		else if (command->type >= CMD_REDIR_IN && command->type <= CMD_APPEND)
+			add_exec_redir(exec_cmd, array, &i, shell);
+		i++;
+	}
+	return (0);
+}
+//new
 static int	run_join(t_array *array, t_exec *exec_cmd,
 	t_shell *shell, char **word)
 {
@@ -250,6 +376,7 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 	t_command	*command;
 
 	i = 0;
+	command_get_redir(array, exec_cmd, shell);
 	while (i < array->size && shell->error < 1)
 	{
 		command = (t_command *)array->data[i];
@@ -262,15 +389,12 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 			ms_wildcard(array, &i, exec_cmd, word, shell);
 		else if (command->type == CMD_EMPTY)
 			commit_word(exec_cmd, word);
-		else if (command->type == CMD_HEREDOC)
-			ms_heredoc_part(array, &i, exec_cmd->fd);
-		else if (command->type == CMD_REDIR_IN)
-			ms_redir_in_part(array, &i, exec_cmd->fd);
-		else if (command->type == CMD_REDIR_OUT)
-			ms_redir_out_part(array, &i, exec_cmd->fd);
-		else if (command->type == CMD_APPEND)
-			ms_append_part(array, &i, exec_cmd->fd);
 		i++;
+	}
+	if (DEBUG_MODE == 1)
+	{
+		printf("DEBUG MODE | REDIR\n");
+		ms_debug_command_to_json_exec(0, exec_cmd->redir);
 	}
 	return (0);
 }
@@ -284,7 +408,8 @@ static int	add_exec(t_exec **exec_cmd, t_shell *shell)
 		return (shell->prompt_listen = 0);
 	}
 	(*exec_cmd)->content = ft_arr_new(20);
-	if ((*exec_cmd)->content == NULL)
+	(*exec_cmd)->redir = ft_arr_new(20);
+	if ((*exec_cmd)->content == NULL || (*exec_cmd)->redir == NULL)
 	{
 		free(*exec_cmd);
 		exec_cmd = NULL;

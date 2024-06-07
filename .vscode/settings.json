@@ -49,7 +49,8 @@
         "unordered_map": "c",
         "random": "c",
         "limits": "c",
-        "optional": "c"
+        "optional": "c",
+        "debug.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
