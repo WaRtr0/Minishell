@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/07 17:44:17 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/07 20:23:54 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "str.h"
 #include "utils.h"
 #include "exec.h"
+#include "put.h"
 
 static void	syntax_no_quote(t_parser_str *str, t_shell *shell,
 	t_prompt_s *status, char *line)
@@ -73,17 +74,20 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 	while (status->heredoc || status->squote
 		|| status->dquote || status->parenthesis || status->newline)
 	{
-		newline = readline("> ");
+		newline = next_line("> ");
 		if (!newline)
 		{
 			shell->prompt_listen = 0;
+			if (g_signal_value != 130)
+				ft_putendl_fd("mishell: syntax error: unexpected end of file", 2);
+			if (g_signal_value != 130)
+				ms_set_status(2 << 8);
 			break ;
 		}
 		ms_parser(newline, status, shell);
 		if (shell->prompt_listen == 0)
 			break ;
-		if (newline)
-			free(newline);
+		free(newline);
 	}
 	restore_io(fds);			// a valide
 	ms_sig_set(sig_exec);
