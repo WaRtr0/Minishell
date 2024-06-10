@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/07 20:23:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/10 18:39:27 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 static void	syntax_no_quote(t_parser_str *str, t_shell *shell,
 	t_prompt_s *status, char *line)
 {
-	if (str->type == E_WILDCARD && (status->heredoc || status->chevron))
-	{
+	if (str->type == E_WILDCARD && status->heredoc)
 		str->type = E_WORD;
-	}
 	ms_syntax_rule(str->type,
 		ft_select_str(&line[str->index], str->len), shell, status);
 	ms_update_status_text(status, str->type);
@@ -48,8 +46,9 @@ static void	run_parsing(char *line, t_prompt_s *status,
 		if (str.type == E_EOF)
 			break ;
 		str.len = ms_get_indent(str.type, &line[str.index]);
-		if (str.type == E_METACHAR
-			&& ms_get_metachar(&line[str.index]) == E_AND)
+		if ((str.type == E_METACHAR
+				&& ms_get_metachar(&line[str.index]) == E_AND)
+			|| (str.type == E_HEREDOC && (status->squote || status->dquote)))
 			str.type = E_WORD;
 		if (str.type == E_NAME && status->heredoc)
 			str.type = E_WORD;

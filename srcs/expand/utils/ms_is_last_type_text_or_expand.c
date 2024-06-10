@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_update_status_text.c                            :+:      :+:    :+:   */
+/*   ms_is_last_type_text_or_expand.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:56:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:20:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/10 05:10:20 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/10 06:41:23 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
+#include "lexer.h"
+#include "expand.h"
 
-void	ms_update_status_text(t_prompt_s *status, t_type type)
+int	ms_is_last_type_text_or_expand(t_array *new_array)
 {
-	if (type == E_WORD || type == E_NAME || type == E_WILDCARD)
-	{
-		status->print = 1;
-		status->operator = 0;
-		status->chevron = 0;
-		status->newline = 0;
-		status->no_empty = 1;
-		status->c_parenthesis = 0;
-	}
+	int	last_type;
+
+	last_type = ms_get_last_type(new_array);
+	return (last_type == CMD_TEXT || last_type == CMD_EXPAND_QUOTE
+		|| last_type == CMD_EXPAND || last_type == CMD_WILDCARD);
 }

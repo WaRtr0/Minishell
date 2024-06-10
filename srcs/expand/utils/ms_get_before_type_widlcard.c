@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_update_status_text.c                            :+:      :+:    :+:   */
+/*   ms_get_before_type_widlcard.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:56:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:20:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/10 08:43:13 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/10 08:53:37 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
+#include "lexer.h"
 
-void	ms_update_status_text(t_prompt_s *status, t_type type)
+t_command_type	ms_get_before_type_widlcard(t_array *array)
 {
-	if (type == E_WORD || type == E_NAME || type == E_WILDCARD)
+	int			i;
+	t_command	*command;
+
+	i = array->size - 1;
+	while (i >= 0)
 	{
-		status->print = 1;
-		status->operator = 0;
-		status->chevron = 0;
-		status->newline = 0;
-		status->no_empty = 1;
-		status->c_parenthesis = 0;
+		command = (t_command *)array->data[i];
+		if (command->type != CMD_EMPTY && command->type != CMD_WILDCARD)
+			return (command->type);
+		i--;
 	}
+	return (0);
 }

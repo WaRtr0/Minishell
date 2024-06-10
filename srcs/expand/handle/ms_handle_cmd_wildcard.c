@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_update_status_text.c                            :+:      :+:    :+:   */
+/*   ms_handle_cmd_wildcard.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:56:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:20:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/10 06:19:40 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/10 07:17:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
+#include "lexer.h"
+#include "expand.h"
 
-void	ms_update_status_text(t_prompt_s *status, t_type type)
+void	ms_handle_cmd_wildcard(t_array *new_array)
 {
-	if (type == E_WORD || type == E_NAME || type == E_WILDCARD)
-	{
-		status->print = 1;
-		status->operator = 0;
-		status->chevron = 0;
-		status->newline = 0;
-		status->no_empty = 1;
-		status->c_parenthesis = 0;
-	}
+	if (ms_is_last_type_text_or_expand(new_array))
+		ms_update_last_command_type(new_array, CMD_WILDCARD, "*");
+	else
+		ms_append_new_command_str(new_array, CMD_WILDCARD, "*");
 }

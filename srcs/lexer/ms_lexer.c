@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:55:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 13:36:07 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/10 23:39:12 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ void	ms_lexer(t_shell *shell, t_prompt_s *status,
 	else if (type != E_PARENTHESIS)
 		ms_lexer_operator(shell, status, str);
 	if (status->heredoc && (ms_get_cursor_type(shell) == CMD_TEXT))
+	{
 		ms_lexer_heredoc(shell, status);
+	}
 }

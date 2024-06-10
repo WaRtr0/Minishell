@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_update_status_text.c                            :+:      :+:    :+:   */
+/*   ms_get_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:56:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:20:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/10 05:18:42 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/10 05:24:01 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
-void	ms_update_status_text(t_prompt_s *status, t_type type)
+char	*ms_get_exp(char *str, t_env *env)
 {
-	if (type == E_WORD || type == E_NAME || type == E_WILDCARD)
+	char	*nstr;
+
+	if (ft_strncmp(str, "?", 2) == 0)
+		nstr = ft_itoa(ms_get_status());
+	else
 	{
-		status->print = 1;
-		status->operator = 0;
-		status->chevron = 0;
-		status->newline = 0;
-		status->no_empty = 1;
-		status->c_parenthesis = 0;
+		nstr = ms_env_get(env, str);
+		if (nstr == NULL)
+			return (NULL);
+		nstr = ft_strdup(nstr);
 	}
+	return (nstr);
 }

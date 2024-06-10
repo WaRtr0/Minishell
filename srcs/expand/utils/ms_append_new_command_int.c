@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_update_status_text.c                            :+:      :+:    :+:   */
+/*   ms_append_new_command_int.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:56:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:20:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/10 07:18:33 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/10 07:18:48 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
+#include "lexer.h"
+#include "utils.h"
 
-void	ms_update_status_text(t_prompt_s *status, t_type type)
+void	ms_append_new_command_int(t_array *new_array, int type, int content)
 {
-	if (type == E_WORD || type == E_NAME || type == E_WILDCARD)
-	{
-		status->print = 1;
-		status->operator = 0;
-		status->chevron = 0;
-		status->newline = 0;
-		status->no_empty = 1;
-		status->c_parenthesis = 0;
-	}
+	t_command	*new_command;
+
+	new_command = malloc(sizeof(t_command));
+	if (!new_command)
+		return ;
+	new_command->content.fd = content;
+	new_command->type = type;
+	ft_arr_append(new_array, new_command);
 }

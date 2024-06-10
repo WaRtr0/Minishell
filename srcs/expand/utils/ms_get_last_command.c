@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_update_status_text.c                            :+:      :+:    :+:   */
+/*   ms_get_last_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 23:56:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:20:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/10 05:06:36 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/10 08:02:28 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
+#include "lexer.h"
 
-void	ms_update_status_text(t_prompt_s *status, t_type type)
+t_command	*ms_get_last_command(t_array *array)
 {
-	if (type == E_WORD || type == E_NAME || type == E_WILDCARD)
-	{
-		status->print = 1;
-		status->operator = 0;
-		status->chevron = 0;
-		status->newline = 0;
-		status->no_empty = 1;
-		status->c_parenthesis = 0;
-	}
+	if (array->size > 0)
+		return ((t_command *)array->data[array->size - 1]);
+	return (NULL);
 }
