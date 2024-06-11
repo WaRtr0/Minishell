@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_append_env_to_last_command.c                    :+:      :+:    :+:   */
+/*   ms_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 05:04:51 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:31:01 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/11 21:09:43 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/11 21:11:10 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
-#include "expand.h"
+#include "handle.h"
+#include "utils.h"
 
-void	ms_append_env_to_last_command(t_array *new_array, char *env_str)
+int	ms_wait_pipeline(t_shell *shell)
 {
-	char	*temp;
+	int	pid;
+	int	tmp_stat;
+	int	exit_stat;
 
-	temp = ms_get_last_command(new_array)->content.str;
-	if (ms_get_last_type(new_array) == CMD_EXPAND
-		&& *ms_get_last_char(temp) == '$')
-		*ms_get_last_char(temp) = '\0';
-	(ms_get_last_command(new_array))->content.str = (
-			ft_strjoin(temp, env_str));
-	free(temp);
+	pid = 0;
+	exit_stat = 0;
+	while (pid != -1)
+	{
+		pid = wait(&tmp_stat);
+		if (pid == shell->last_pid)
+			exit_stat = tmp_stat;
+	}
+	return (exit_stat);
+}
+
+int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
+{
+	ms_handle(command->content.array, shell, fds);
+	free_shell(shell);
+	close(fds[0]);
+	exit(ms_get_status());
 }

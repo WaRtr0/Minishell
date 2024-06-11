@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/07 16:04:02 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:37:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_SYNTAX_UPD_EOF " : syntax error: unexpected `end of file'\n"
 # define ERR_SYNTAX_UPD_NLN " : syntax error: unexpected `newline'\n"
 # define ERR_NOT_SUCH " : %s: not such file or directory\n"
+# define ERR_UNEXPECTED " : syntax error: unexpected end of file\n"
 # define ERR_IS_DIR	" : %s: is a directory\n"
 # define ERR_NO_FILE " : %s: No such file or directory\n"
 # define ERR_TOO_MANY_ARGS	" : Too many arguments\n"

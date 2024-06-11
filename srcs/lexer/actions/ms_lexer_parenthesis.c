@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:01:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 18:45:21 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:41:54 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser.h"
 #include "utils.h"
 
-static int is_semicolon(t_shell *shell)
+static int	is_semicolon(t_shell *shell)
 {
 	if (ms_get_cursor_type(shell) != -1)
 		return (0);
