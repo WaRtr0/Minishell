@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_syntax_error.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:29:02 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:34:49 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 23:33:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 
 	if (shell->prompt_listen == 0)
 		return (0);
-	ms_set_status(2 << 8);
 	shell->prompt_listen = 0;
+	ft_putendl_fd("ui", 2);
+	ms_set_status(2 << 8);
 	str = NULL;
 	if (error == E_SYNTAX_UPD_TOK)
 	{

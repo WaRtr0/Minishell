@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/05 19:40:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 23:42:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 		status = (t_prompt_s){0};
 		shell->prompt = ft_strdup(line);
 		ms_parser(line, &status, shell);
-		if (shell->prompt_listen)
-			ms_handle(shell->commands, shell, (int [2]){0, 1});
+		ms_handle(shell->commands, shell, (int [2]){0, 1});
 		if (DEBUG_MODE)
 			ms_debug(shell);
 		free_prompt(shell);

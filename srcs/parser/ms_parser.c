@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:40:56 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 23:51:15 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 			break ;
 		}
 		ms_parser(newline, status, shell);
+		free(newline);
 		if (shell->prompt_listen == 0)
 			break ;
-		free(newline);
 	}
 	restore_io(fds);
 	ms_sig_set(sig_exec);

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 21:18:21 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 23:45:13 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 	}
 	exec_cmd->fd[0] = fd[0];
 	exec_cmd->fd[1] = fd[1];
-	if (exec_cmd->content->size > 0 || exec_cmd->redir->size > 0)
+	if (shell->prompt_listen && (exec_cmd->content->size > 0 || exec_cmd->redir->size > 0))
 		ms_set_status(ms_exec(exec_cmd, shell));
 	ms_close_fd(fd, exec_cmd->fd);
 	if (DEBUG_MODE == 1)
