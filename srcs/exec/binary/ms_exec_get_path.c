@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 16:19:15 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 20:20:58 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	check_bin(char *bin, char *cmd)
 	st = fs_default;
 	if (bin)
 		st = get_file_status(bin);
-	if (!(st & fs_exist) && is_cmd)
+	if ((st & fs_exist) == 0 && is_cmd)
 		err_msg = ft_strsjoin((char *[]){cmd, ": command not found", NULL});
-	else if (!(st & fs_exist) && !is_cmd)
+	else if ((st & fs_exist) == 0 && !is_cmd)
 		err_msg = ft_strsjoin((char *[])
 			{MS_NAME": ", bin, ": No such file or directory", NULL});
 	else if (st & fs_is_dir)
@@ -86,7 +86,9 @@ int	ms_find_cmd(char *cmd, char *env_path, char **out)
 
 	*out = NULL;
 	ret = 0;
-	if (env_path == NULL || cmd == NULL || *cmd == '\0')
+	if (env_path == NULL || ft_strlen(env_path) == 0)
+		return (check_file(".", cmd, out));
+	if (cmd == NULL || *cmd == '\0')
 		return (1);
 	paths = ft_split(env_path, ':');
 	if (paths == NULL)
@@ -111,7 +113,7 @@ int	check_file(char *path, char *name, char **out)
 	if (file == NULL)
 		return (0);
 	r = get_file_status(file);
-	if (!(r & fs_exist) || (r & fs_is_dir))
+	if (!(r & fs_exist))
 		return (free(file), 0);
 	if (r & fs_exec)
 		free(*out);

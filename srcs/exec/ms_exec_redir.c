@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:37:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 16:23:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:05:51 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	get_redir(t_exec *exec)
 		else if (((t_command *)exec->redir->data[i])->type == CMD_APPEND)
 			f = get_redout;
 		if (f != NULL)
-			if (f(exec, (t_command *)exec->redir->data[i]))
-				break ;
+			if (f(exec, (t_command *)exec->redir->data[i]) == 1)
+				return (1);
 		i++;
 	}
-	return (i == exec->redir->size);
+	return (0);
 }
 
 int	get_heredoc(t_exec *exec, t_command *cmd)
@@ -68,7 +68,8 @@ int	get_redin(t_exec *exec, t_command *cmd)
 	if (fd == -1 || dup2(fd, exec->dfl_fds[0]) == -1)
 	{
 		red_error(cmd->content.str);
-		close(fd);
+		if (fd != -1)
+			close(fd);
 		return (1);
 	}
 	close(fd);
@@ -85,11 +86,16 @@ int	get_redout(t_exec *exec, t_command *cmd)
 		| (O_APPEND * cmd->type == CMD_APPEND);
 
 	errno = 0;
-	fd = open(cmd->content.str, o_flags, c_flags);
+	fd = -1;
+	if ((get_file_status(cmd->content.str) & fs_is_dir) == 0)
+		fd = open(cmd->content.str, o_flags, c_flags);
+	else
+		errno = EISDIR;
 	if (fd == -1 || dup2(fd, exec->dfl_fds[1]) == -1)
 	{
 		red_error(cmd->content.str);
-		close(fd);
+		if (fd != -1)
+			close(fd);
 		return (1);
 	}
 	close(fd);
@@ -103,6 +109,7 @@ int	red_error(char *file)
 	err_msg = ft_strjoin("mishell: redir: ", file);
 	if (err_msg == NULL)
 		return (1);
+	ms_set_status(1 << 8);
 	perror(err_msg);
 	free(err_msg);
 	return (1);
