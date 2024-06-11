@@ -21,12 +21,11 @@ void	ms_append_new_command_str(t_array *new_array, int type, char *content)
 	new_command = malloc(sizeof(t_command));
 	if (!new_command)
 		return ;
+	new_command->content.str = NULL;
 	if (type == CMD_EXPAND && ft_include(content, '*'))
 		type = CMD_WILDCARD;
 	if (content != NULL)
 		new_command->content.str = ft_strdup(content);
-	else
-		new_command->content.str = NULL;
 	new_command->type = type;
 	ft_arr_append(new_array, new_command);
 }
