@@ -51,7 +51,8 @@
         "limits": "c",
         "optional": "c",
         "debug.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "cerrno": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

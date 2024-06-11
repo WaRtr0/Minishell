@@ -6,13 +6,14 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:37:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/07 18:33:34 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 15:36:58 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "put.h"
 #include "conf.h"
+#include "errno.h" 
 
 int	get_heredoc(t_exec *exec, t_command *cmd);
 int	get_redin(t_exec *exec, t_command *cmd);
@@ -62,6 +63,7 @@ int	get_redin(t_exec *exec, t_command *cmd)
 {
 	int	fd;
 
+	errno = 0;
 	fd = open(cmd->content.str, O_RDONLY);
 	if (fd == -1 || dup2(fd, exec->dfl_fds[0]) == -1)
 	{
@@ -82,7 +84,12 @@ int	get_redout(t_exec *exec, t_command *cmd)
 		| (O_TRUNC * cmd->type == CMD_REDIR_OUT)
 		| (O_APPEND * cmd->type == CMD_APPEND);
 
-	fd = open(cmd->content.str, o_flags, c_flags);
+	errno = 0;
+	fd = -1;
+	if ((get_status(cmd->content.str) & fs_is_dir) == 0)
+		fd = open(cmd->content.str, o_flags, c_flags);
+	else
+		errno = EISDIR;
 	if (fd == -1 || dup2(fd, exec->dfl_fds[1]) == -1)
 	{
 		red_error(cmd->content.str);
