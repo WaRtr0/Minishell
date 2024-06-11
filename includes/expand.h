@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 05:23:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 08:51:29 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 22:20:56 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef EXPAND_H
 # define EXPAND_H
@@ -34,8 +33,6 @@ int				ms_is_last_type_text_or_expand(t_array *new_array);
 void			ms_update_last_command_type(t_array *new_array,
 					int type, char *str);
 
-
-
 // handle
 void			ms_handle_cmd_empty(t_array *new_array);
 void			ms_handle_cmd_text(t_command *command,
@@ -45,8 +42,6 @@ void			ms_handle_cmd_expand_quote(t_command *command,
 void			ms_handle_cmd_expand(t_command *command,
 					t_array *new_array, t_shell *shell);
 void			ms_handle_cmd_wildcard(t_array *new_array);
-
-
 
 t_array			*ms_new_join(t_array *array, t_shell *shell);
 

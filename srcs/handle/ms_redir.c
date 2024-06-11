@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:52:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 21:30:23 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 22:19:12 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	add_exec_heredoc(t_exec *exec, t_command *command)
 	return (0);
 }
 
-static char *command_get_path(t_array *array, size_t *i, t_shell *shell)
+static char	*command_get_path(t_array *array, size_t *i, t_shell *shell)
 {
 	t_command	*command;
 	char		*path;
