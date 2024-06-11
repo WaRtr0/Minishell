@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_cmd_expand.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:44:37 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 19:06:28 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 18:20:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ static	void process_tokens(char **tokens, t_array *new_array)
 			if (ft_include(*tokens, '*'))
 				ms_get_last_command(new_array)->type = CMD_WILDCARD;
             ms_get_last_command(new_array)->content.str = ft_strjoin(temp, *tokens);
-            tokens++;
+            free(temp);
         }
 		else
-		{
             ms_append_new_command_str(new_array, CMD_EXPAND, *tokens);
-            tokens++;
-        }
+        tokens++;
     }
     while (*tokens != NULL)
 	{
@@ -61,7 +59,7 @@ static	void handle_expanded_str(char *str, t_array *new_array, t_shell *shell)
         process_tokens(tokens, new_array);
         if (ft_include(" \t\n",env_str[ft_strlen(env_str) - 1]))
             ms_handle_cmd_empty(new_array);
-        free(tokens);
+        ft_strsfree(tokens);
     }
     free(env_str);
 }
