@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/07 22:24:47 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 16:19:29 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	req_list(int lvl, t_pathexp *pathexp, char *path)
 	char			*str;
 
 	if (pathexp->patterns[lvl] == NULL && path != NULL)
-		if ((pathexp->dir && !(get_status(path) & fs_is_dir))
+		if ((pathexp->dir && !(get_file_status(path) & fs_is_dir))
 			|| ft_arr_append(pathexp->files, path) == 0)
 			return (1);
 	if (pathexp->patterns[lvl] == NULL || path == NULL)

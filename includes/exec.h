@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:50:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/07 15:38:19 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 16:18:50 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int					get_redir(t_exec *exec);
 int					ms_exec_bin(t_exec *exec, t_shell *shell);
 int					execbin(t_exec *exec, t_shell *shell);
 
-enum e_file_status	get_status(char *file);
+enum e_file_status	get_file_status(char *file);
 char				*get_bin(char *cmd, t_env *env);
 
 #endif

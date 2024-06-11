@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 13:49:40 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 16:19:15 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	set_exit(char *bin, char *cmd)
 
 	st = fs_default;
 	if (bin)
-		st = get_status(bin);
+		st = get_file_status(bin);
 	if (!(st & fs_exist) && is_cmd)
 		ms_set_status(127);
 	else if (!(st & fs_exist) && !is_cmd)
@@ -60,7 +60,7 @@ int	check_bin(char *bin, char *cmd)
 	err_msg = NULL;
 	st = fs_default;
 	if (bin)
-		st = get_status(bin);
+		st = get_file_status(bin);
 	if (!(st & fs_exist) && is_cmd)
 		err_msg = ft_strsjoin((char *[]){cmd, ": command not found", NULL});
 	else if (!(st & fs_exist) && !is_cmd)
@@ -110,7 +110,7 @@ int	check_file(char *path, char *name, char **out)
 	file = ft_strsjoin((char *[]){path, "/", name, NULL});
 	if (file == NULL)
 		return (0);
-	r = get_status(file);
+	r = get_file_status(file);
 	if (!(r & fs_exist) || (r & fs_is_dir))
 		return (free(file), 0);
 	if (r & fs_exec)

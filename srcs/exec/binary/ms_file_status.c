@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 04:23:19 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/10 23:02:11 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 16:19:53 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-enum e_file_status	get_status(char *file)
+enum e_file_status	get_file_status(char *file)
 {
 	struct stat			st;
 	enum e_file_status	r;
