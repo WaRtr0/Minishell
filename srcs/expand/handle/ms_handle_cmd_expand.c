@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_cmd_expand.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:44:37 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 18:20:28 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:09:24 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 static	void process_tokens(char **tokens, t_array *new_array)
 {
 	char *temp;
-	// char **tmp;
 
-    // tmp = tokens;
     if (*tokens != NULL && !ft_include(" \t\n", (*tokens)[0]))
 	{
         if (ms_is_last_type_text_or_expand(new_array))
