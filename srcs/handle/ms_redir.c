@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:52:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 22:19:12 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 22:45:21 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*command_get_path(t_array *array, size_t *i, t_shell *shell)
 	while (*i < array->size && shell->error < 1)
 	{
 		command = (t_command *)array->data[*i];
-		if (command->type == CMD_EMPTY && count > 0)
+		if (command->type != CMD_TEXT && count > 0)
 			return (path);
 		else if (command->type == CMD_TEXT || command->type == CMD_EXPAND
 			|| command->type == CMD_EXPAND_QUOTE)
