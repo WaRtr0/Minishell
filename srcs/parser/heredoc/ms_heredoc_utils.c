@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_herdoc_utils.c                                  :+:      :+:    :+:   */
+/*   ms_heredoc_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:25:23 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/05 15:49:11 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:35:32 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	print_exp(t_shell *shell, char *line, int fd);
 
 void	print_hd(t_shell *shell, char *line, int fd, int expend)
 {
-
 	(void) shell;
 	if (expend == 0)
 		ft_putstr_fd(line, fd);

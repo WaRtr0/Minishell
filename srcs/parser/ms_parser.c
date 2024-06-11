@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 18:39:27 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:40:56 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ static void	run_parsing(char *line, t_prompt_s *status,
 
 static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 {
-	char		*newline;
+	char	*newline;
 	int		fds[2];
 
-	save_io((int [2]){0, 1}, fds);	// a valide
-	ms_sig_set(sig_heredoc);        // a valide
+	save_io((int [2]){0, 1}, fds);
+	ms_sig_set(sig_heredoc);
 	while (status->heredoc || status->squote
 		|| status->dquote || status->parenthesis || status->newline)
 	{
@@ -78,7 +78,7 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 		{
 			shell->prompt_listen = 0;
 			if (g_signal_value != 130)
-				ft_putendl_fd("mishell: syntax error: unexpected end of file", 2);
+				ft_putendl_fd(MS_NAME ERR_UNEXPECTED, 2);
 			if (g_signal_value != 130)
 				ms_set_status(2 << 8);
 			break ;
@@ -88,7 +88,7 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 			break ;
 		free(newline);
 	}
-	restore_io(fds);			// a valide
+	restore_io(fds);
 	ms_sig_set(sig_exec);
 }
 

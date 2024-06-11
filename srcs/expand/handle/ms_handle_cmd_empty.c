@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_cmd_empty.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 06:40:22 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 16:27:34 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:08:39 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	apply_wildcard(t_array *new_array)
 	free(command);
 	if (tmp_array == NULL)
 		return ;
-	if (tmp_array->size > 1 &&
-		(ms_get_before_type_widlcard(new_array) == CMD_REDIR_IN
+	if (tmp_array->size > 1
+		&& (ms_get_before_type_widlcard(new_array) == CMD_REDIR_IN
 			|| ms_get_before_type_widlcard(new_array) == CMD_REDIR_OUT
 			|| ms_get_before_type_widlcard(new_array) == CMD_APPEND))
 		ft_putendl_fd(MS_NAME ": ambiguous redirect", 2);

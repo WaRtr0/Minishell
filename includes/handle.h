@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:07:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 22:36:51 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 21:11:55 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ typedef struct s_wildcard_run
 	size_t	index;
 }	t_wildcard_run;
 
+//utils
+int		ms_wait_pipeline(t_shell *shell);
+int		exit_pare_part(t_command *command,
+			t_shell *shell, int fds[2]);
+
 // expand fd
+int		command_get_redir(t_array *array, t_exec *exec_cmd, t_shell *shell);
+
 int		ms_heredoc_part(t_array *array, size_t *i, int *t_fd);
 int		ms_redir_in_part(t_array *array, size_t *i, int *t_fd);
 int		ms_append_part(t_array *array, size_t *i, int *t_fd);

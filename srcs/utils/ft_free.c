@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:05:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 18:09:17 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:46:49 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	free_commands(t_array *array)
 	t_command	*command;
 
 	i = 0;
-
 	if (!array)
 		return (1);
 	while (i < array->size)
@@ -58,7 +57,7 @@ void	free_shell(t_shell *shell)
 	ms_env_collapse(&shell->env);
 }
 
-static void redir_free(t_command *command)
+static void	redir_free(t_command *command)
 {
 	if (command->type != CMD_HEREDOC)
 		free(command->content.str);
@@ -67,7 +66,7 @@ static void redir_free(t_command *command)
 
 void	free_exec(t_exec	*exec)
 {
-	ft_arr_free(&exec->redir, (void(*)(void *))redir_free);
+	ft_arr_free(&exec->redir, (void *)(void *)redir_free);
 	ft_arr_free(&exec->content, free);
 	free(exec);
 }

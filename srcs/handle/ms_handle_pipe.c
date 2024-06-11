@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/30 17:06:13 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 21:12:18 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ static	int	join_part(t_array *array, t_shell *shell, int fd[2])
 {
 	shell->in_pipe = 1;
 	return (ms_handle_join(array, shell, fd));
-}
-
-static	int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
-{
-	ms_handle(command->content.array, shell, fds);
-	free_shell(shell);
-	close(fds[0]);
-	exit(ms_get_status());
 }
 
 static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
@@ -89,8 +81,8 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	else if (command->type == CMD_PARENTHESIS)
 		pare_part(run->array, shell,
 			(int [2]){run->tmp_fd[0], run->tmp_fd[1]}, run->index);
-	if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)   //voir
-		close(run->tmp_fd[0]);  //voir
+	if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)
+		close(run->tmp_fd[0]);
 	if (run->index < run->array->size - 1)
 	{
 		close(run->pipe_fd[1]);
@@ -98,23 +90,6 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	}
 	run->index++;
 	return (0);
-}
-
-int	ms_wait_pipeline(t_shell *shell)
-{
-	int	pid;
-	int	tmp_stat;
-	int	exit_stat;
-
-	pid = 0;
-	exit_stat = 0;
-	while (pid != -1)
-	{
-		pid = wait(&tmp_stat);
-		if (pid == shell->last_pid)
-			exit_stat = tmp_stat;
-	}
-	return (exit_stat);
 }
 
 int	ms_handle_pipe(t_array *array, t_shell *shell, int fd[2])
