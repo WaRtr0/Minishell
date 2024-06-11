@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:52:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 21:13:05 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/11 21:30:23 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,29 @@ static int	add_exec_heredoc(t_exec *exec, t_command *command)
 	return (0);
 }
 
-static char	*command_get_path(t_array *array, size_t *i, t_shell *shell)
+static char *command_get_path(t_array *array, size_t *i, t_shell *shell)
 {
 	t_command	*command;
 	char		*path;
 	int			count;
 
-	(void)shell;
 	count = 0;
 	path = NULL;
 	*i += 1;
-	path = NULL;
-	command = (t_command *)array->data[*i];
-	if (command->type == CMD_EMPTY && count > 0)
+	while (*i < array->size && shell->error < 1)
 	{
+		command = (t_command *)array->data[*i];
+		if (command->type == CMD_EMPTY && count > 0)
+			return (path);
+		else if (command->type == CMD_TEXT || command->type == CMD_EXPAND
+			|| command->type == CMD_EXPAND_QUOTE)
+		{
+			path = command->content.str;
+			command->type = CMD_EMPTY;
+			command->content.str = NULL;
+		}
 		*i += 1;
-	}
-	if (command->type == CMD_TEXT || command->type == CMD_EXPAND
-		|| command->type == CMD_EXPAND_QUOTE)
-	{
-		path = command->content.str;
-		command->type = CMD_EMPTY;
-		command->content.str = NULL;
+		count++;
 	}
 	*i -= 1;
 	return (path);
