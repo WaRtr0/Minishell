@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:27:06 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/31 23:49:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 20:57:24 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <unistd.h>
- 
+
 int	ms_exit_status(int new_status, int save)
 {
 	static int	status;

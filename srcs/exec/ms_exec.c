@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 19:04:34 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 20:55:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 static int	is_builtin(char *str);
 int			ms_execsh(t_exec *exec, t_shell *shell);
-
 
 int	ms_exec(t_exec *exec, t_shell *shell)
 {

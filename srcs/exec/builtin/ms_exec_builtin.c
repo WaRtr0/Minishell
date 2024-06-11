@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/30 15:36:19 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 20:57:00 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	parent(t_shell *shell, int pid)
 
 int	child(t_exec *exec, t_shell *shell)
 {
-	int	ret;
+	int		ret;
 	size_t	i;
 
 	ret = ms_run_builtin(exec, shell);

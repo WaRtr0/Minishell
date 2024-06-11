@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 03:55:46 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 15:57:40 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 20:55:28 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	b_exit(t_exec *exec, t_shell *shell)
 {
 	size_t	i;
 
-	//ft_putendl_fd("exit", 2);
 	i = 3;
 	while (i < 1024)
 		close(i++);

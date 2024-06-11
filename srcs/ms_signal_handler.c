@@ -6,17 +6,16 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:34:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/04 13:43:20 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 20:59:33 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-# include <stdio.h>
+#include <stdio.h>
 #include <stddef.h>
 #include <readline/readline.h>
 #include "put.h"
 #include "exec.h"
-
 
 int		g_signal_value;
 
