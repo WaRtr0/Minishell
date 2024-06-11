@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 15:36:41 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 17:35:22 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ char *command_get_path(t_array *array, size_t *i, t_shell *shell)
 	int			count;
 
 	count = 0;
-	if (*i >= array->size)
-		return (NULL);
+	path = NULL;
 	*i += 1;
 	while (*i < array->size && shell->error < 1)
 	{
@@ -180,12 +179,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 	if (new_array != NULL && new_array->size > 0) 
 	{
 		run_join(new_array, exec_cmd, shell);
-		// ft_arr_free(&new_array, free_command);
-	}
-	else
-	{
-		printf("ERROR: new_array is NULL\n");
-		return (0);
+		ft_arr_free(&new_array, free);
 	}
 	exec_cmd->fd[0] = fd[0];
 	exec_cmd->fd[1] = fd[1];

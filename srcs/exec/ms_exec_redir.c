@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:37:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 16:19:03 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/11 16:23:54 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,7 @@ int	get_redout(t_exec *exec, t_command *cmd)
 		| (O_APPEND * cmd->type == CMD_APPEND);
 
 	errno = 0;
-	fd = -1;
-	if ((get_file_status(cmd->content.str) & fs_is_dir) == 0)
-		fd = open(cmd->content.str, o_flags, c_flags);
-	else
-		errno = EISDIR;
+	fd = open(cmd->content.str, o_flags, c_flags);
 	if (fd == -1 || dup2(fd, exec->dfl_fds[1]) == -1)
 	{
 		red_error(cmd->content.str);
