@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_lexer_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:08:07 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 17:15:21 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 18:20:38 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	ms_lexer_heredoc_handle(t_shell *shell, t_prompt_s *status)
 			}
 			else
 				limiter = command->content.str;
+			free(command);
 		}
-		ft_arr_clear(ms_get_cursor(shell)->content.array, free);
 		shell->cursor = ft_arr_pop(shell->cursor_array);
+		ft_arr_free(&ms_get_cursor(shell)->content.array, NULL);
 		ms_get_cursor(shell)->content.str = limiter;
 		ms_lexer_heredoc(shell, status);
 	}
