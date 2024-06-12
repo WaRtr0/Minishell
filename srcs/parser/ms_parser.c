@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 23:51:15 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 17:19:56 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 
 	save_io((int [2]){0, 1}, fds);
 	ms_sig_set(sig_heredoc);
-	while (status->heredoc || status->squote
+	// while (status->heredoc || status->squote //temp
+	// 	|| status->dquote || status->parenthesis || status->newline)
+	while (status->squote
 		|| status->dquote || status->parenthesis || status->newline)
 	{
 		newline = next_line("> ");
@@ -105,5 +107,6 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 	if (shell->prompt_listen == 0 || shell->error > 0)
 		return (0);
 	recursive_parser(shell, status);
+	ms_lexer_heredoc_handle(shell,  status);
 	return (1);
 }

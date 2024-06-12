@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:26:27 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 00:26:38 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 13:46:21 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ms_lexer_redir(t_shell *shell, t_prompt_s *status, t_parser_str *str)
 {
 	t_command	*new_command;
 
+	ms_lexer_heredoc_handle(shell, status);
 	if (status->no_print)
 		ms_add_join(shell, CMD_JOIN_NO_PRINT);
 	else

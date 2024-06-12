@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_join.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 23:45:13 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 16:15:39 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 	{
 		// ms_debug_command_to_json_exec(0, new_array);
 		// printf("DEBUG MODE | REDIR\n");
-		// ms_debug_command_to_json_exec(0, exec_cmd->redir);
+		ms_debug_command_to_json_exec(0, exec_cmd->redir);
 	}
 	free_exec(exec_cmd);
 	return (1);

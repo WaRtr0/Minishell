@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:54:25 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:32:42 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:15:45 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ms_join_parsers(t_shell *shell, t_prompt_s *status, char *line)
 	if (shell->prompt_listen)
 	{
 		newline = shell->prompt;
-		if (status->parenthesis)
+		if (status->parenthesis && !status->squote && !status->dquote)
 		{
 			join_parenthesis(shell, status, line);
 		}

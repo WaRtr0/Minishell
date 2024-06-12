@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:01:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:41:54 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:12:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	open_parenthesis(t_shell *shell, t_prompt_s *status,
 {
 	t_command	*new_command;
 
+	ms_lexer_heredoc_handle(shell, status);
 	if (ms_is_pipeline(shell) && status->c_parenthesis
 		&& ms_get_cursor_type(shell) == CMD_PARENTHESIS)
 		return (ms_syntax_error(E_SYNTAX_UPD_TOK,

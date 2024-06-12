@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:52:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 22:45:21 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 17:17:08 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ int	command_get_redir(t_array *array, t_exec *exec_cmd, t_shell *shell)
 	{
 		command = (t_command *)array->data[i];
 		if (command->type == CMD_HEREDOC)
-		{
 			add_exec_heredoc(exec_cmd, command);
-		}
 		else if (command->type >= CMD_REDIR_IN && command->type <= CMD_APPEND)
 			add_exec_redir(exec_cmd, array, &i, shell);
 		i++;
