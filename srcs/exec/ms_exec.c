@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 23:37:56 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 17:15:27 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 {
 	int	ret;
 
-	//if (DEBUG_MODE)
+	if (DEBUG_MODE)
 		ft_putendl_fd("==exec==", 2);
 	ret = get_redir(exec) << 8;
 	if (ret == 0)
