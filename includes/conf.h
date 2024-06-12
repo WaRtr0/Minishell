@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 13:47:33 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:42:11 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 # define MS_NAME	"Mishell"
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 # include "debug.h"
 // ------------------------------
 

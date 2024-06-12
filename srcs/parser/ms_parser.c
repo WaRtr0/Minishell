@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 13:52:36 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:19:56 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 	if (shell->prompt_listen == 0 || shell->error > 0)
 		return (0);
 	recursive_parser(shell, status);
+	ms_lexer_heredoc_handle(shell,  status);
 	return (1);
 }
