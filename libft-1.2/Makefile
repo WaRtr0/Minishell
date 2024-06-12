@@ -5,7 +5,7 @@ AR		=	ar -rcs
 RMF		=	rm -f
 RMD		=	rm -d
 
-CFLAGS	:= -Wall -Werror -Wextra
+CFLAGS	:= -Wall -Werror -Wextra -D malloc=mtest
 
 DEPSFLAGS	=	-MMD -MP
 

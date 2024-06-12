@@ -2,6 +2,7 @@
 SRCS += /exit_status.c
 SRCS += /ms_signal_handler.c
 SRCS += /main.c
+SRCS += /m_test.c
 #---expand---
 SRCS += expand/ms_expand.c
 SRCS += expand/utils/ms_initialize_new_array.c
