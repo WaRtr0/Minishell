@@ -1,0 +1,2 @@
+cat < t > t/a < a
+echo $?
