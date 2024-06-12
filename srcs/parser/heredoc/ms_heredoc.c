@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/07 20:38:56 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 19:21:53 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	ms_heredoc(t_shell *shell, char *limiter, t_prompt_s *status)
 			break ;
 	}
 	restore_io(fds);
-	write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1],
-		"\0", 1);
 	close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
 	free(limiter);
 	ms_sig_set(sig_exec);

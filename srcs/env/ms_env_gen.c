@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_gen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 00:15:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/23 00:26:39 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:23:36 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ int	get_key(char *str, char **out)
 
 	tmp = ft_strchr(str, '=');
 	if (tmp == NULL)
-		return ((*out = ft_strdup(str)) == NULL);
+	{
+		*out = ft_strdup(str);
+		return (*out == NULL);
+	}
 	i = tmp - str;
 	tmp = malloc(i + 1);
 	if (tmp != NULL)

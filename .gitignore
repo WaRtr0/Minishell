@@ -19,23 +19,3 @@ latex/
 !includes
 !libft-1.2
 !config
-!.vscode
-
-
-compile_commands.json
-test/
-srcs/main.c
-.clang-format
-srcs/main.c
-test/shellception.txt
-
-.clang-format
-|
-$t
-a
-b
-cat
-env
-ls
-o a
-out
