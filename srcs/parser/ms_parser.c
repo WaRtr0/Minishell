@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 17:19:56 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:35:42 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,14 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 	if (status->chevron)
 		ms_syntax_error(E_SYNTAX_UPD_NLN, NULL, shell);
 	if (shell->prompt_listen == 0 || shell->error > 0)
+	{
+		if (ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type == CMD_HEREDOC)
+		{
+			shell->cursor = ft_arr_pop(shell->cursor_array);
+			ft_arr_free(&ms_get_cursor(shell)->content.array, NULL);
+		}
 		return (0);
+	}
 	recursive_parser(shell, status);
 	ms_lexer_heredoc_handle(shell,  status);
 	return (1);
