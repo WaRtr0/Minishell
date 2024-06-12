@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 20:57:00 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 18:49:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 
 int	parent(t_shell *shell, int pid);
-int	child(t_exec *exec, t_shell *shell);
+int	execbuiltin(t_exec *exec, t_shell *shell);
 
 int	ms_exec_builtin(t_exec *exec, t_shell *shell)
 {
@@ -24,12 +24,12 @@ int	ms_exec_builtin(t_exec *exec, t_shell *shell)
 
 	pid = fork();
 	if (pid == -1)
-		return (-1);
+		return (EXIT_FAILURE << 8);
 	else if (pid == 0)
-		exit(child(exec, shell));
+		exit(execbuiltin(exec, shell));
 	else
 		return (parent(shell, pid));
-	return (EXIT_FAILURE);
+	return (EXIT_FAILURE << 8);
 }
 
 int	parent(t_shell *shell, int pid)
@@ -45,7 +45,7 @@ int	parent(t_shell *shell, int pid)
 	return (ret);
 }
 
-int	child(t_exec *exec, t_shell *shell)
+int	execbuiltin(t_exec *exec, t_shell *shell)
 {
 	int		ret;
 	size_t	i;

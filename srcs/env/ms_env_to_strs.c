@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 03:18:27 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/15 19:57:52 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 18:54:14 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ int	ms_env_to_strs(t_env *env, char ***out)
 	t_array	*arr;
 
 	arr = ft_arr_new(10);
+	*out = NULL;
 	if (arr == NULL)
-		return ((*out = NULL) || 1);
+		return (1);
 	if (ms_get_strs(env, arr) == 1 || ft_arr_append(arr, NULL) == 0)
 	{
 		ft_arr_free(&arr, &free);
-		return ((*out = NULL) || 1);
+		return (1);
 	}
 	*out = (char **)arr->data;
 	free(arr);

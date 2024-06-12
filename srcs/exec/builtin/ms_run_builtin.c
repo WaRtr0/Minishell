@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:56:13 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 20:56:16 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/12 18:50:30 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int	run_bti(t_exec *exec, t_shell *shell)
 		return (b_exit(exec, shell));
 	if (DEBUG_MODE)
 		ft_putendl_fd("==builtin not found==", 2);
-	return (EXIT_FAILURE);
+	return (EXIT_FAILURE << 8);
 }
