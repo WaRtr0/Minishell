@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:17:05 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 16:38:46 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:18:33 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static void	ms_lexer_text(t_command *command, t_shell *shell, t_parser_str *str)
 	ms_commit_command(shell, command);
 }
 
-static void	ms_lexer_pipeline(t_command *command, t_shell *shell)
+static void	ms_lexer_pipeline(t_command *command, t_shell *shell,
+	t_prompt_s *status)
 {
+	ms_lexer_heredoc_handle(shell, status);
 	command = ms_free_command(command);
 	if (ms_is_join(shell))
 	{
@@ -45,11 +47,12 @@ void	ms_lexer_operator(t_shell *shell, t_prompt_s *status, t_parser_str *str)
 	new_command = ms_new_command(shell);
 	ms_add_type(new_command, ms_get_cmd(str->type, &str->str[str->index]));
 	if (ms_get_command_type(new_command) == CMD_PIPE)
-		ms_lexer_pipeline(new_command, shell);
+		ms_lexer_pipeline(new_command, shell, status);
 	else if (ms_get_command_type(new_command) == CMD_TEXT)
 		ms_lexer_text(new_command, shell, str);
 	else
 	{
+		ms_lexer_heredoc_handle(shell, status);
 		ms_exit_join(shell);
 		ms_exit_pipeline(shell);
 		new_command->content.array = ft_arr_new(10);

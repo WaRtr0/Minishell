@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:38:50 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/24 16:36:38 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/12 13:37:54 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,14 @@ void			ms_join_command(t_shell *shell, char *str);
 
 void			ms_append_quote(t_shell *shell);
 
+//handle & add
+void			ms_lexer_heredoc_handle(t_shell *shell,
+					t_prompt_s *status);
+void			ms_lexer_heredoc_add(t_shell *shell,
+					t_prompt_s *status);
 //actions
-void			ms_lexer_empty(t_shell *shell);
+void			ms_lexer_empty(t_shell *shell,
+					t_prompt_s *status);
 void			ms_lexer_wildcard(t_shell *shell,
 					t_parser_str *str);
 void			ms_lexer_quote(t_shell *shell,
