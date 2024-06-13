@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_remove.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 03:16:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/06 00:39:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:46:20 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@
 
 static void	ms_env_rm_node(t_env **head);
 
-/**
- * @brief remove a node from a key
- * 
- * @param head the head of the env tree
- * @param key the key to remove
- */
 void	ms_env_remove(t_env	**head, char *key)
 {
 	int	cmp;
@@ -38,11 +32,6 @@ void	ms_env_remove(t_env	**head, char *key)
 	return ;
 }
 
-/**
- * @brief remove the actual node from the tree
- * 
- * @param head the node to remove
- */
 static void	ms_env_rm_node(t_env **head)
 {
 	t_env	*tmp;

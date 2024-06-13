@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 03:16:23 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/03 00:46:57 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:45:23 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "str.h"
 
-/**
- * @brief add a leaf or replace a value in the binary tree
- * 
- * @param head main env tree
- * @param e _leaf_ to add to main tree
- * @return error code (allways 0)
- */
 int	ms_env_add(t_env **head, t_env *e)
 {
 	int	cmp;

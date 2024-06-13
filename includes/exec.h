@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:50:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 16:18:50 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:25:15 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ int					execbin(t_exec *exec, t_shell *shell);
 
 enum e_file_status	get_file_status(char *file);
 char				*get_bin(char *cmd, t_env *env);
+
+int					red_error(char *file);
 
 #endif

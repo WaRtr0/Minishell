@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:42:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 19:21:53 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:49:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 
 void	print_hd(t_shell *shell, char *line, int fd, int expend);
 
+static int	free_all(t_shell *shell, int fd[2])
+{
+	shell->prompt_listen = 0;
+	shell->error = 1;
+	close(fd[0]);
+	close(fd[1]);
+	return (1);
+}
+
 static int	add_fd(t_shell *shell)
 {
 	int	fd[2];
@@ -30,17 +39,12 @@ static int	add_fd(t_shell *shell)
 		shell->error = 2;
 		return (1);
 	}
-	if (!ft_arr_append(shell->heredoc_fd, (void *)(intptr_t)fd[0]))
+	if (ft_arr_append(shell->heredoc_fd, (void *)(intptr_t)fd[0]) == 0)
+		return (free_all(shell, fd));
+	if (ft_arr_append(shell->heredoc_fd, (void *)(intptr_t)fd[1]) == 0)
 	{
-		shell->prompt_listen = 0;
-		shell->error = 1;
-		return (1);
-	}
-	if (!ft_arr_append(shell->heredoc_fd, (void *)(intptr_t)fd[1]))
-	{
-		shell->prompt_listen = 0;
-		shell->error = 1;
-		return (1);
+		ft_arr_pop(shell->heredoc_fd);
+		return (free_all(shell, fd));
 	}
 	shell->heredoc_size += 2;
 	return (0);
@@ -91,6 +95,8 @@ int	ms_heredoc(t_shell *shell, char *limiter, t_prompt_s *status)
 			break ;
 	}
 	restore_io(fds);
+	write((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1],
+		"\0", 1);
 	close((int)(intptr_t)shell->heredoc_fd->data[shell->heredoc_size - 1]);
 	free(limiter);
 	ms_sig_set(sig_exec);

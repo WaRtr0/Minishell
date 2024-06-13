@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_complete.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 03:00:26 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/06 16:42:27 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:45:32 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@
 static int	set_pwd(t_env **env);
 static int	set_exec(t_env **env, char *exec_cmd);
 
-/**
- * @brief complete environment with \
- * @brief PWD set to actual CWD \
- * @brief OLDPWD set to NULL if not set \
- * @brief _
- * 
- * @param env 
- * @return int 
- */
 int	ms_env_complete(t_env **env, char *exec_cmd)
 {
 	t_env	*tmp;

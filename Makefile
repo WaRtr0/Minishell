@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 RMF = rm -f
 
-CFLAGS = -g -Wall -Wextra -Werror -D malloc=mtest
+CFLAGS = -g -Wall -Wextra -Werror -D malloc=mtest 
 DFLAGS = -MP -MMD
 
 SDIR = srcs

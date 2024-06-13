@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_collapse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 03:18:21 by gcros             #+#    #+#             */
-/*   Updated: 2024/04/16 04:50:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:45:27 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
 
-/**
- * @brief destroy the actual env tree and the leafs
- * 
- * @param head the top of the tree
- */
 void	ms_env_collapse(t_env **head)
 {
 	if (*head == NULL)

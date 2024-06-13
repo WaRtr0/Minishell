@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 05:30:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/18 05:30:25 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:06:22 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static char	*ft_getnextword_char(char const *str, char *sep)
 	while (str[i] && !ft_include(sep, str[i]))
 		i++;
 	buf = (char *) malloc(sizeof(char) * (i + 1));
+	if (!buf)
+		return (NULL);
 	i = 0;
 	while (str[i] && !ft_include(sep, str[i]) && buf)
 	{
@@ -67,6 +69,8 @@ char	**ft_split_chars(char const *s, char *c)
 	str = s;
 	count = ft_countwords_char(str, c);
 	buf = (char **) malloc((count + 1) * sizeof(char *));
+	if (!buf)
+		return (NULL);
 	i = 0;
 	while (i < count && buf)
 	{

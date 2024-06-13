@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 19:35:42 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:49:20 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 
 	save_io((int [2]){0, 1}, fds);
 	ms_sig_set(sig_heredoc);
-	// while (status->heredoc || status->squote //temp
-	// 	|| status->dquote || status->parenthesis || status->newline)
 	while (status->squote
 		|| status->dquote || status->parenthesis || status->newline)
 	{
@@ -106,7 +104,8 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 		ms_syntax_error(E_SYNTAX_UPD_NLN, NULL, shell);
 	if (shell->prompt_listen == 0 || shell->error > 0)
 	{
-		if (ms_get_parent(shell, 1) != NULL && ms_get_parent(shell, 1)->type == CMD_HEREDOC)
+		if (ms_get_parent(shell, 1) != NULL
+			&& ms_get_parent(shell, 1)->type == CMD_HEREDOC)
 		{
 			shell->cursor = ft_arr_pop(shell->cursor_array);
 			ft_arr_free(&ms_get_cursor(shell)->content.array, NULL);
@@ -114,6 +113,6 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 		return (0);
 	}
 	recursive_parser(shell, status);
-	ms_lexer_heredoc_handle(shell,  status);
+	ms_lexer_heredoc_handle(shell, status);
 	return (1);
 }

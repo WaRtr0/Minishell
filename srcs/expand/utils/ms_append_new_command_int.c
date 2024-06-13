@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 07:18:33 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 07:18:48 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:07:37 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	ms_append_new_command_int(t_array *new_array, int type, int content)
 	t_command	*new_command;
 
 	new_command = malloc(sizeof(t_command));
-	if (!new_command)
+	if (new_command == NULL)
 		return ;
 	new_command->content.fd = content;
 	new_command->type = type;
-	ft_arr_append(new_array, new_command);
+	if (ft_arr_append(new_array, new_command) == 0)
+		free(new_command);
 }

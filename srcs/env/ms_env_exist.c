@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_exist.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:17:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/03 00:03:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:45:37 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "str.h"
 
-/**
- * @brief check if a value exist
- * 
- * @param env the env tree
- * @param key the key to search
- * @return 1 if the key is found, 0 else
- */
 int	ms_env_exist(t_env *env, char *key)
 {
 	int	cmp;

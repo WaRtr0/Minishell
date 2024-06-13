@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:27:06 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 23:59:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:27:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ void	ms_set_status(int new_status)
 
 void	ms_set_status_tmp(int new_status, char *file, int line)
 {
-	// ratio
-
 	fprintf(stderr, "%s: %d: %d\n", file, line, new_status);
 	ms_set_status(new_status);
-
-
 }

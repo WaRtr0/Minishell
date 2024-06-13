@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_prompt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:30:58 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 23:42:28 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 22:01:28 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 	shell->commands = ft_arr_new(10);
 	shell->cursor = shell->commands;
 	shell->cursor_array = ft_arr_new(10);
-	if (!line)
-		return (1);
+	if (!line || !shell->commands || !shell->heredoc_fd
+		|| !shell->commands)
+		return (free_prompt(shell), 1);
 	if (line[0] != '\0')
 	{
 		add_history(line);
@@ -53,9 +54,9 @@ static	int	ms_prompt_handle(t_shell *shell, char *line)
 		ms_handle(shell->commands, shell, (int [2]){0, 1});
 		if (DEBUG_MODE)
 			ms_debug(shell);
-		free_prompt(shell);
 		shell->line++;
 	}
+	free_prompt(shell);
 	return (0);
 }
 

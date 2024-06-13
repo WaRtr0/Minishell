@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:52:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 17:17:08 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 00:29:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*command_get_path(t_array *array, size_t *i, t_shell *shell)
 	count = 0;
 	path = NULL;
 	*i += 1;
-	while (*i < array->size && shell->error < 1)
+	while (*i < (size_t)ms_get_size(array) && shell->error < 1)
 	{
 		command = (t_command *)array->data[*i];
 		if (command->type != CMD_TEXT && count > 0)
@@ -80,6 +80,7 @@ static int	add_exec_redir(t_exec *exec,
 	new_command->content.str = path;
 	if (ft_arr_append(exec->redir, new_command) == 0)
 	{
+		free(path);
 		free(new_command);
 		return (1);
 	}
@@ -93,7 +94,7 @@ int	command_get_redir(t_array *array, t_exec *exec_cmd, t_shell *shell)
 	t_command	*command;
 
 	i = 0;
-	while (i < array->size && shell->error < 1)
+	while (i < (size_t)ms_get_size(array) && shell->error < 1)
 	{
 		command = (t_command *)array->data[i];
 		if (command->type == CMD_HEREDOC)

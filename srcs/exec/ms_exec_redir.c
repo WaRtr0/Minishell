@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:37:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 19:05:51 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:24:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 int	get_heredoc(t_exec *exec, t_command *cmd);
 int	get_redin(t_exec *exec, t_command *cmd);
 int	get_redout(t_exec *exec, t_command *cmd);
-int	red_error(char *file);
 
 int	get_redir(t_exec *exec)
 {

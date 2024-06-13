@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:53 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 16:15:39 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:34:13 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,21 @@
 static int	add_exec(t_exec **exec_cmd, t_shell *shell)
 {
 	*exec_cmd = malloc(sizeof(t_exec));
-	if (exec_cmd == NULL)
+	if (*exec_cmd == NULL)
 	{
 		shell->error = 1;
 		return (shell->prompt_listen = 0);
 	}
 	(*exec_cmd)->content = ft_arr_new(20);
+	if ((*exec_cmd)->content == NULL)
+	{
+		free(*exec_cmd);
+		exec_cmd = NULL;
+		shell->error = 1;
+		return (shell->prompt_listen = 0);
+	}
 	(*exec_cmd)->redir = ft_arr_new(20);
-	if ((*exec_cmd)->content == NULL || (*exec_cmd)->redir == NULL)
+	if ((*exec_cmd)->redir == NULL)
 	{
 		free(*exec_cmd);
 		exec_cmd = NULL;
@@ -54,9 +61,19 @@ static int	run_join(t_array *array, t_exec *exec_cmd,
 	while (i < array->size && shell->error < 1)
 	{
 		command = (t_command *)array->data[i];
-		if (command->type == CMD_TEXT || command->type == CMD_EXPAND_QUOTE
+		if (command == NULL)
+			(void)"continue";
+		else if (command->type == CMD_TEXT || command->type == CMD_EXPAND_QUOTE
 			|| command->type == CMD_EXPAND)
-			ft_arr_append(exec_cmd->content, command->content.str);
+		{
+			if (ft_arr_append(exec_cmd->content, command->content.str) == 0)
+			{
+				free(command->content.str);
+				shell->error = 1;
+				shell->prompt_listen = 0;
+				return (1);
+			}
+		}
 		i++;
 	}
 	return (0);
@@ -75,21 +92,22 @@ int	ms_handle_join(t_array *array, t_shell *shell, int fd[2])
 		return (0);
 	(void)array;
 	new_array = ms_new_join(array, shell);
-	if (new_array != NULL && new_array->size > 0) 
+	if (new_array != NULL)
 	{
 		run_join(new_array, exec_cmd, shell);
 		ft_arr_free(&new_array, free);
 	}
 	exec_cmd->fd[0] = fd[0];
 	exec_cmd->fd[1] = fd[1];
-	if (shell->prompt_listen && (exec_cmd->content->size > 0 || exec_cmd->redir->size > 0))
+	if (shell->prompt_listen && (exec_cmd->content->size > 0
+			|| exec_cmd->redir->size > 0))
 		ms_set_status(ms_exec(exec_cmd, shell));
 	ms_close_fd(fd, exec_cmd->fd);
 	if (DEBUG_MODE == 1)
 	{
 		// ms_debug_command_to_json_exec(0, new_array);
 		// printf("DEBUG MODE | REDIR\n");
-		ms_debug_command_to_json_exec(0, exec_cmd->redir);
+		// ms_debug_command_to_json_exec(0, exec_cmd->redir);
 	}
 	free_exec(exec_cmd);
 	return (1);
