@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:54:25 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 14:15:45 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 01:20:13 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ static void	join_parenthesis(t_shell *shell, t_prompt_s *status, char *line)
 		str.str = ";";
 		str.len = 1;
 		str.index = 0;
+		status->newline = 0; // a test
+		status->c_parenthesis = 0;
+		status->print = 0;
+		status->operator = 1;
+		status->no_print = 0;
 		ms_lexer_operator(shell, status, &str);
 	}
 	else
