@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:05:29 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/12 23:10:17 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/14 14:03:05 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include "put.h"
 
-#define CUR_FAIL 5535 + 1
+#define CUR_FAIL 5535 + 1000
 
 void	*mtest(size_t size)
 {
