@@ -34,9 +34,12 @@ int	ms_wait_pipeline(t_shell *shell)
 
 int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
 {
+	int	i;
+
 	ms_handle(command->content.array, shell, fds);
 	free_shell(shell);
-	close(fds[0]);
-	close(fds[1]);
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	exit(ms_get_status());
 }
