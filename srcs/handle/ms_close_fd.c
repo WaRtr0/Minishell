@@ -14,9 +14,9 @@
 
 int	ms_close_fd(int fd[2], int t_fd[2])
 {
-	if (fd[0] != t_fd[0])
+	if (fd[0] != t_fd[0] && t_fd[0] != 0)
 		close(t_fd[0]);
-	if (fd[1] != t_fd[1])
+	if (fd[1] != t_fd[1] && t_fd[0] != 1)
 		close(t_fd[1]);
 	return (0);
 }
