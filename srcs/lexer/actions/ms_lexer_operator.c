@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:17:05 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 00:14:50 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 15:41:44 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,23 @@ static void	ms_lexer_text(t_command *command, t_shell *shell, t_parser_str *str)
 static void	ms_lexer_pipeline(t_command *command, t_shell *shell,
 	t_prompt_s *status)
 {
+	t_command	*second_command;
+
+	second_command = NULL;
 	ms_lexer_heredoc_handle(shell, status);
 	command = ms_free_command(command);
 	if (ms_is_join(shell))
 	{
 		ms_exit_join(shell);
 		command = ft_arr_pop(shell->cursor);
+		if (command && command->type == CMD_JOIN_NO_PRINT)
+			second_command = ft_arr_pop(shell->cursor);
 	}
 	else if (ms_get_cursor(shell)->type == CMD_PARENTHESIS)
 		command = ft_arr_pop(shell->cursor);
 	ms_add_pipeline(shell);
+	if (second_command != NULL)
+		ms_commit_command_any(shell, second_command);
 	ms_commit_command_any(shell, command);
 }
 

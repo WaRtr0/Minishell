@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 00:45:28 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 15:51:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,31 @@ static	int	join_part(t_array *array, t_shell *shell, int fd[2])
 	return (ms_handle_join(array, shell, fd));
 }
 
-static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
+static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t *i)
 {
 	int			t_fd[2];
 	t_command	*second_command;
 
 	t_fd[0] = fd[0];
 	t_fd[1] = fd[1];
-	if (i + 1 < array->size)
+	second_command = NULL;
+	if (*i + 1 < array->size)
 	{
-		second_command = (t_command *)array->data[i + 1];
+		second_command = (t_command *)array->data[*i + 1];
 		if (second_command->type == CMD_JOIN_NO_PRINT)
 			ms_get_fd(second_command->content.array, shell, t_fd);
 	}
 	shell->last_pid = fork();
 	if (shell->last_pid == 0)
-		exit_pare_part((t_command *)array->data[i], shell, t_fd);
+		exit_pare_part((t_command *)array->data[*i], shell, t_fd);
 	else if (shell->last_pid < 0)
 	{
 		perror("fork");
 		return (1);
 	}
-	// ms_close_fd(fd, t_fd);
-	if (fd[0] != t_fd[0])
-		close(t_fd[0]);
+	ms_close_fd(fd, t_fd);
+	// if (fd[0] != t_fd[0])
+	// 	close(t_fd[0]);
 	return (0);
 }
 
@@ -76,16 +77,18 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	t_command	*command;
 
 	command = (t_command *)run->array->data[run->index];
+	if (command->type == CMD_JOIN_NO_PRINT)
+		return (run->index++);
 	pipe_input(run);
 	if (command->type == CMD_JOIN)
 		join_part(command->content.array, shell,
 			(int [2]){run->tmp_fd[0], run->tmp_fd[1]});
 	else if (command->type == CMD_PARENTHESIS)
 		pare_part(run->array, shell,
-			(int [2]){run->tmp_fd[0], run->tmp_fd[1]}, run->index);
-	if (run != NULL && run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)
+			(int [2]){run->tmp_fd[0], run->tmp_fd[1]}, &run->index);
+	if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)
 		close(run->tmp_fd[0]);
-	if (run != NULL && run->index < run->array->size - 1)
+	if (run->index < run->array->size - 1)
 	{
 		close(run->pipe_fd[1]);
 		run->tmp_fd[0] = run->pipe_fd[0];
