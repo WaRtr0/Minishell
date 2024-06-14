@@ -3,34 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:05:26 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 20:16:23 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 22:35:11 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static int	free_commands(t_array *array)
+int	free_commands(t_array *array)
 {
 	size_t		i;
+	int			type;
 	t_command	*command;
 
 	i = 0;
-	if (!array)
+	if (array == NULL || array->data == NULL)
 		return (1);
-	while (i < array->size)
+	while (i < array->size && array->data[i] != NULL)
 	{
 		command = (t_command *)array->data[i];
-		if (command->type == CMD_TEXT || command->type == CMD_EXPAND
-			|| command->type == CMD_QUOTE || command->type == CMD_EXPAND_QUOTE)
+		if (command == NULL)
+		{
+			i++;
+			continue ;
+		}
+		type = ms_get_type_commands(command);
+		if (type == 1)
 			free(command->content.str);
-		else if (command->type == CMD_HEREDOC || command->type == CMD_EMPTY
-			|| command->type == CMD_REDIR_IN || command->type == CMD_REDIR_OUT
-			|| command->type == CMD_APPEND || command->type == CMD_WILDCARD)
-			(void)"void";
-		else
+		else if (type == 2)
 			free_commands(command->content.array);
 		free(command);
 		i++;
@@ -41,26 +43,37 @@ static int	free_commands(t_array *array)
 
 void	free_prompt(t_shell *shell)
 {
-	ft_arr_free(&shell->cursor_array, NULL);
-	ft_arr_free(&shell->heredoc_fd, NULL);
-	free_commands(shell->commands);
-	if (shell->command)
-		free(shell->command);
+	if (shell->cursor_array)
+		ft_arr_free(&shell->cursor_array, NULL);
+	else
+		free(shell->cursor_array);
+	if (shell->heredoc_fd)
+		ft_arr_free(&shell->heredoc_fd, NULL);
+	else
+		free(shell->heredoc_fd);
+	if (shell->commands)
+		free_commands(shell->commands);
+	else
+		free(shell->commands);
+	free(shell->command);
+	free(shell->prompt);
 	shell->command = NULL;
 	shell->cursor = NULL;
-	free(shell->prompt);
+	shell->cursor_array = NULL;
+	shell->heredoc_fd = NULL;
+	shell->commands = NULL;
+	shell->prompt = NULL;
 }
 
 void	free_shell(t_shell *shell)
 {
 	free_prompt(shell);
-	rl_clear_history();
 	ms_env_collapse(&shell->env);
 }
 
 static void	redir_free(t_command *command)
 {
-	if (command->type != CMD_HEREDOC)
+	if (command && command->type != CMD_HEREDOC)
 		free(command->content.str);
 	free(command);
 }

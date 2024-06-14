@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ms_get_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 08:50:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/31 15:35:58 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/14 00:26:06 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
-#include <sys/stat.h>
+#include "exec.h"
+#include "errno.h" 
 
 int	ms_heredoc_part(t_array *array, size_t *i, int *t_fd)
 {
@@ -29,14 +30,18 @@ int	ms_redir_in_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
+	errno = 0;
 	if (t_fd[0] != -1)
 		close(t_fd[0]);
+	t_fd[0] = -1;
 	(*i)++;
 	command = (t_command *)array->data[(*i)];
 	if (command->type == CMD_EMPTY)
 		(*i)++;
 	command = (t_command *)array->data[(*i)];
 	t_fd[0] = open(command->content.str, O_RDONLY);
+	if (t_fd[0] == -1)
+		red_error(command->content.str);
 	return (1);
 }
 
@@ -44,15 +49,22 @@ int	ms_append_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
+	errno = 0;
 	if (t_fd[1] != -1)
 		close(t_fd[1]);
+	t_fd[1] = -1;
 	(*i)++;
 	command = (t_command *)array->data[(*i)];
 	if (command->type == CMD_EMPTY)
 		(*i)++;
 	command = (t_command *)array->data[(*i)];
-	t_fd[1] = open(command->content.str, O_CREAT | O_APPEND | O_WRONLY,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	if ((get_file_status(command->content.str) & fs_is_dir) == 0)
+		t_fd[1] = open(command->content.str, O_CREAT | O_WRONLY | O_APPEND,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	else
+		errno = EISDIR;
+	if (t_fd[1] == -1)
+		red_error(command->content.str);
 	return (1);
 }
 
@@ -60,15 +72,22 @@ int	ms_redir_out_part(t_array *array, size_t *i, int *t_fd)
 {
 	t_command	*command;
 
+	errno = 0;
 	if (t_fd[1] != -1)
 		close(t_fd[1]);
+	t_fd[1] = -1;
 	(*i)++;
 	command = (t_command *)array->data[(*i)];
 	if (command->type == CMD_EMPTY)
 		(*i)++;
 	command = (t_command *)array->data[(*i)];
-	t_fd[1] = open(command->content.str, O_CREAT | O_WRONLY | O_TRUNC,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	if ((get_file_status(command->content.str) & fs_is_dir) == 0)
+		t_fd[1] = open(command->content.str, O_CREAT | O_WRONLY | O_TRUNC,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	else
+		errno = EISDIR;
+	if (t_fd[1] == -1)
+		red_error(command->content.str);
 	return (1);
 }
 
@@ -82,7 +101,7 @@ void	ms_get_fd(t_array *array, t_shell *shell, int *fd)
 	t_fd[0] = -1;
 	t_fd[1] = -1;
 	i = 0;
-	while (i < array->size)
+	while (i < (size_t)ms_get_size(array))
 	{
 		command = (t_command *)array->data[i];
 		if (command->type == CMD_HEREDOC)

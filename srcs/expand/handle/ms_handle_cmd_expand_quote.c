@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:39:14 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/10 07:56:26 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:39:31 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ms_handle_cmd_expand_quote(t_command *command,
 {
 	char	*env_str;
 
+	if (command == NULL || command->content.str == NULL)
+		return ;
 	if (command->content.str[0] == '\0')
 	{
 		if (ms_is_last_type_text_or_expand(new_array))

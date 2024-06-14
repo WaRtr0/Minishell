@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:46:01 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/23 22:22:23 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 20:12:18 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ void	ms_add_join(t_shell *shell, int type )
 		ms_add_type(append_command, CMD_JOIN);
 		if (type >= 0)
 			ms_add_type(append_command, type);
+		if (append_command == NULL)
+			return ;
 		append_command->content.array = ft_arr_new(10);
-		ms_commit_command(shell, append_command);
-		ft_arr_append(shell->cursor_array, shell->cursor);
-		shell->cursor = append_command->content.array;
+		if (append_command->content.array == NULL)
+			return (free(append_command));
+		ms_commit_command_array(shell, append_command);
+		if (ft_arr_append(shell->cursor_array, shell->cursor))
+			shell->cursor = append_command->content.array;
 	}
 }

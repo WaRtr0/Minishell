@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:20:35 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 14:04:16 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:00:27 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	ms_lexer_empty(t_shell *shell, t_prompt_s *status)
 	{
 		new_command = ms_new_command(shell);
 		ms_add_type(new_command, CMD_EMPTY);
-		ms_commit_command(shell, new_command);
+		ms_commit_command_fd(shell, new_command);
 	}
 }

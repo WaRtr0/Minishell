@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:44:37 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:29:07 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:41:49 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	expand_on_command(char **tokens, t_array *new_array)
 {
 	char	*temp;
 
+	if (new_array == NULL)
+		return ;
 	temp = ms_get_last_command(new_array)->content.str;
 	if (ms_get_last_type(new_array) == CMD_EXPAND
 		&& *ms_get_last_char(temp) == '$')
@@ -32,6 +34,8 @@ static void	expand_on_command(char **tokens, t_array *new_array)
 
 static void	process_tokens(char **tokens, t_array *new_array)
 {
+	if (new_array == NULL)
+		return ;
 	if (*tokens != NULL && !ft_include(" \t\n", (*tokens)[0]))
 	{
 		if (ms_is_last_type_text_or_expand(new_array))
@@ -53,6 +57,8 @@ static void	handle_expanded_str(char *str, t_array *new_array, t_shell *shell)
 	char	*env_str;
 	char	**tokens;
 
+	if (str == NULL || new_array == NULL)
+		return ;
 	env_str = ms_get_exp(str, shell->env);
 	if (env_str != NULL && env_str[0])
 	{
@@ -69,6 +75,8 @@ static void	handle_expanded_str(char *str, t_array *new_array, t_shell *shell)
 
 void	ms_handle_cmd_expand(t_command *command, t_array *new_array,
 		t_shell *shell) {
+	if (command == NULL || command->content.str == NULL || new_array == NULL)
+		return ;
 	if (command->content.str[0] == '\0')
 	{
 		if (ms_is_last_type_text_or_expand(new_array))

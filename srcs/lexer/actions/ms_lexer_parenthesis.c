@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:01:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 14:12:40 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:06:46 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ static int	open_parenthesis(t_shell *shell, t_prompt_s *status,
 	status->no_empty = 0;
 	new_command = ms_new_command(shell);
 	ms_add_type(new_command, CMD_PARENTHESIS);
-	new_command->content.array = ft_arr_new(10);
-	ft_arr_append(shell->cursor, new_command);
-	ft_arr_append(shell->cursor_array, shell->cursor);
-	shell->cursor = new_command->content.array;
+	ms_add_cursor(shell, new_command);
 	status->last_parenthesis = status->parenthesis;
 	return (0);
 }
@@ -56,6 +53,7 @@ static int	open_parenthesis(t_shell *shell, t_prompt_s *status,
 static int	close_parenthesis(t_shell *shell, t_prompt_s *status,
 	t_parser_str *str)
 {
+	ms_lexer_heredoc_handle(shell, status);
 	status->c_parenthesis = 1;
 	if ((status->parenthesis == 0 || status->operator || !status->no_empty)
 		&& !is_semicolon(shell))

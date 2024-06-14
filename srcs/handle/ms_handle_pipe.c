@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 21:12:18 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 00:45:28 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 		perror("fork");
 		return (1);
 	}
-	ms_close_fd(fd, t_fd);
+	// ms_close_fd(fd, t_fd);
+	if (fd[0] != t_fd[0])
+		close(t_fd[0]);
 	return (0);
 }
 
@@ -81,9 +83,9 @@ static	int	pipe_run(t_pipe_run *run, t_shell *shell)
 	else if (command->type == CMD_PARENTHESIS)
 		pare_part(run->array, shell,
 			(int [2]){run->tmp_fd[0], run->tmp_fd[1]}, run->index);
-	if (run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)
+	if (run != NULL && run->tmp_fd[0] != -1 && (run->tmp_fd[0] | 1) != 1)
 		close(run->tmp_fd[0]);
-	if (run->index < run->array->size - 1)
+	if (run != NULL && run->index < run->array->size - 1)
 	{
 		close(run->pipe_fd[1]);
 		run->tmp_fd[0] = run->pipe_fd[0];

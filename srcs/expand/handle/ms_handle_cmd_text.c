@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:36:47 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 19:30:20 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:41:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ms_handle_cmd_text(t_command *command, t_array *new_array)
 {
 	char	*temp;
 
+	if (command == NULL || command->content.str == NULL)
+		return ;
 	if (ms_is_last_type_text_or_expand(new_array))
 	{
 		temp = ms_get_last_command(new_array)->content.str;

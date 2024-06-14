@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:17:05 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 14:18:33 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 00:14:50 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ms_lexer_text(t_command *command, t_shell *shell, t_parser_str *str)
 {
 	ms_add_join(shell, -1);
 	ms_add_str(shell, command, str);
-	ms_commit_command(shell, command);
+	ms_commit_command_str(shell, command);
 }
 
 static void	ms_lexer_pipeline(t_command *command, t_shell *shell,
@@ -34,7 +34,7 @@ static void	ms_lexer_pipeline(t_command *command, t_shell *shell,
 	else if (ms_get_cursor(shell)->type == CMD_PARENTHESIS)
 		command = ft_arr_pop(shell->cursor);
 	ms_add_pipeline(shell);
-	ms_commit_command(shell, command);
+	ms_commit_command_any(shell, command);
 }
 
 void	ms_lexer_operator(t_shell *shell, t_prompt_s *status, t_parser_str *str)
@@ -55,13 +55,10 @@ void	ms_lexer_operator(t_shell *shell, t_prompt_s *status, t_parser_str *str)
 		ms_lexer_heredoc_handle(shell, status);
 		ms_exit_join(shell);
 		ms_exit_pipeline(shell);
-		new_command->content.array = ft_arr_new(10);
-		if (shell->cursor_array->size > 0 && ms_get_parent(shell, 1) != NULL
+		if (ms_get_size(shell->cursor_array) > 0
+			&& ms_get_parent(shell, 1) != NULL
 			&& ms_get_parent(shell, 1)->type != CMD_PARENTHESIS)
 			shell->cursor = ft_arr_pop(shell->cursor_array);
-		ft_arr_append(shell->cursor_array, shell->cursor);
-		shell->cursor = new_command->content.array;
-		ft_arr_append(shell->cursor_array->data[shell->cursor_array->size - 1],
-			new_command);
+		ms_add_cursor(shell, new_command);
 	}
 }

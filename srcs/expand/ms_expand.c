@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:50:37 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 17:16:05 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 00:38:39 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_array	*ms_new_join(t_array *array, t_shell *shell)
 	if (new_array == NULL)
 		return (NULL);
 	i = 0;
-	while (i < array->size && shell->error < 1)
+	while (i < ms_get_size(array) && shell->error < 1)
 	{
 		process_command((t_command *)array->data[i], new_array, shell);
 		i++;

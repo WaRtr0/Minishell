@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_gen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 00:15:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/12 19:23:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 23:45:52 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 static int	get_value(char *str, char **out);
 static int	is_valid(char *var);
 
-/**
- * @brief generate env tree from a char** NULL terminated type
- * 
- * @param strs the char** source
- * @param env the out tree
- * @return int the error output (0: ok, 1: error)
- */
 int	ms_env_gen(char **strs, t_env **env)
 {
 	char	**p;
@@ -43,13 +36,6 @@ int	ms_env_gen(char **strs, t_env **env)
 	return (1);
 }
 
-/**
- * @brief parse the node form a string
- * 
- * @param str the source string
- * @param out the out node 
- * @return int the error output (0: ok, 1: error)
- */
 int	ms_parse_env_node(char *str, t_env **out)
 {
 	char	*s1;
@@ -76,13 +62,6 @@ int	ms_parse_env_node(char *str, t_env **out)
 	return (e == NULL);
 }
 
-/**
- * @brief parse the key form a string
- * 
- * @param str the source string
- * @param out the out string
- * @return int the error output (0: ok, 1: error)
- */
 int	get_key(char *str, char **out)
 {
 	char	*tmp;
@@ -90,10 +69,7 @@ int	get_key(char *str, char **out)
 
 	tmp = ft_strchr(str, '=');
 	if (tmp == NULL)
-	{
-		*out = ft_strdup(str);
-		return (*out == NULL);
-	}
+		return ((*out = ft_strdup(str)) == NULL);
 	i = tmp - str;
 	tmp = malloc(i + 1);
 	if (tmp != NULL)
@@ -102,13 +78,6 @@ int	get_key(char *str, char **out)
 	return (*out == NULL);
 }
 
-/**
- * @brief parse the value form a string_env_node
- * 
- * @param str the source string
- * @param out the out string
- * @return int the error output (0: ok, 1: error)
- */
 static int	get_value(char *str, char **out)
 {
 	*out = NULL;

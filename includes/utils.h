@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:14:08 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 17:20:10 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/13 16:51:18 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "unistd.h"
 # include "stdlib.h"
 
+int		free_commands(t_array *array);
 char	*ft_select_str(char *str, size_t n);
 int		ft_include(char const *str, char c);
 char	**ft_split_chars(char const *s, char *c);

@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:45:48 by mmorot            #+#    #+#             */
-/*   Updated: 2024/05/22 20:55:41 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 21:05:23 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_command	*ms_new_command(t_shell *shell)
 	{
 		shell->error = 1;
 		shell->prompt_listen = 0;
+		return (NULL);
 	}
+	new_command->content.str = NULL;
 	return (new_command);
 }

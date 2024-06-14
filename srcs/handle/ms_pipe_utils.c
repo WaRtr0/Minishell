@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 21:09:43 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/11 21:11:10 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:52:03 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	ms_wait_pipeline(t_shell *shell)
 
 int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
 {
-	ms_handle(command->content.array, shell, fds);
+	if (!ms_get_status())
+		ms_handle(command->content.array, shell, fds);
 	free_shell(shell);
 	close(fds[0]);
 	exit(ms_get_status());

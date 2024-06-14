@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:38:50 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 13:37:54 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 00:33:23 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,18 @@ typedef struct s_command
 }	t_command;
 
 t_command		*ms_new_command(t_shell *shell);
-void			ms_commit_command(t_shell *shell, t_command *command);
+
+void			ms_add_cursor(t_shell *shell, t_command *command);
+
+size_t			ms_get_size(t_array *array);
+
+int				ms_get_type_commands(t_command *command);
+
+void			ms_commit_command_fd(t_shell *shell, t_command *command);
+void			ms_commit_command_str(t_shell *shell, t_command *command);
+void			ms_commit_command_array(t_shell *shell, t_command *command);
+void			ms_commit_command_any(t_shell *shell, t_command *command);
+
 void			ms_add_type(t_command *command, int type);
 void			ms_add_str(t_shell *shell,
 					t_command *command, t_parser_str *str);

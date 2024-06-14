@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_is_pipeline.c                                   :+:      :+:    :+:   */
+/*   ms_get_size.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 15:51:47 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 00:16:26 by mmorot           ###   ########.fr       */
+/*   Created: 2024/06/12 23:14:51 by mmorot            #+#    #+#             */
+/*   Updated: 2024/06/14 00:33:05 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "lexer.h"
 
-int	ms_is_pipeline(t_shell *shell)
+size_t	ms_get_size(t_array *array)
 {
-	if (ms_get_size(shell->cursor_array) > 0 && ms_get_parent(shell, 1) != NULL
-		&& ms_get_parent(shell, 1)->type == CMD_PIPE)
-		return (1);
+	if (array != NULL && array->data != NULL && array->size)
+		return (array->size);
 	return (0);
 }
