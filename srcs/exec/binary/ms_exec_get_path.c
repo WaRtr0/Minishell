@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 05:00:59 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/14 15:05:43 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/14 17:46:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int	check_bin(char *bin, char *cmd)
 	if (err_msg)
 		ft_putendl_fd(err_msg, 2);
 	free(err_msg);
-	return ((st ^ (fs_exist | !fs_is_dir | fs_read | fs_exec)) == 0);
+	return (((st | fs_read | fs_write)
+			^ (fs_exist | !fs_is_dir | fs_read | fs_write | fs_exec)) == 0);
 }
 
 int	ms_find_cmd(char *cmd, char *env_path, char **out)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execbin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 18:55:26 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 17:16:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	run_bin(char *cmd, char **args, char **envp)
 		ft_putendl_fd("==run_bin", 2);
 	execve(cmd, args, envp);
 	ms_set_status(EXIT_FAILURE << 8);
+	perror("minishell: execve: ");
 	return (on_error(envp, args, cmd));
 }
 
