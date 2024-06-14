@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:05:29 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/14 14:04:48 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/14 15:21:41 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@
 #include "put.h"
 #include <time.h>
 
-#define CUR_FAIL 5535 + 1000
+#define CUR_FAIL 246 + 500000
 
 void	*mtest(size_t size)
 {
-	static size_t	i;
+	//static size_t	i;
 
-	ft_putnbr_fd(i++, 2);
-	ft_putendl_fd("", 2);
-	if (i + 1 == CUR_FAIL)
-		ft_putendl_fd("fuck", 2);
-	if (i++ > CUR_FAIL)
-	{
-		return (NULL);
-	}
+	//ft_putnbr_fd(i++, 2);
+	//ft_putendl_fd("", 2);
+	//if (i + 1 == CUR_FAIL)
+	//	ft_putendl_fd("fuck", 2);
+	//if (i++ > CUR_FAIL)
+	//{
+	//	return (NULL);
+	//}
 
 	return (malloc(size));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:37:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/13 23:24:58 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 15:59:18 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	red_error(char *file)
 	err_msg = ft_strjoin("mishell: redir: ", file);
 	if (err_msg == NULL)
 		return (1);
-	ms_set_status(1 << 8);
 	perror(err_msg);
 	free(err_msg);
 	return (1);
