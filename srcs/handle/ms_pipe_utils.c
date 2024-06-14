@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 21:09:43 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 14:30:42 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 18:44:06 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
 	ms_handle(command->content.array, shell, fds);
 	free_shell(shell);
 	close(fds[0]);
+	close(fds[1]);
 	exit(ms_get_status());
 }
