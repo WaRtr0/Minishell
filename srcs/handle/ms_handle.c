@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:54:00 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 00:31:44 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 16:32:47 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static	int	pare_part(t_array *array, t_shell *shell, int fd[2], size_t i)
 
 	t_fd[0] = fd[0];
 	t_fd[1] = fd[1];
+	response = 0;
 	if (array == NULL || array->data == NULL)
 		return (0);
 	command = (t_command *)array->data[i];
