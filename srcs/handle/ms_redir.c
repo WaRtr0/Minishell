@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:52:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 16:14:57 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 18:06:27 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,20 @@ static char	*command_get_path(t_array *array, size_t *i, t_shell *shell)
 
 	count = 0;
 	path = NULL;
+	(void)shell;
 	*i += 1;
-	while (*i < (size_t)ms_get_size(array) && shell->error < 1)
+	command = (t_command *)array->data[*i];
+	if (command->type == CMD_EMPTY && count < 1)
 	{
-		command = (t_command *)array->data[*i];
-		if (command->type == CMD_EMPTY && count > 0)
-			return (path);
-		else if (command->type == CMD_TEXT || command->type == CMD_EXPAND
-			|| command->type == CMD_EXPAND_QUOTE)
-		{
-			path = command->content.str;
-			command->type = CMD_EMPTY;
-			command->content.str = NULL;
-		}
 		*i += 1;
-		count++;
+		command = (t_command *)array->data[*i];
+	}
+	if (command->type == CMD_TEXT || command->type == CMD_EXPAND
+		|| command->type == CMD_EXPAND_QUOTE)
+	{
+		path = command->content.str;
+		command->type = CMD_EMPTY;
+		command->content.str = NULL;
 	}
 	*i -= 1;
 	return (path);
