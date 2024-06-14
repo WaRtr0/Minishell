@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_handle_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:53:56 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 15:51:58 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 22:43:35 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static	int	pare_part(t_pipe_run *run, t_shell *shell, int fd[2], size_t *i)
 		exit_pare_part((t_command *)run->array->data[*i], shell, t_fd);
 	}
 	else if (shell->last_pid < 0)
-	{
-		perror("fork");
-		return (1);
-	}
+		return (perror("fork"), 1);
 	ms_close_fd(fd, t_fd);
 	return (0);
 }

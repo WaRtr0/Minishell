@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:27:06 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/13 23:27:38 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 22:41:40 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,4 @@ void	ms_set_status(int new_status)
 	else if (WIFSIGNALED(new_status))
 		new_status = WTERMSIG(new_status) + 128;
 	ms_exit_status(new_status, 1);
-}
-
-void	ms_set_status_tmp(int new_status, char *file, int line)
-{
-	fprintf(stderr, "%s: %d: %d\n", file, line, new_status);
-	ms_set_status(new_status);
 }
