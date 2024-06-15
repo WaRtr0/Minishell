@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/06/12 17:14:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/14 22:40:13 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,5 @@ void	ms_get_fd(t_array *array, t_shell *shell, int *fd);
 int		ms_exit_status(int new_status, int save);
 void	ms_set_status(int new_status);
 int		ms_get_status(void);
-
-void	ms_set_status_tmp(int new_status, char *file, int line);
-//#define ms_set_status(x) ms_set_status_tmp(x, __FILE__, __LINE__)
 
 #endif

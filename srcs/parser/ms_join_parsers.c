@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_join_parsers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:54:25 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 01:20:13 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/14 22:38:09 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	join_parenthesis(t_shell *shell, t_prompt_s *status, char *line)
 		str.str = ";";
 		str.len = 1;
 		str.index = 0;
-		status->newline = 0; // a test
+		status->newline = 0;
 		status->c_parenthesis = 0;
 		status->print = 0;
 		status->operator = 1;
