@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/14 00:39:00 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/15 14:22:01 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ms_execsh(t_exec *exec, t_shell *shell)
 	}
 	else
 		return (ms_exec_bin(exec, shell));
-	return (-1);
+	return (141 << 8);
 }
 
 static int	is_builtin(char *str)
