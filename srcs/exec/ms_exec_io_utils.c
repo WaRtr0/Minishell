@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:08:42 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 12:11:17 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 14:47:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,13 @@ void	close_fds(int fds[2])
 {
 	close(fds[0]);
 	close(fds[1]);
+}
+
+void	close_all(void)
+{
+	int	i;
+
+	i = 3;
+	while (i < 1024)
+	close(i++);
 }

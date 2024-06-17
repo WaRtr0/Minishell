@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 14:26:06 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 14:47:49 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,9 @@ int	parent(t_shell *shell, int pid)
 
 int	execbuiltin(t_exec *exec, t_shell *shell)
 {
-	size_t	i;
-
 	ms_set_status(ms_run_builtin(exec, shell));
 	free_shell(shell);
 	free_exec(exec);
-	i = 3;
-	while (i < 1024)
-		close(i++);
+	close_all();
 	return (ms_get_status());
 }
