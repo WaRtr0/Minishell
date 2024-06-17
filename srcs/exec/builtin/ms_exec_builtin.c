@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 00:37:09 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/12 18:49:41 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 11:15:11 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	parent(t_shell *shell, int pid)
 {
 	int	ret;
 
-	ret = 0;
+	ret = ms_get_status();
 	shell->last_pid = pid;
 	if (!shell->in_pipe)
 	{
