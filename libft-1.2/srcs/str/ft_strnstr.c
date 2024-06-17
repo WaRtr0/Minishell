@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:37:21 by gcros             #+#    #+#             */
-/*   Updated: 2023/12/12 01:33:39 by gcros            ###   ########.fr       */
+/*   Updated: 2024/05/03 00:10:30 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	size_t		i;
 	const char	*bigref;
 
-	i = 0;
 	bigref = big;
 	if (*little == '\0')
 		return ((char *)big);

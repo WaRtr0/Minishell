@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 RMF = rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 DFLAGS = -MP -MMD
 
 SDIR = srcs
@@ -27,13 +27,15 @@ OFILES = $(SRCS:%.c=$(BDIR)/%.o)
 LIB_FLAGS := -l readline
 
 all:
-	@$(MAKE) -s $(NAME)
+	@echo "compiling $(NAME):"
+	@$(MAKE) -s $(NAME) 
+
+bonus:	all
 
 include config/libft.mk
 include config/srcs.mk
 
 $(NAME) : $(OFILES) | $(LIB_PATH)
-	@echo "compiling $(NAME)";
 	$(CC) $(CFLAGS) -o $@ $(OFILES) $(LIB_FLAGS)
 	@echo "$(NAME) compilation done";
 
@@ -56,8 +58,27 @@ fclean	::	clean
 
 force :
 
-norm:
-	-@norminette libft-1.2/ srcs/ | grep Error
-	-@cat $(SFILES) | grep "//"
+start: all
+	@echo "__Minishell__"
+	@./minishell
 
-.PHONY: clean re fclean force all norm
+run: all
+	@echo "__Minishell__"
+	@./minishell
+
+valgrind: all
+	@echo "__Vinishell__" 
+	@valgrind --track-fds=all --suppressions=config/valgrind_ignore_leaks.conf --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes -s ./minishell
+
+include config/forbidden.mk
+
+norm:
+	@echo "norminette"
+	-@norminette libft-1.2/ srcs/ | grep Error
+	@echo "comment"
+	-@cat $(SFILES) | grep "//"
+	@$(MAKE) -s check_forbidden_function
+
+-include config/update.mk
+
+.PHONY: clean re fclean force all norm run valgrind

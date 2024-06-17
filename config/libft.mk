@@ -18,5 +18,5 @@ fclean ::
 
 $(LIBFTPATH) : force
 	@echo "compiling libft";
-	@$(MAKE) -s -C $(LIBFTDIR);
+	@$(MAKE) -C $(LIBFTDIR);
 	@echo "libft compilation done";

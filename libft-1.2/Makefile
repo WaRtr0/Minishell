@@ -143,6 +143,7 @@ $(NAME)	:	$(OBJS)
 $(BDIR)/%.o		:	$(SDIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(DEPSFLAGS) -c $< -o $@ -I $(HDIR)/
+	@echo "	$@"
 
 fclean	:	clean
 	$(RMF) $(NAME)
