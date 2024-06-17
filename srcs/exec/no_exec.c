@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:23:23 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 12:36:36 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 12:50:18 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ int	run_no_exec(t_exec *exec)
 int	exec_no_exec(t_exec *exec, t_shell *shell)
 {
 	int		ret;
+	size_t	i;
 
 	ret = run_no_exec(exec);
 	free_shell(shell);
 	free_exec(exec);
+	i = 3;
+	while (i < 1024)
+		close(i++);
 	return (ret);
 }
 
