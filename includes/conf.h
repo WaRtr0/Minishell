@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:34:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 15:50:55 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:06:52 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "minishell.h"
 
 # define MS_NAME	"Mishell"
+# ifdef DEBUG_MODE
+#  undef DEBUG_MODE
+# endif
 # define DEBUG_MODE 0
 # include "debug.h"
 // ------------------------------

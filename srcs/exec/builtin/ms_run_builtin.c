@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:56:13 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 12:09:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 14:19:45 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ms_run_builtin(t_exec *exec, t_shell *shell)
 	int	ret;
 
 	if (get_redir(exec))
-		return (1);
+		return (1 << 8);
 	save_io((int [2]){0, 1}, save_fd);
 	set_io(exec->dfl_fds);
 	close_fds(exec->dfl_fds);
