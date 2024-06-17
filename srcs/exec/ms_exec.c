@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 12:33:55 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 12:38:32 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 
 	if (DEBUG_MODE)
 		ft_putendl_fd("==exec==", 2);
-	//ret = get_redir(exec) << 8;
-	//if (ret == 0)
 	ret = ms_execsh(exec, shell);
 	return (ret);
 }
