@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 23:19:27 by wartro            #+#    #+#             */
-/*   Updated: 2024/06/14 22:40:13 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/14 22:45:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ enum e_sig_set
 
 extern int	g_signal_value;
 
-//int	main(int argc, char **argv, char **envp);
 char	*next_line(char *prompt);
 
 void	free_shell(t_shell *shell);
