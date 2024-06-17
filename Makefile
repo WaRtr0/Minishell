@@ -81,4 +81,4 @@ norm:
 
 -include config/update.mk
 
-.PHONY: clean re fclean force all norm run valgrind
+.PHONY: clean re fclean force all norm run valgrind bonus
