@@ -1,7 +1,7 @@
 #---auto gen---
-SRCS += /exit_status.c
 SRCS += /main.c
 SRCS += /ms_signal_handler.c
+SRCS += /exit_status.c
 #---expand---
 SRCS += expand/handle/ms_handle_cmd_empty.c
 SRCS += expand/handle/ms_handle_cmd_expand.c
@@ -21,8 +21,8 @@ SRCS += expand/utils/ms_initialize_new_array.c
 SRCS += expand/utils/ms_is_last_type_text_or_expand.c
 SRCS += expand/utils/ms_update_last_command_type.c
 #---env---
-SRCS += env/ms_env_add.c
 SRCS += env/ms_env_append.c
+SRCS += env/ms_env_add.c
 SRCS += env/ms_env_collapse.c
 SRCS += env/ms_env_complete.c
 SRCS += env/ms_env_exist.c
@@ -36,8 +36,8 @@ SRCS += env/ms_env_to_strs.c
 SRCS += builtin/cd.c
 SRCS += builtin/echo.c
 SRCS += builtin/env.c
-SRCS += builtin/exit.c
 SRCS += builtin/export.c
+SRCS += builtin/exit.c
 SRCS += builtin/pwd.c
 SRCS += builtin/unset.c
 #---prompt---
@@ -46,13 +46,11 @@ SRCS += prompt/ms_prompt.c
 #---parser---
 SRCS += parser/heredoc/ms_heredoc.c
 SRCS += parser/heredoc/ms_heredoc_utils.c
-SRCS += parser/ms_join_parsers.c
-SRCS += parser/ms_parser.c
-SRCS += parser/syntax/ms_syntax_error.c
 SRCS += parser/syntax/ms_syntax_rule.c
 SRCS += parser/syntax/ms_update_status_heredoc.c
 SRCS += parser/syntax/ms_update_status_operator.c
 SRCS += parser/syntax/ms_update_status_quote.c
+SRCS += parser/syntax/ms_syntax_error.c
 SRCS += parser/syntax/ms_update_status_text.c
 SRCS += parser/utils/ms_get_indent.c
 SRCS += parser/utils/ms_get_metachar.c
@@ -64,6 +62,8 @@ SRCS += parser/utils/ms_inc_word.c
 SRCS += parser/utils/ms_is_chevron.c
 SRCS += parser/utils/ms_is_semicolon.c
 SRCS += parser/utils/ms_reset_quote.c
+SRCS += parser/ms_join_parsers.c
+SRCS += parser/ms_parser.c
 #---exec---
 SRCS += exec/binary/ms_exec_bin.c
 SRCS += exec/binary/ms_exec_get_path.c
@@ -71,9 +71,10 @@ SRCS += exec/binary/ms_execbin.c
 SRCS += exec/binary/ms_file_status.c
 SRCS += exec/builtin/ms_exec_builtin.c
 SRCS += exec/builtin/ms_run_builtin.c
-SRCS += exec/ms_exec.c
 SRCS += exec/ms_exec_io_utils.c
+SRCS += exec/ms_exec.c
 SRCS += exec/ms_exec_redir.c
+SRCS += exec/no_exec.c
 #---debug---
 SRCS += debug/ms_debug.c
 SRCS += debug/ms_debug_cmd_to_str.c
@@ -81,11 +82,11 @@ SRCS += debug/ms_debug_command_map.c
 SRCS += debug/ms_debug_command_to_json.c
 SRCS += debug/ms_debug_print_json.c
 #---utils---
-SRCS += utils/ft_free.c
 SRCS += utils/ft_include.c
 SRCS += utils/ft_select_str.c
-SRCS += utils/ft_splitstr.c
 SRCS += utils/ft_strjoin_seperator.c
+SRCS += utils/ft_free.c
+SRCS += utils/ft_splitstr.c
 #---lexer---
 SRCS += lexer/actions/ms_lexer_empty.c
 SRCS += lexer/actions/ms_lexer_heredoc.c
@@ -95,17 +96,13 @@ SRCS += lexer/actions/ms_lexer_parenthesis.c
 SRCS += lexer/actions/ms_lexer_quote.c
 SRCS += lexer/actions/ms_lexer_redir.c
 SRCS += lexer/actions/ms_lexer_wildcard.c
-SRCS += lexer/ms_add_cursor.c
 SRCS += lexer/ms_add_fd.c
-SRCS += lexer/ms_add_str.c
 SRCS += lexer/ms_add_type.c
 SRCS += lexer/ms_clear_command.c
-SRCS += lexer/ms_commit_command.c
-SRCS += lexer/ms_free_command.c
 SRCS += lexer/ms_get_cmd.c
 SRCS += lexer/ms_get_command_type.c
-SRCS += lexer/ms_lexer.c
-SRCS += lexer/ms_new_command.c
+SRCS += lexer/utils/ms_get_cursor_type.c
+SRCS += lexer/utils/ms_join_command.c
 SRCS += lexer/utils/ms_add_join.c
 SRCS += lexer/utils/ms_add_pipeline.c
 SRCS += lexer/utils/ms_append_quote.c
@@ -113,14 +110,18 @@ SRCS += lexer/utils/ms_exit_join.c
 SRCS += lexer/utils/ms_exit_pipeline.c
 SRCS += lexer/utils/ms_get_children.c
 SRCS += lexer/utils/ms_get_cursor.c
-SRCS += lexer/utils/ms_get_cursor_type.c
 SRCS += lexer/utils/ms_get_parent.c
 SRCS += lexer/utils/ms_get_size.c
 SRCS += lexer/utils/ms_get_type_commands.c
 SRCS += lexer/utils/ms_is_join.c
 SRCS += lexer/utils/ms_is_parenthesis.c
 SRCS += lexer/utils/ms_is_pipeline.c
-SRCS += lexer/utils/ms_join_command.c
+SRCS += lexer/ms_add_cursor.c
+SRCS += lexer/ms_add_str.c
+SRCS += lexer/ms_commit_command.c
+SRCS += lexer/ms_free_command.c
+SRCS += lexer/ms_lexer.c
+SRCS += lexer/ms_new_command.c
 #---handle---
 SRCS += handle/expand/ms_get_fd.c
 SRCS += handle/ms_close_fd.c
@@ -130,6 +131,6 @@ SRCS += handle/ms_handle_pipe.c
 SRCS += handle/ms_pipe_utils.c
 SRCS += handle/ms_redir.c
 #---wildcard---
+SRCS += wildcard/pattern_match.c
 SRCS += wildcard/ms_pathexp.c
 SRCS += wildcard/pathexp_utils.c
-SRCS += wildcard/pattern_match.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:50:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/13 23:25:15 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/17 12:34:10 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int					ms_exec(t_exec *exec, t_shell *shell);
 
 int					ms_run_builtin(t_exec *exec, t_shell *shell);
 int					ms_exec_builtin(t_exec *exec, t_shell *shell);
+int		fork_no_exec(t_exec *exec, t_shell *shell);
 
 int					restore_io(int old[2]);
 int					save_io(int old[2], int new[2]);
@@ -42,5 +43,6 @@ enum e_file_status	get_file_status(char *file);
 char				*get_bin(char *cmd, t_env *env);
 
 int					red_error(char *file);
+void				close_fds(int fds[2]);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 21:09:43 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/14 18:44:06 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 11:34:35 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ms_wait_pipeline(t_shell *shell)
 	int	exit_stat;
 
 	pid = 0;
-	exit_stat = 0;
+	exit_stat = ms_get_status() << 8;
 	while (pid != -1)
 	{
 		pid = wait(&tmp_stat);

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:08:42 by gcros             #+#    #+#             */
-/*   Updated: 2024/05/24 18:28:44 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 12:11:17 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,10 @@ int	restore_io(int old[2])
 	if (DEBUG_MODE)
 		printf("===restore from %d as output\n", old[1]);
 	return (0);
+}
+
+void	close_fds(int fds[2])
+{
+	close(fds[0]);
+	close(fds[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:37:24 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/14 15:59:18 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 12:13:34 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	get_redir(t_exec *exec)
 			f = get_redout;
 		if (f != NULL)
 			if (f(exec, (t_command *)exec->redir->data[i]) == 1)
-				return (1);
+				return (close_fds(exec->dfl_fds), 1);
 		i++;
 	}
 	return (0);
@@ -81,8 +81,8 @@ int	get_redout(t_exec *exec, t_command *cmd)
 	const unsigned long	c_flags = (S_IRUSR | S_IWUSR | S_IRGRP
 			| S_IWGRP | S_IROTH);
 	const unsigned long	o_flags = (O_CREAT | O_WRONLY)
-		| (O_TRUNC * cmd->type == CMD_REDIR_OUT)
-		| (O_APPEND * cmd->type == CMD_APPEND);
+		| (O_TRUNC * (cmd->type == CMD_REDIR_OUT))
+		| (O_APPEND * (cmd->type == CMD_APPEND));
 
 	errno = 0;
 	fd = -1;

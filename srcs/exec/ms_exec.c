@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/15 14:22:01 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/17 12:33:55 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,16 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 
 	if (DEBUG_MODE)
 		ft_putendl_fd("==exec==", 2);
-	ret = get_redir(exec) << 8;
-	if (ret == 0)
-		ret = ms_execsh(exec, shell);
-	close(exec->dfl_fds[0]);
-	close(exec->dfl_fds[1]);
+	//ret = get_redir(exec) << 8;
+	//if (ret == 0)
+	ret = ms_execsh(exec, shell);
 	return (ret);
 }
 
 int	ms_execsh(t_exec *exec, t_shell *shell)
 {
 	if (exec->content->size == 0)
-		return (0);
+		return (fork_no_exec(exec, shell));
 	if (ft_strncmp(exec->content->data[0], ".", -1) == 0)
 	{
 		ft_putendl_fd(MS_NAME": .: Is a directory", 2);
