@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/13 23:49:20 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/18 12:55:53 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ms_parser(char *line, t_prompt_s *status, t_shell *shell)
 	shell->prompt_listen = 1;
 	status->no_print = 0;
 	run_parsing(line, status, shell);
-	if (status->chevron)
+	if (status->chevron && !(status->dquote || status->squote))
 		ms_syntax_error(E_SYNTAX_UPD_NLN, NULL, shell);
 	if (shell->prompt_listen == 0 || shell->error > 0)
 	{
