@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/21 15:17:06 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 15:24:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 			shell->prompt_listen = 0;
 			if (g_signal_value != 130)
 			{
-				ft_putendl_fd(MS_NAME ERR_UNEXPECTED, 2);
+				ft_putstr_fd(MS_NAME ERR_UNEXPECTED, 2);
 				ms_set_status(2 << 8);
 			}
 			g_signal_value = 0;
