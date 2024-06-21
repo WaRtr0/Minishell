@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 04:37:28 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/15 14:24:41 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 18:49:27 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int	main(int argc, char **argv, char **envp)
 	ms_env_complete(&shell.env, argv[0]);
 	ms_prompt(&shell);
 	ms_env_collapse(&shell.env);
+	close_all();
 	return (ms_get_status());
 }

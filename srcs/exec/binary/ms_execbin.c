@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/21 15:19:55 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 18:45:55 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 #include "put.h"
 #include "conf.h"
 
-int		on_error(char **envp, char **arg, char *cmd);
-char	**get_env(t_env	*env);
-char	**get_args(t_array *arr);
-int		run_bin(char *cmd, char **args, char **envp);
+static int	on_error(char **envp, char **arg, char *cmd);
+char		**get_env(t_env	*env);
+char		**get_args(t_array *arr);
+int			run_bin(char *cmd, char **args, char **envp);
 
 int	execbin(t_exec *exec, t_shell *shell)
 {
@@ -83,12 +83,13 @@ char	**get_args(t_array *arr)
 	return (args);
 }
 
-int	on_error(char **envp, char **args, char *cmd)
+static int	on_error(char **envp, char **args, char *cmd)
 {
 	if (args != NULL)
 		ft_strsfree(args);
 	if (envp != NULL)
 		ft_strsfree(envp);
 	free(cmd);
+	close_all();
 	return (ms_get_status());
 }

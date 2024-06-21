@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 21:09:43 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/17 11:34:35 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 18:46:46 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "lexer.h"
 #include "handle.h"
 #include "utils.h"
+#include "exec.h"
 
 int	ms_wait_pipeline(t_shell *shell)
 {
@@ -34,12 +35,8 @@ int	ms_wait_pipeline(t_shell *shell)
 
 int	exit_pare_part(t_command *command, t_shell *shell, int fds[2])
 {
-	int	i;
-
 	ms_handle(command->content.array, shell, fds);
 	free_shell(shell);
-	i = 3;
-	while (i < 1024)
-		close(i++);
+	close_all();
 	exit(ms_get_status());
 }

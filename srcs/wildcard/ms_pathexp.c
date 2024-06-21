@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:52:54 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/11 20:58:12 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 19:18:37 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	is_valide_file(char *file, char *pattern)
 		return (0);
 	if (ft_strncmp(file, "..", 3) == 0 && pattern_match(pattern, file) != 0)
 		return (0);
-	if (!(pattern_match(pattern, file) == 0))
+	if ((pattern_match(pattern, file) != 0))
 		return (0);
 	return (1);
 }
@@ -97,5 +97,5 @@ int	req_list(int lvl, t_pathexp *pathexp, char *path)
 	}
 	if (dp != NULL)
 		closedir(dp);
-	return (0);
+	return (1);
 }
