@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:29:02 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/12 19:05:54 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 15:11:59 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 		if (!msg)
 			return (0);
 		str = ft_strsjoin((char *[])
-			{"Mishell : syntax error near unexpected token `", msg, "`", NULL});
+			{"Mishell: syntax error near unexpected token `", msg, "`", NULL});
 	}
 	else if (error == E_SYNTAX_UPD_EOF)
-		str = ft_strdup("Mishell : syntax error: unexpected `end of file'");
+		str = ft_strdup("Mishell: syntax error: unexpected `end of file'");
 	else if (error == E_SYNTAX_UPD_NLN)
-		str = ft_strdup("Mishell : syntax error: unexpected `newline'");
+		str = ft_strdup("Mishell: syntax error: unexpected `newline'");
 	if (str)
 		ft_putendl_fd(str, 2);
 	free(str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:18:57 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/18 12:55:53 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:17:06 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,23 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 
 	save_io((int [2]){0, 1}, fds);
 	ms_sig_set(sig_heredoc);
-	while (status->squote
-		|| status->dquote || status->parenthesis || status->newline)
+	while (shell->prompt_listen && (status->squote || status->dquote ||
+			status->parenthesis || status->newline))
 	{
 		newline = next_line("> ");
 		if (!newline)
 		{
 			shell->prompt_listen = 0;
 			if (g_signal_value != 130)
+			{
 				ft_putendl_fd(MS_NAME ERR_UNEXPECTED, 2);
-			if (g_signal_value != 130)
 				ms_set_status(2 << 8);
+			}
+			g_signal_value = 0;
 			break ;
 		}
 		ms_parser(newline, status, shell);
 		free(newline);
-		if (shell->prompt_listen == 0)
-			break ;
 	}
 	restore_io(fds);
 	ms_sig_set(sig_exec);
