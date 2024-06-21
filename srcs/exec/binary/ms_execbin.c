@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 18:11:14 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 14:58:42 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	execbin(t_exec *exec, t_shell *shell)
 	args = NULL;
 	envp = NULL;
 	if (get_redir(exec))
-		return (free_shell(shell), free_exec(exec), close_all(), 1);
+		return (free_global(exec, shell), 1);
 	set_io(exec->dfl_fds);
 	close_fds(exec->dfl_fds);
 	i = 3;
@@ -42,8 +42,7 @@ int	execbin(t_exec *exec, t_shell *shell)
 	envp = get_env(shell->env);
 	if (args != NULL)
 		cmd = get_bin(args[0], shell->env);
-	free_shell(shell);
-	free_exec(exec);
+	free_global(exec, shell);
 	if ((!(size_t)args | !(size_t)envp | !(size_t)cmd))
 		return (on_error(envp, args, cmd));
 	return (run_bin(cmd, args, envp));

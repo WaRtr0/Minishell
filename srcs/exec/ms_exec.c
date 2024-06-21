@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 00:55:16 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 12:38:32 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 14:57:36 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ static int	is_builtin(char *str)
 		|| ft_strncmp(str, "pwd", 4) == 0)
 		return (1);
 	return (0);
+}
+
+void	free_global(t_exec *exec, t_shell *shell)
+{
+	free_shell(shell);
+	free_exec(exec);
+	close_all();
 }

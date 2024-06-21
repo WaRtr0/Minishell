@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:50:41 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/17 14:55:43 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/21 14:58:04 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int					set_io(int old[2]);
 int					get_redir(t_exec *exec);
 void				close_all(void);
 void				close_fds(int fds[2]);
+void				free_global(t_exec *exec, t_shell *shell);
 
 int					ms_exec_bin(t_exec *exec, t_shell *shell);
 int					execbin(t_exec *exec, t_shell *shell);
