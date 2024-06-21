@@ -27,20 +27,20 @@
 
 // ERRORS
 // UPD == UNEXPECTED
-# define ERR_NOT_FOUND		" : %s: command not found\n"
-# define ERR_PERM_DENIED	" : %s: Permission denied\n"
-# define ERR_SYNTAX_TOK " : syntax error near unexpected token `%s'\n"
-# define ERR_SYNTAX_UPD_EOF " : syntax error: unexpected `end of file'\n"
-# define ERR_SYNTAX_UPD_NLN " : syntax error: unexpected `newline'\n"
-# define ERR_NOT_SUCH " : %s: not such file or directory\n"
-# define ERR_UNEXPECTED " : syntax error: unexpected end of file\n"
-# define ERR_IS_DIR	" : %s: is a directory\n"
-# define ERR_NO_FILE " : %s: No such file or directory\n"
-# define ERR_TOO_MANY_ARGS	" : Too many arguments\n"
-# define ERR_EXECVE	" : execve failed\n"
-# define ERR_MALLOC " : malloc failed\n"
-# define ERR_PIPE " : pipe failed\n"
-# define ERR_FD " : Bad file descriptor\n"	
+# define ERR_NOT_FOUND		": %s: command not found\n"
+# define ERR_PERM_DENIED	": %s: Permission denied\n"
+# define ERR_SYNTAX_TOK ": syntax error near unexpected token `%s'\n"
+# define ERR_SYNTAX_UPD_EOF ": syntax error: unexpected `end of file'\n"
+# define ERR_SYNTAX_UPD_NLN ": syntax error: unexpected `newline'\n"
+# define ERR_NOT_SUCH ": %s: not such file or directory\n"
+# define ERR_UNEXPECTED ": syntax error: unexpected end of file\n"
+# define ERR_IS_DIR	": %s: is a directory\n"
+# define ERR_NO_FILE ": %s: No such file or directory\n"
+# define ERR_TOO_MANY_ARGS	": Too many arguments\n"
+# define ERR_EXECVE	": execve failed\n"
+# define ERR_MALLOC ": malloc failed\n"
+# define ERR_PIPE ": pipe failed\n"
+# define ERR_FD ": Bad file descriptor\n"	
 
 // PARSER SYMBOLS
 

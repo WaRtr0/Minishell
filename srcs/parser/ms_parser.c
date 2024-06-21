@@ -70,8 +70,8 @@ static void	recursive_parser(t_shell *shell, t_prompt_s *status)
 
 	save_io((int [2]){0, 1}, fds);
 	ms_sig_set(sig_heredoc);
-	while (shell->prompt_listen && (status->squote || status->dquote ||
-			status->parenthesis || status->newline))
+	while (shell->prompt_listen && (status->squote || status->dquote
+			|| status->parenthesis || status->newline))
 	{
 		newline = next_line("> ");
 		if (!newline)
