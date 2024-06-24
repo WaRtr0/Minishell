@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:01:16 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/13 18:06:46 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:40:10 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	ms_lexer_parenthesis(t_shell *shell, t_prompt_s *status,
 {
 	status->newline = 0;
 	status->no_print = 0;
+	if (shell->prompt_listen == 0)
+		return ;
 	if (ft_strncmp(&str->str[str->index], "(", 1) == 0)
 		open_parenthesis(shell, status, str);
 	else

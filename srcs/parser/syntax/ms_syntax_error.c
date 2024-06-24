@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_syntax_error.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:29:02 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/21 15:11:59 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/24 17:27:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ms_syntax_error(t_error error, char *msg, t_shell *shell)
 		str = ft_strdup("Mishell: syntax error: unexpected `newline'");
 	if (str)
 		ft_putendl_fd(str, 2);
+	free(msg);
 	free(str);
 	return (0);
 }
