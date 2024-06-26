@@ -6,7 +6,7 @@
 /*   By: gcros <gcros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:52:43 by gcros             #+#    #+#             */
-/*   Updated: 2024/06/21 18:45:55 by gcros            ###   ########.fr       */
+/*   Updated: 2024/06/26 13:42:03 by gcros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	execbin(t_exec *exec, t_shell *shell)
 	char	*cmd;
 	size_t	i;
 
-	ms_sig_set(sig_restore);
 	cmd = NULL;
 	args = NULL;
 	envp = NULL;
@@ -53,6 +52,7 @@ int	run_bin(char *cmd, char **args, char **envp)
 {
 	if (DEBUG_MODE)
 		ft_putendl_fd("==run_bin", 2);
+	ms_sig_set(sig_restore);
 	execve(cmd, args, envp);
 	ms_set_status(EXIT_FAILURE << 8);
 	perror("minishell: execve");
