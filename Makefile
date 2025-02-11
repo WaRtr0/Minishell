@@ -74,7 +74,7 @@ include config/forbidden.mk
 
 norm:
 	@echo "norminette"
-	-@norminette libft-1.2/ srcs/ | grep Error
+	-@norminette libft/ srcs/ | grep Error
 	@echo "comment"
 	-@cat $(SFILES) | grep "//"
 	@$(MAKE) -s check_forbidden_function
