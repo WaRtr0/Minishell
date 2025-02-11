@@ -34,7 +34,7 @@ Realized by [Androlink](https://github.com/androlink) && [WaRtr0](https://github
 | `>` (Output)      | `ls > output.txt`                |
 | `>>` (Append)     | `echo "text" >> file.txt`        |
 | `<<` (Here doc)   | `cat << LIMITER`                 |
-| `\|` (Pipe)        | `ls | grep .c`                   |
+| `\|` (Pipe)        | `ls \| grep .c`                   |
 | `&&` (And)        | `make && ./app`                 |
 | `\|\|` (Or)         | `invalid_cmd \|\| echo "Error"`   |
 | `()` (Grouping)   | `(ls \|\| echo Fail) && echo Done`|
@@ -43,7 +43,7 @@ Realized by [Androlink](https://github.com/androlink) && [WaRtr0](https://github
 - Handles unclosed quotes/multiline commands
 - **Ctrl+C**: New prompt on fresh line
 - **Ctrl+D**: Clean exit
-- Non-blocking **Ctrl+\**
+- Non-blocking **Ctrl+\\**
 
 ---
 
