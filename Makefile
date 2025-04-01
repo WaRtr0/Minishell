@@ -79,14 +79,15 @@ norm:
 	-@cat $(SFILES) | grep "//"
 	@$(MAKE) -s check_forbidden_function
 
+debug: check_submodules
+	@$(MAKE) -s re CFLAGS="$(CFLAGS) -DDEBUG_MODE=1"
+
 check_submodules:
 	@if [ -d libft ] && [ -z "$$(ls -A libft)" ]; then \
 		echo "libft is empty. Initializing submodules..."; \
 		git submodule update --init --recursive || exit 1; \
 	fi
 
-debug:
-	@$(MAKE) -s re CFLAGS="$(CFLAGS) -DDEBUG_MODE=1"
 
 -include config/update.mk
 
