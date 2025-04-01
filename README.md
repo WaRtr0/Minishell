@@ -64,6 +64,131 @@ Realized by [Androlink](https://github.com/androlink) && [WaRtr0](https://github
 
 ---
 
+## 🔍 Debug Mode
+
+You can compile **Minishell** in debug mode using the following command:
+
+```bash
+make debug
+```
+
+This enables `DEBUG_MODE`, which prints the **Abstract Syntax Tree (AST)** of the parsed command in a structured JSON format — useful for debugging and understanding how the shell interprets your input.
+
+### 🧪 Example
+
+For the command:
+
+```bash
+echo hello world! && true && (false || echo hello) && echo 1 | echo 2 | echo * > test
+```
+
+The AST will be displayed in JSON like this:
+
+<details>
+<summary>Click to show AST output (JSON)</summary>
+
+```json
+[
+	{
+		"type": "14-CMD_JOIN",
+		"content": [
+			{ "type": "13-CMD_TEXT", "content": "echo" },
+			{ "type": "16-CMD_EMPTY" },
+			{ "type": "13-CMD_TEXT", "content": "hello" },
+			{ "type": "16-CMD_EMPTY" },
+			{ "type": "13-CMD_TEXT", "content": "world!" },
+			{ "type": "16-CMD_EMPTY" }
+		]
+	},
+	{
+		"type": "6-CMD_AND_IF",
+		"content": [
+			{
+				"type": "14-CMD_JOIN",
+				"content": [
+					{ "type": "13-CMD_TEXT", "content": "true" },
+					{ "type": "16-CMD_EMPTY" }
+				]
+			}
+		]
+	},
+	{
+		"type": "6-CMD_AND_IF",
+		"content": [
+			{
+				"type": "10-CMD_PARENTHESIS",
+				"content": [
+					{
+						"type": "14-CMD_JOIN",
+						"content": [
+							{ "type": "13-CMD_TEXT", "content": "false" },
+							{ "type": "16-CMD_EMPTY" }
+						]
+					},
+					{
+						"type": "8-CMD_OR",
+						"content": [
+							{
+								"type": "14-CMD_JOIN",
+								"content": [
+									{ "type": "13-CMD_TEXT", "content": "echo" },
+									{ "type": "16-CMD_EMPTY" },
+									{ "type": "13-CMD_TEXT", "content": "hello" }
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"type": "6-CMD_AND_IF",
+		"content": [
+			{
+				"type": "0-CMD_PIPE",
+				"content": [
+					{
+						"type": "14-CMD_JOIN",
+						"content": [
+							{ "type": "13-CMD_TEXT", "content": "echo" },
+							{ "type": "16-CMD_EMPTY" },
+							{ "type": "13-CMD_TEXT", "content": "1" },
+							{ "type": "16-CMD_EMPTY" }
+						]
+					},
+					{
+						"type": "14-CMD_JOIN",
+						"content": [
+							{ "type": "13-CMD_TEXT", "content": "echo" },
+							{ "type": "16-CMD_EMPTY" },
+							{ "type": "13-CMD_TEXT", "content": "2" },
+							{ "type": "16-CMD_EMPTY" }
+						]
+					},
+					{
+						"type": "14-CMD_JOIN",
+						"content": [
+							{ "type": "13-CMD_TEXT", "content": "echo" },
+							{ "type": "16-CMD_EMPTY" },
+							{ "type": "17-CMD_WILDCARD" },
+							{ "type": "16-CMD_EMPTY" },
+							{ "type": "2-CMD_REDIR_OUT", "content": 0 }, // init 0
+							{ "type": "16-CMD_EMPTY" },
+							{ "type": "13-CMD_TEXT", "content": "test" } // name file
+						]
+					}
+				]
+			}
+		]
+	}
+]
+```
+
+</details>
+
+---
+
 ## 🔧 Constraints
 
 - Limited functions
