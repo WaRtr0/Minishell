@@ -26,7 +26,7 @@ OFILES = $(SRCS:%.c=$(BDIR)/%.o)
 
 LIB_FLAGS := -l readline
 
-all:
+all: check_submodules
 	@echo "compiling $(NAME):"
 	@$(MAKE) -s $(NAME) 
 
@@ -79,6 +79,12 @@ norm:
 	-@cat $(SFILES) | grep "//"
 	@$(MAKE) -s check_forbidden_function
 
+check_submodules:
+	@if [ -d libft ] && [ -z "$$(ls -A libft)" ]; then \
+		echo "libft is empty. Initializing submodules..."; \
+		git submodule update --init --recursive || exit 1; \
+	fi
+
 -include config/update.mk
 
-.PHONY: clean re fclean force all norm run valgrind bonus
+.PHONY: clean re fclean force all norm run valgrind bonus check_submodules
