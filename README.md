@@ -184,6 +184,7 @@ The AST will be displayed in JSON like this:
 	}
 ]
 ```
+![Example](https://github.com//WaRtr0/Minishell/raw/assets/screens/schema.png)
 
 </details>
 
