@@ -14,6 +14,23 @@ Realized by [Androlink](https://github.com/androlink) && [WaRtr0](https://github
 
 ---
 
+## 🛠️ Installation
+
+1. **Clone with submodules**:
+   ```bash
+   git clone --recursive https://github.com/WaRtr0/Minishell.git
+   cd Minishell
+   ```
+2. **Build**:
+   ```
+   make
+   ```
+3. **Run**:
+   ```
+   ./minishell
+   ```
+---
+
 ## ⚙️ Features
 
 ### 📜 Built-in Commands
@@ -45,23 +62,6 @@ Realized by [Androlink](https://github.com/androlink) && [WaRtr0](https://github
 - **Ctrl+D**: Clean exit
 - Non-blocking **Ctrl+\\**
 
----
-
-## 🛠️ Installation
-
-1. **Clone with submodules**:
-   ```bash
-   git clone --recursive https://github.com/WaRtr0/Minishell.git
-   cd Minishell
-   ```
-2. **Build**:
-   ```
-   make -k
-   ```
-3. **Run**:
-   ```
-   ./minishell
-   ```
 ---
 
 ## 🔧 Constraints
