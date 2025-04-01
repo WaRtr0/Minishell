@@ -50,8 +50,6 @@ int	execbin(t_exec *exec, t_shell *shell)
 
 int	run_bin(char *cmd, char **args, char **envp)
 {
-	if (DEBUG_MODE)
-		ft_putendl_fd("==run_bin", 2);
 	ms_sig_set(sig_restore);
 	execve(cmd, args, envp);
 	ms_set_status(EXIT_FAILURE << 8);

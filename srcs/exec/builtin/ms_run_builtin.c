@@ -34,8 +34,6 @@ int	ms_run_builtin(t_exec *exec, t_shell *shell)
 
 int	run_bti(t_exec *exec, t_shell *shell)
 {
-	if (DEBUG_MODE)
-		printf("==%s==\n", (char *)exec->content->data[0]);
 	if (ft_strncmp(exec->content->data[0], "cd", 3) == 0)
 		return (cd((char **)exec->content->data, &shell->env));
 	if (ft_strncmp(exec->content->data[0], "echo", 5) == 0)
@@ -50,7 +48,5 @@ int	run_bti(t_exec *exec, t_shell *shell)
 		return (pwd((char **)exec->content->data));
 	if (ft_strncmp(exec->content->data[0], "exit", 5) == 0)
 		return (b_exit(exec, shell));
-	if (DEBUG_MODE)
-		ft_putendl_fd("==builtin not found==", 2);
 	return (EXIT_FAILURE << 8);
 }

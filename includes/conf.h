@@ -16,10 +16,11 @@
 # include "minishell.h"
 
 # define MS_NAME	"Mishell"
-# ifdef DEBUG_MODE
-#  undef DEBUG_MODE
+
+# ifndef DEBUG_MODE
+#  define DEBUG_MODE 0
 # endif
-# define DEBUG_MODE 0
+
 # include "debug.h"
 // ------------------------------
 

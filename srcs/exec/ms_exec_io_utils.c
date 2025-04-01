@@ -16,10 +16,6 @@
 
 int	set_io(int old[2])
 {
-	if (DEBUG_MODE)
-		printf("===set %d as input\n", old[0]);
-	if (DEBUG_MODE)
-		printf("===set %d as output\n", old[1]);
 	dup2(old[0], 0);
 	dup2(old[1], 1);
 	return (0);
@@ -29,10 +25,6 @@ int	save_io(int old[2], int new[2])
 {
 	new[0] = dup(old[0]);
 	new[1] = dup(old[1]);
-	if (DEBUG_MODE)
-		printf("===save to %d as input\n", new[0]);
-	if (DEBUG_MODE)
-		printf("===save to %d as output\n", new[1]);
 	return (0);
 }
 
@@ -44,10 +36,6 @@ int	restore_io(int old[2])
 		close(old[0]);
 	if ((old[1] | 1) != 1)
 		close(old[1]);
-	if (DEBUG_MODE)
-		printf("===restore from %d as input\n", old[0]);
-	if (DEBUG_MODE)
-		printf("===restore from %d as output\n", old[1]);
 	return (0);
 }
 

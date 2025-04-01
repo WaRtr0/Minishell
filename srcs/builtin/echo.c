@@ -45,8 +45,6 @@ int	jump_nflags(char **args, int *njumps)
 	j = 1;
 	while (args[j] && is_nflags(args[j]))
 	{
-		if (DEBUG_MODE)
-			printf("===echo %d\n", j);
 		j++;
 	}
 	*njumps = j;

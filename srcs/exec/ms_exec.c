@@ -21,8 +21,6 @@ int	ms_exec(t_exec *exec, t_shell *shell)
 {
 	int	ret;
 
-	if (DEBUG_MODE)
-		ft_putendl_fd("==exec==", 2);
 	ret = ms_execsh(exec, shell);
 	return (ret);
 }
@@ -55,8 +53,6 @@ int	ms_execsh(t_exec *exec, t_shell *shell)
 
 static int	is_builtin(char *str)
 {
-	if (DEBUG_MODE)
-		printf("==%s==\n", str);
 	if (ft_strncmp(str, "cd", 3) == 0
 		|| ft_strncmp(str, "exit", 5) == 0
 		|| ft_strncmp(str, "echo", 5) == 0
