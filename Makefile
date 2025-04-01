@@ -85,6 +85,9 @@ check_submodules:
 		git submodule update --init --recursive || exit 1; \
 	fi
 
+debug:
+	@$(MAKE) -s re CFLAGS="$(CFLAGS) -DDEBUG_MODE=1"
+
 -include config/update.mk
 
-.PHONY: clean re fclean force all norm run valgrind bonus check_submodules
+.PHONY: clean re fclean force all norm run valgrind bonus check_submodules debug
