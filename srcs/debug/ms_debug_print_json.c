@@ -15,10 +15,11 @@
 void	*ms_debug_print_json(t_command *command)
 {
 	printf("{");
-	printf("type:`%d-%s`,", command->type, ms_debug_cmd_to_str(command->type));
+	printf("type:\"%d-%s\",", command->type,
+		ms_debug_cmd_to_str(command->type));
 	if (command->type == CMD_TEXT || command->type == CMD_EXPAND
 		|| command->type == CMD_EXPAND_QUOTE)
-		printf("content:`%s`", command->content.str);
+		printf("content:\"%s\"", command->content.str);
 	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
 		(void)"void";
 	else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN
@@ -38,11 +39,12 @@ void	*ms_debug_print_json(t_command *command)
 void	*ms_debug_print_json_exec(t_command *command)
 {
 	printf("{");
-	printf("type:`%d-%s`,", command->type, ms_debug_cmd_to_str(command->type));
+	printf("type:\"%d-%s\",", command->type,
+		ms_debug_cmd_to_str(command->type));
 	if (command->type == CMD_TEXT || command->type == CMD_EXPAND
 		|| command->type == CMD_EXPAND_QUOTE || command->type == CMD_REDIR_IN
 		|| command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
-		printf("content:`%s`", command->content.str);
+		printf("content:\"%s\"", command->content.str);
 	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
 		(void)"void";
 	else if (command->type == CMD_HEREDOC)

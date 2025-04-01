@@ -30,13 +30,13 @@ static void	print_conditional(int indent, t_array *array)
 	t_command	*command;
 
 	command = (t_command *)array->data[0];
-	printf("\t\ttype : `%d-%s`,\n", command->type,
+	printf("\t\ttype : \"%d-%s\",\n", command->type,
 		ms_debug_cmd_to_str(command->type));
 	if (!(command->type == CMD_WILDCARD || command->type == CMD_EMPTY))
 		print_indent(indent);
 	if (command->type == CMD_TEXT || command->type == CMD_EXPAND
 		|| command->type == CMD_EXPAND_QUOTE)
-		printf("\t\tcontent : `%s`\n", command->content.str);
+		printf("\t\tcontent : \"%s\"\n", command->content.str);
 	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
 		(void)"void";
 	else if (command->type == CMD_HEREDOC || command->type == CMD_REDIR_IN
@@ -72,14 +72,14 @@ static void	print_conditional_exec(int indent, t_array *array )
 	t_command	*command;
 
 	command = (t_command *)array->data[0];
-	printf("\t\ttype : `%d-%s`,\n", command->type,
+	printf("\t\ttype : \"%d-%s\",\n", command->type,
 		ms_debug_cmd_to_str(command->type));
 	if (!(command->type == CMD_WILDCARD || command->type == CMD_EMPTY))
 		print_indent(indent);
 	if (command->type == CMD_TEXT || command->type == CMD_EXPAND
 		|| command->type == CMD_EXPAND_QUOTE || command->type == CMD_REDIR_IN
 		|| command->type == CMD_REDIR_OUT || command->type == CMD_APPEND)
-		printf("\t\tcontent : `%s`\n", command->content.str);
+		printf("\t\tcontent : \"%s\"\n", command->content.str);
 	else if (command->type == CMD_WILDCARD || command->type == CMD_EMPTY)
 		(void)"void";
 	else if (command->type == CMD_HEREDOC)
